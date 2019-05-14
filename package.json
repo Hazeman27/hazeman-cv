@@ -3,16 +3,13 @@
 	"version": "0.0.0",
 	"description": "Hazeman - Nizomiddin Toshpulatov's curriculum vitae",
 	"main": "index.html",
-	
 	"scripts": {
 		"test": "isiton"
 	},
-
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Hazeman27/hazeman-cv.git"
 	},
-
 	"keywords": [
 		"hazeman",
 		"currciculum-vitae",
@@ -28,16 +25,14 @@
 		"gulp",
 		"nodejs"
 	],
-
 	"author": "Nizomiddin Toshpulatov a.k.a. Hazeman",
 	"license": "MIT",
-
 	"bugs": {
 		"url": "https://github.com/Hazeman27/hazeman-cv/issues"
 	},
-
 	"homepage": "https://github.com/Hazeman27/hazeman-cv#readme",
 	"devDependencies": {
+		"browser-sync": "^2.26.5",
 		"gulp": "^4.0.2"
 	}
 }
