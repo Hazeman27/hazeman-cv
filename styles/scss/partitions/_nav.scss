@@ -1,0 +1,96 @@
+#nav {
+
+	z-index: 99;
+	position: fixed;
+	width: 100vw;
+	height: 3em;
+	display: flex;
+	place-items: center;
+	justify-content: space-between;
+	padding: 0 1.5em;
+	font-weight: 600;
+	font-family: var(--ff-regulator);
+	background-color: var(--color-darker);
+	color: var(--color-light);
+	box-shadow: var(--box-shadow-light);
+
+	&__logo {
+
+		position: relative;
+		width: 18px;
+		height: 10px;
+		background-color: currentColor;
+		cursor: pointer;
+
+		&::before,
+		&::after {
+
+			content: '';
+			position: absolute;
+			width: 5px;
+			height: 22px;
+			background-color: inherit;
+			transition:
+				transform var(--trans-long) ease-in-out;
+		}
+
+		&::before {
+
+			left: 0;
+			bottom: 50%;
+			transform: translate(-50%, 50%);
+		}
+
+		&::after {
+
+			right: 0;
+			top: 50%;
+			transform: translate(50%, -50%);
+		}
+
+		&:hover {
+			&::before { transform: translate(-200%, 50%) }
+			&::after { transform: translate(200%, -50%) }
+		}
+	}
+
+	&__toggle {
+
+		color: inherit;
+		background: none;
+		border: none;
+		font-size: 3.1em;
+		transform: skewX(0deg);
+		cursor: pointer;
+		transition:
+			transform var(--trans-normal) ease-in-out var(--trans-very-short);
+	}
+
+	&__content {
+
+		display: flex;
+		overflow: hidden;
+		width: 100%;
+		position: absolute;
+		top: 3em;
+		left: 0;
+		flex-flow: column;
+		transform-origin: top;
+		transform: scale(1, 0);
+		color: transparent;
+		padding: 1.5em;
+		background-color: var(--color-darker);
+		transition:
+			transform var(--trans-normal) ease-in-out,
+			color var(--trans-long) ease-in-out var(--trans-normal);
+
+		a {
+
+			align-self: flex-start;
+			position: relative;
+			@include hover-underline();
+		}
+
+		a + a { margin: 1em 0 0 0 }
+	}
+}

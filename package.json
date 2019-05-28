@@ -4,7 +4,7 @@
 	"description": "Hazeman - Nizomiddin Toshpulatov's curriculum vitae",
 	"main": "index.html",
 	"scripts": {
-		"test": "isiton"
+		"sass": "cd css/ && sass --watch styles.scss:styles.css"
 	},
 	"repository": {
 		"type": "git",
@@ -33,6 +33,8 @@
 	"homepage": "https://github.com/Hazeman27/hazeman-cv#readme",
 	"devDependencies": {
 		"browser-sync": "^2.26.5",
-		"gulp": "^4.0.2"
+		"gulp": "^4.0.2",
+		"gulp-sass": "^4.0.2",
+		"jquery-pjax": "^2.0.1"
 	}
 }

@@ -1,0 +1,101 @@
+@import url("https://use.typekit.net/qyx8wyr.css");
+@import 'modules/custom-properties';
+@import 'modules/mixins';
+@import 'partitions/nav';
+@import 'modules/media-querries';
+@import 'partitions/me';
+@import 'partitions/art';
+@import 'partitions/contact';
+
+*, *::before, *::after {
+	box-sizing: border-box
+}
+
+body {
+
+    margin: 0;
+	background: var(--color-white);
+	color: var(--color-darker);
+	font-family: var(--ff-muli);
+	line-height: 1.4;
+	font-size: 1.165em;
+	overflow: hidden;
+}
+
+a {
+
+	color: inherit;
+	text-decoration: none;
+	filter: none;
+	transition: filter var(--trans-short) ease-in-out;
+	&:hover { filter: contrast(150%) }
+}
+
+b	{ opacity: .7 }
+ul	{ list-style: none }
+p	{ opacity: .8 }
+i	{ color: darkcyan; font-weight: 600 }
+img { display: block; max-width: 100% }
+h2	{ font-family: var(--ff-regulator) }
+
+blockquote {
+
+	opacity: .7;
+	font-style: italic;
+	font-weight: 600;
+	@include quotes();
+}
+
+mark {
+
+	display: inline-block;
+	margin: .15em;
+	padding: .3em .5em;
+	border-radius: var(--border-radius);
+	color: white;
+	background-image: var(--gradient-violet);
+	font-family: var(--ff-regulator);
+	background-color: blue;
+	font-weight: 600;
+
+	&.black { background-color: black }
+	&.palevioletred { background-color: palevioletred }
+	&.blue { background-color: blue }
+	&.pink { background-color: deeppink }
+	&.darkblue { background-color: darkslateblue }
+	&.orange { background-color: darkorange }
+	&.indian { background-color: indianred }
+	&.navy { background-color: navy }
+	&.violet { background-color: darkorchid }
+}
+
+figure {
+
+	display: flex;
+	flex-flow: column wrap;
+	align-items: center;
+	position: relative;
+	text-align: center;
+	margin: 0;
+}
+
+figcaption {
+
+	margin-top: 2em;
+	font-size: .85em;
+	font-style: italic;
+	text-align: center;
+	color: gray;
+	opacity: .9;
+}
+
+footer {
+
+	color: rgba(white, .5);
+	font-size: .8em;
+	font-weight: 600;
+	text-align: center;
+	background-color: var(--color-dark-gray);
+	padding: 1.5em;
+	margin-top: 6em;
+}
