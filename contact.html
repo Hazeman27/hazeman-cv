@@ -4,27 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hazeman - Contact</title>
-	<link rel="stylesheet" href="css/styles.css">
+    <title>Hazeman - Art</title>
+	<link rel="stylesheet" href="styles/css/main.css">
 	<link rel="shortcut icon" href="media/favicon.png" type="image/png">
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-	<script src="js/jquery.pjax.js"></script>
-	<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous"></script>
 	<script src="js/main.js" type="module"></script>
 </head>
 <body>
-	<nav id="nav">
-		<a href="#art" id="nav__logo"></a>
-		<div id="nav__content">
-			<a href="index.html">Me</a>
-			<a href="art.html">Art</a>
-			<a href="contact.html">Contact</a>
-		</div>
-		<button id="nav__toggle" type="button">≡</button>
-	</nav>
+
+	<!-- Navigation -->
+
+	<nav id="nav"></nav>
+
+	<!-- Main Content -->
 
 	<main id="main">
-		<section class="contact" id="contact">
+		<section class="single-column">
+			<div class="contact-links">
+				<a class="contact-links__link proton-mail" href="mailto:hazeman-me@protonmail.com?Subject=Hi" target="_top" title="Click to e-mail me!">
+					<img class="contact-links__link__image" src="media/images/contact-links/mail.svg">
+					<span class="contact-links__link__text">hazeman&#8209;me@protonmail.com</span>
+				</a>
+				<a class="contact-links__link facebook" href="https://www.facebook.com/hazeman2" target="_blank" title="Me on Facebook">
+					<img class="contact-links__link__image" src="media/images/contact-links/facebook.svg">
+					<span class="contact-links__link__text">Facebook</span>
+				</a>
+				<a class="contact-links__link phone" href="tel:421-950-265-147">
+					<img class="contact-links__link__image" src="media/images/contact-links/phone.svg">
+					<span class="contact-links__link__text">+421 950 265 147</span>
+				</a>
+			</div>
+			<div class="card">
+				<h2 class="card__title">Contact Me Anytime!</h2>
+				<div class="card__body">
+					<p>Don't hesitate and write or call me anytime! Most of <i>these</i> days I am busy doing <i>front-end</i> stuff, writing music, watching videos about <i>roman history</i> or just playing <i>videogames</i> 🙂</p>
+				</div>
+			</div>
+
 			<div class="single-column">
 				<div class="card card_cover">
 					<img src="media/images/day-guitar.png" alt="Rubic And Guitar Player...">
@@ -32,8 +50,9 @@
 			</div>
 		</section>
 	</main>
-	<footer>
-		Nizomiddin Toshpulatov, 2019. Bratislava, Slovakia.
-	</footer>
+
+	<!-- Footer -->
+
+	<footer></footer>
 </body>
 </html>

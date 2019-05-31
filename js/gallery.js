@@ -83,9 +83,19 @@ class Lightbox {
 
 	toggle(value) {
 
-		this.container.css({
-			'transform': 'scale(1, '+ value + ')'
-		});
+		value ?
+
+			this.container.css({
+				'transform': 'scale(1, '+ value + ')',
+				'opacity': value,
+				'transition': 'opacity var(--trans-normal) ease-in-out, transform 0ms linear 0ms'
+			})
+
+		:	this.container.css({
+				'transform': 'scale(1, '+ value + ')',
+				'opacity': value,
+				'transition': 'opacity var(--trans-normal) ease-in-out, transform 0ms linear var(--trans-normal)'
+			})
 	}
 }
 

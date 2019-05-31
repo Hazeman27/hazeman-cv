@@ -2,10 +2,10 @@
 @import 'modules/custom-properties';
 @import 'modules/mixins';
 @import 'partitions/nav';
-@import 'modules/media-querries';
 @import 'partitions/me';
 @import 'partitions/art';
 @import 'partitions/contact';
+@import 'modules/media-querries';
 
 *, *::before, *::after {
 	box-sizing: border-box
@@ -15,11 +15,10 @@ body {
 
     margin: 0;
 	background: var(--color-white);
-	color: var(--color-darker);
+	color: var(--color-dark-gray);
 	font-family: var(--ff-muli);
 	line-height: 1.4;
 	font-size: 1.165em;
-	overflow: hidden;
 }
 
 a {
@@ -36,7 +35,14 @@ ul	{ list-style: none }
 p	{ opacity: .8 }
 i	{ color: darkcyan; font-weight: 600 }
 img { display: block; max-width: 100% }
-h2	{ font-family: var(--ff-regulator) }
+
+h2 {
+	
+	font-family: var(--ff-regulator);
+	margin-bottom: 0;
+	text-align: center;
+	font-size: 2.2em;
+}
 
 blockquote {
 
@@ -98,4 +104,16 @@ footer {
 	background-color: var(--color-dark-gray);
 	padding: 1.5em;
 	margin-top: 6em;
+}
+
+section {
+	padding: 5em 1.5em 0 1.5em;
+}
+
+.single-column {
+
+	display: grid;
+	grid-template-columns: 1fr;
+	justify-items: center;
+	gap: 3em;
 }

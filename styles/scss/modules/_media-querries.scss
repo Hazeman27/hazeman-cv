@@ -1,8 +1,6 @@
 @media only screen and (min-width: 600px) {
 
-	:root {
-		--gallery-cols: 2
-	}
+	:root { --gallery-cols: 2 }
 
 	#nav {
 
@@ -26,18 +24,51 @@
 			a + a { margin: 0 0 0 3em }
 		}
 	}
+
+	.lightbox .lightbox__close rect {
+		fill: transparent;
+	}
+
+	.lightbox .lightbox__close:hover rect {
+		fill: var(--color-darker)
+	}
+
+	.contact-links {
+		&__link {
+			&__text {
+				font-size: 1.2rem;
+			}
+		}
+	}
+}
+
+@media only screen and (min-width: 720px) {
+	.music__group {
+		grid-template-columns: 1fr 1fr;
+	}
 }
 
 @media only screen and (min-width: 1080px) {
 
-	:root {
-		--gallery-cols: 3
+	:root { --gallery-cols: 3 }
+
+	.lightbox {
+
+		&__text {
+			display: block;
+		}
+	}
+
+	.gallery.codepen {
+
+		.gallery__title {
+			grid-column: span 3;
+		}
+
+		grid-template-columns: repeat(3, 1fr);
 	}
 }
 
 @media only screen and (min-width: 1366px) {
-
-	:root {
-		--gallery-cols: 4
-	}
+	:root { --gallery-cols: 4 }
 }

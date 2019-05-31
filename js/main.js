@@ -1,19 +1,16 @@
 import Nav from './nav.js';
-import Gallery from './gallery.js';
 
 $(document).ready(() => {
 
-	const mainCont = $('#main');
-	const galleryCont = $('.gallery');
-	const lightboxCont = $('.lightbox');
+	$('nav').load('../modules/nav.html', () => {
 
-	const navToggle = $('#nav__toggle');
-	const navContent = $('#nav__content');
-	const navBackground = $('#nav__background');
+		const navToggle = $('#nav__toggle');
+		const navContent = $('#nav__content');
 
-	const nav = new Nav(mainCont, navToggle, navContent, navBackground);
-	const gallery = new Gallery(galleryCont, lightboxCont);
+		const nav = new Nav(navToggle, navContent);
 
-	nav.init();
-	gallery.init();
+		nav.init();
+	});
+
+	$('footer').load('../modules/footer.html');
 });
