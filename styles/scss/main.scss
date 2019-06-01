@@ -7,13 +7,16 @@
 @import 'partitions/contact';
 @import 'modules/media-querries';
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
+	-webkit-box-sizing: border-box;
 	box-sizing: border-box
 }
 
 body {
 
-    margin: 0;
+	margin: 0;
 	background: var(--color-white);
 	color: var(--color-dark-gray);
 	font-family: var(--ff-muli);
@@ -25,19 +28,43 @@ a {
 
 	color: inherit;
 	text-decoration: none;
+	-webkit-filter: none;
 	filter: none;
+	-webkit-transition: -webkit-filter var(--trans-short) ease-in-out;
+	transition: -webkit-filter var(--trans-short) ease-in-out;
 	transition: filter var(--trans-short) ease-in-out;
-	&:hover { filter: contrast(150%) }
+	transition: filter var(--trans-short) ease-in-out, -webkit-filter var(--trans-short) ease-in-out;
+
+	&:hover {
+		-webkit-filter: contrast(150%);
+		filter: contrast(150%)
+	}
 }
 
-b	{ opacity: .7 }
-ul	{ list-style: none }
-p	{ opacity: .8 }
-i	{ color: darkcyan; font-weight: 600 }
-img { display: block; max-width: 100% }
+b {
+	opacity: .7
+}
+
+ul {
+	list-style: none
+}
+
+p {
+	opacity: .8
+}
+
+i {
+	color: darkcyan;
+	font-weight: 600
+}
+
+img {
+	display: block;
+	max-width: 100%
+}
 
 h2 {
-	
+
 	font-family: var(--ff-regulator);
 	margin-bottom: 0;
 	text-align: center;
@@ -64,21 +91,56 @@ mark {
 	background-color: blue;
 	font-weight: 600;
 
-	&.black { background-color: black }
-	&.palevioletred { background-color: palevioletred }
-	&.blue { background-color: blue }
-	&.pink { background-color: deeppink }
-	&.darkblue { background-color: darkslateblue }
-	&.orange { background-color: darkorange }
-	&.indian { background-color: indianred }
-	&.navy { background-color: navy }
-	&.violet { background-color: darkorchid }
+	&.black {
+		background-color: black
+	}
+
+	&.palevioletred {
+		background-color: palevioletred
+	}
+
+	&.blue {
+		background-color: blue
+	}
+
+	&.pink {
+		background-color: deeppink
+	}
+
+	&.darkblue {
+		background-color: darkslateblue
+	}
+
+	&.orange {
+		background-color: darkorange
+	}
+
+	&.indian {
+		background-color: indianred
+	}
+
+	&.navy {
+		background-color: navy
+	}
+
+	&.violet {
+		background-color: darkorchid
+	}
 }
 
 figure {
 
+	display: -webkit-box;
+
+	display: -ms-flexbox;
+
 	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-flow: column wrap;
 	flex-flow: column wrap;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
 	align-items: center;
 	position: relative;
 	text-align: center;

@@ -4,14 +4,21 @@
 	position: fixed;
 	width: 100vw;
 	height: 3em;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	place-items: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
 	justify-content: space-between;
 	padding: 0 1.5em;
 	font-weight: 600;
 	font-family: var(--ff-regulator);
 	background-color: var(--color-darker);
 	color: var(--color-light);
+	-webkit-box-shadow: var(--box-shadow-light);
 	box-shadow: var(--box-shadow-light);
 
 	&__logo {
@@ -30,14 +37,21 @@
 			width: 5px;
 			height: 22px;
 			background-color: inherit;
+			-webkit-transition:
+				-webkit-transform var(--trans-long) ease-in-out;
+			transition:
+				-webkit-transform var(--trans-long) ease-in-out;
 			transition:
 				transform var(--trans-long) ease-in-out;
+			transition:
+				transform var(--trans-long) ease-in-out, -webkit-transform var(--trans-long) ease-in-out;
 		}
 
 		&::before {
 
 			left: 0;
 			bottom: 50%;
+			-webkit-transform: translate(-50%, 50%);
 			transform: translate(-50%, 50%);
 		}
 
@@ -45,12 +59,20 @@
 
 			right: 0;
 			top: 50%;
+			-webkit-transform: translate(50%, -50%);
 			transform: translate(50%, -50%);
 		}
 
 		&:hover {
-			&::before { transform: translate(-200%, 50%) }
-			&::after { transform: translate(200%, -50%) }
+			&::before {
+				-webkit-transform: translate(-200%, 50%);
+				transform: translate(-200%, 50%)
+			}
+
+			&::after {
+				-webkit-transform: translate(200%, -50%);
+				transform: translate(200%, -50%)
+			}
 		}
 	}
 
@@ -61,15 +83,26 @@
 		cursor: pointer;
 
 		rect {
-			
+
 			fill: var(--color-light);
+			-webkit-transform: translate(0);
 			transform: translate(0);
+			-webkit-transition:
+				-webkit-transform var(--trans-normal) ease-in-out;
+			transition:
+				-webkit-transform var(--trans-normal) ease-in-out;
 			transition:
 				transform var(--trans-normal) ease-in-out;
+			transition:
+				transform var(--trans-normal) ease-in-out, -webkit-transform var(--trans-normal) ease-in-out;
 		}
 	}
 
 	&__content {
+
+		display: -webkit-box;
+
+		display: -ms-flexbox;
 
 		display: flex;
 		overflow: hidden;
@@ -77,23 +110,42 @@
 		position: absolute;
 		top: 3em;
 		left: 0;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-ms-flex-flow: column;
 		flex-flow: column;
+		-webkit-transform-origin: top;
 		transform-origin: top;
+		-webkit-transform: scale(1, 0);
 		transform: scale(1, 0);
 		color: transparent;
 		padding: 1.5em;
 		background-color: var(--color-darker);
+		-webkit-transition:
+			color var(--trans-long) ease-in-out var(--trans-normal),
+			-webkit-transform var(--trans-normal) ease-in-out;
+		transition:
+			color var(--trans-long) ease-in-out var(--trans-normal),
+			-webkit-transform var(--trans-normal) ease-in-out;
 		transition:
 			transform var(--trans-normal) ease-in-out,
 			color var(--trans-long) ease-in-out var(--trans-normal);
+		transition:
+			transform var(--trans-normal) ease-in-out,
+			color var(--trans-long) ease-in-out var(--trans-normal),
+			-webkit-transform var(--trans-normal) ease-in-out;
 
 		a {
+
+			-ms-flex-item-align: start;
 
 			align-self: flex-start;
 			position: relative;
 			@include hover-underline();
 		}
 
-		a + a { margin: 1em 0 0 0 }
+		a+a {
+			margin: 1em 0 0 0
+		}
 	}
 }

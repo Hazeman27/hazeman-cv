@@ -5,6 +5,7 @@
 	position: relative;
 	border-radius: var(--border-radius);
 	background-color: var(--color-white);
+	-webkit-box-shadow: var(--box-shadow-light);
 	box-shadow: var(--box-shadow-light);
 	overflow: hidden;
 
@@ -19,18 +20,22 @@
 	}
 
 	&_cover {
-		
+
 		padding: 0;
 
 		img {
-			
+
 			min-height: 300px;
+			-o-object-fit: cover;
 			object-fit: cover;
+			-o-object-position: left;
 			object-position: left;
 		}
 	}
-	
-	a { font-weight: 900 }
+
+	a {
+		font-weight: 900
+	}
 }
 
 .illustration {
@@ -43,12 +48,28 @@
 
 		width: 200px;
 		border-radius: 50%;
+		-webkit-box-shadow: var(--box-shadow-medium);
 		box-shadow: var(--box-shadow-medium);
+		-webkit-filter: none;
 		filter: none;
+		-webkit-transition:
+			-webkit-filter var(--trans-normal) ease-in-out,
+			-webkit-box-shadow var(--trans-normal) ease-in-out;
+		transition:
+			-webkit-filter var(--trans-normal) ease-in-out,
+			-webkit-box-shadow var(--trans-normal) ease-in-out;
 		transition:
 			filter var(--trans-normal) ease-in-out,
 			box-shadow var(--trans-normal) ease-in-out;
+		transition:
+			filter var(--trans-normal) ease-in-out,
+			box-shadow var(--trans-normal) ease-in-out,
+			-webkit-filter var(--trans-normal) ease-in-out,
+			-webkit-box-shadow var(--trans-normal) ease-in-out;
 
-		&:hover { filter: contrast(115%) }
+		&:hover {
+			-webkit-filter: contrast(115%);
+			filter: contrast(115%)
+		}
 	}
 }
