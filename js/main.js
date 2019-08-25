@@ -1,16 +1,22 @@
 import Nav from './nav.js';
 
-$(document).ready(() => {
+(async () => {
 
-	$('nav').load('../modules/nav.html', () => {
+	const modules = new Map([
+		['nav', './modules/nav.html'],
+		['footer', './modules/footer.html']
+	]);
 
-		const navToggle = $('#nav__toggle');
-		const navContent = $('#nav__content');
+	for (const module of modules) {
 
-		const nav = new Nav(navToggle, navContent);
+		const response = await window.fetch(module[1]);
+		const responseText = await response.text();
 
-		nav.init();
-	});
+		document.querySelector(module[0]).innerHTML = responseText;
+	}
 
-	$('footer').load('../modules/footer.html');
-});
+	const navToggle = document.querySelector('#nav__toggle');
+	const navContent = document.querySelector('#nav__content');
+
+	new Nav(navToggle, navContent).init();
+})();

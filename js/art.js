@@ -1,11 +1,9 @@
 import Gallery from './gallery.js';
 
-$(document).ready(() => {
-	
-	const galleryCont = $('.gallery[data-lightbox]');
-	const lightboxCont = $('.lightbox');
+(() => {
+    
+    const galleries = document.querySelectorAll('.gallery[data-lightbox]');
+    const lightbox = document.querySelector('.lightbox');
 
-	const gallery = new Gallery(galleryCont, lightboxCont);
-
-	gallery.init();
-});
+    new Gallery(galleries, lightbox).init();
+})();

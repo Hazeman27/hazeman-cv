@@ -1,9 +1,15 @@
-class Gallery {
+export default class Gallery {
 
-	constructor(container, lightbox) {
+	constructor(galleries, lightbox) {
 
-		this.container = container;
-		this.items = Array.from(container.children);
+		this.galleries = galleries;
+		this.items = new Array;
+
+		this.galleries.forEach(gallery => this.items.push(
+			Array.from(gallery.children)
+		));
+		
+		this.items = this.items.flat();
 		this.lightbox = new Lightbox(lightbox);
 	}
 
@@ -11,92 +17,104 @@ class Gallery {
 
 		this.lightbox.init();
 
-		this.container.on('click', '.gallery__item', (event) => {
+		this.galleries.forEach(gallery => gallery.addEventListener('click', (event) => {
 			this.lightbox.open(event.target);
-		});
+		}));
 	}
 };
+
+// :: Lightbox ::
 
 class Lightbox {
 
 	constructor(container) {
 
 		this.container = container;
-		this.className = container[0].className;
+		this.name = container.className;
 
-		this.contentCont = this.container.children('.' + this.className + '__content');
-		this.textCont = this.container.children('.' + this.className + '__text');
+		this.classNames = new Map([
+			['content',		`.${this.name}__content`],
+			['text', 		`.${this.name}__text`],
+			['close', 		`.${this.name}__close`],
+			['image', 		`.${this.name}__image`],
+			['title', 		`.${this.name}__text h2`],
+			['description', `.${this.name}__text p`]
+		]);
 
-		this.close = this.contentCont.children('.' + this.className + '__close');
-		this.image = this.contentCont.children('.' + this.className + '__image');
-		this.title = this.textCont.children('h2');
-		this.descr = this.textCont.children('p');
+		this.classNames.forEach((value, key) => {
+			this[key] = document.querySelector(value);
+		});
 	}
 
 	init() {
 
-		this.close.click(() => {
+		this.close.addEventListener('click', () => {
 			this.toggle(0);
+		});
+
+		document.body.addEventListener('keydown', (event) => {
+			
+			if (event.key === 'Escape')
+				this.toggle(0);
 		});
 	}
 
 	open(item) {
 
-		let className = '.' + item.className;
+		const name = item.className;
 
-		let newImage = $(item).children(className + '__thumbnail').clone();
-		let newTitle = $(item).children(className + '__title').clone();
-		let newDescr = $(item).children(className + '__description').clone();
+		const classNames = new Map([
+			['image',		`.${name}__thumbnail`],
+			['title',		`.${name}__title`],
+			['description',	`.${name}__description`],
+		]);
 
-		this.setClassName(newImage[0], '__image');
-		this.setClassName(newImage.children('img')[0], '__image');
-		this.setClassName(newTitle[0], '__title');
-		this.setClassName(newDescr[0], '__description');
+		try {
 
-		this.clearContent();
+			classNames.forEach((value, key) => {
 
-		this.image = newImage;
-		this.title = newTitle;
-		this.descr = newDescr;
+				const element = item.querySelector(value).cloneNode(true);
+				this.setClassName(element, key);
 
-		this.setContent();
-		this.toggle(1);
+				if (key === 'image') 
+					this.setClassName(element.querySelector('img'), key);
+				
+				this[key].remove();
+				this[key] = element;
+			});
+
+			this.setContent();
+			this.toggle(1);
+
+		} catch (error) {
+				
+			if (error.message === 'Cannot read property \'cloneNode\' of null')
+				console.log('Oops! Seems you have missed that thumbnail. Try hitting inbetween texts...');
+		}
 	}
 
-	setClassName(element, sufix) {
-		element.className = this.className + sufix;
+	setClassName(element, suffix) {
+		element.className = `${this.name}__${suffix}`;
 	}
 
 	setContent() {
 
-		this.image.appendTo(this.contentCont);
-		this.title.appendTo(this.textCont);
-		this.descr.appendTo(this.textCont);
+		this.content.appendChild(this.image);
+		this.text.appendChild(this.title);
+		this.text.appendChild(this.description);
 	}
 
-	clearContent() {
+	toggle(value = 0) {
 
-		this.image.remove();
-		this.title.remove();
-		this.descr.remove();
-	}
+		this.container.style.transform = `scale(1, ${value})`;
+		this.container.style.opacity = value;
 
-	toggle(value) {
-
-		value ?
-
-			this.container.css({
-				'transform': 'scale(1, '+ value + ')',
-				'opacity': value,
-				'transition': 'opacity var(--trans-normal) ease-in-out, transform 0ms linear 0ms'
-			})
-
-		:	this.container.css({
-				'transform': 'scale(1, '+ value + ')',
-				'opacity': value,
-				'transition': 'opacity var(--trans-normal) ease-in-out, transform 0ms linear var(--trans-normal)'
-			})
+		if (value)
+			this.container.style.transition = 
+				'opacity var(--trans-normal) ease-in-out, transform 0ms linear 0ms';
+		
+		else
+			this.container.style.transition = 
+				'opacity var(--trans-normal) ease-in-out, transform 0ms linear var(--trans-normal)';
 	}
 }
-
-export default Gallery;

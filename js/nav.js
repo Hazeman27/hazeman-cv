@@ -1,53 +1,43 @@
-class Nav {
+export default class Nav {
 
 	constructor(button, content) {
 	
 		this.button = button;
 		this.content = content;
-		this.rectangles = Array.from($(this.button).children('svg').children());
+		this.rectangles = Array.from(
+			this.button.firstElementChild.children
+		);
 	}
 
 	init() {
-
-		this.button.click(() => {
-			this.toggle();
-		});
+		
+		this.toggle = this.toggle.bind(this);
+		this.button.addEventListener('click', this.toggle);
 	}
 
 	toggle() {
 
-		this.toggled ? (
+		if (this.toggled) {
 
-			$(this.rectangles).css({
-				'transform': 'initial' 
-			}),
+			for (const rectangle of this.rectangles)
+				rectangle.style.transform = 'initial';
 
-			$(this.content).css({
-				'transform': 'scale(1, 0)',
-				'color': 'transparent'
-			}),
+			this.content.style.transform = 'scale(1, 0)';
+			this.content.style.color = 'transparent';
 		
-			this.toggled = false
-		)
+			this.toggled = false;
+		}
 
-		: (
+		else {
 
-			$(this.rectangles[0]).add(this.rectangles[2]).css({
-				'transform': 'translateX(10px)' 
-			}),
+			this.rectangles[0].style.transform = 'translateX(10px)';
+			this.rectangles[1].style.transform = 'translateX(-10px)';
+			this.rectangles[2].style.transform = 'translateX(10px)';
 
-			$(this.rectangles[1]).css({
-				'transform': 'translateX(-10px)' 
-			}),
-
-			$(this.content).css({
-				'transform': 'scale(1, 1)',
-				'color': 'inherit'
-			}),
+			this.content.style.transform = 'scale(1, 1)';
+			this.content.style.color = 'inherit';
 		
-			this.toggled = true
-		)
+			this.toggled = true;
+		}
 	}
-};
-
-export default Nav;
+}
