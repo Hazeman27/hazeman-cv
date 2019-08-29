@@ -1,15 +1,16 @@
 export default class Router {
 
-    constructor(container, views, defaultState) {
+    constructor(params) {
 
-        this.container = container;
-        this.views = views;
-        this.defaultState = defaultState;
+        this.container = params.container;
+        this.views = params.views;
+        this.modules = params.modules;
+        this.defaultState = params.defaultState;
 
         history.pushState(
-            defaultState, 
-            defaultState.title, 
-            defaultState.view
+            this.defaultState, 
+            this.defaultState.title, 
+            this.defaultState.view
         );
 
         this.load();
@@ -22,17 +23,16 @@ export default class Router {
 
         this.container.innerHTML = responseText;
         this.importModule(state);
+
+        document.title = state.title;
     }
 
     async importModule(state) {
 
-        try {
+        if (this.modules.hasOwnProperty(state.view)) {
 
-            const Module = await import(`./modules/${state.view}.js`);
-            Module[state.title]();
-
-        } catch (error) {
-            console.log(error.message);
+            const module = await import(`./modules/${state.view}.js`);
+            module[state.title]();
         }
     }
 }

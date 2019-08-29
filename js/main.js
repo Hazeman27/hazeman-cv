@@ -3,17 +3,17 @@ import Router from './router.js';
 
 (async () => {
 
-	const modules = new Map([
-		['nav', './modules/nav.html'],
-		['footer', './modules/footer.html']
+	const components = new Map([
+		['nav', './components/nav.html'],
+		['footer', './components/footer.html']
 	]);
 
-	for (const module of modules) {
+	for (const component of components) {
 
-		const response = await window.fetch(module[1]);
+		const response = await window.fetch(component[1]);
 		const responseText = await response.text();
 
-		document.querySelector(module[0]).innerHTML = responseText;
+		document.querySelector(component[0]).innerHTML = responseText;
 	}
 
 	const navToggle = document.querySelector('#nav__toggle');
@@ -27,13 +27,18 @@ import Router from './router.js';
 		contact: './views/contact.html'
 	}
 
+	const modules = {
+		art: './modules/art.js'
+	}
+
 	new Nav(
 		navToggle, 
 		navContent, 
-		new Router(
-			mainContainer, 
-			views, 
-			{ view: 'me', title: 'Me' }
-		)
+		new Router({
+			container: mainContainer, 
+			views: views, 
+			modules: modules,
+			defaultState: { view: 'me', title: 'Me' }
+		})
 	);
 })();
