@@ -60,13 +60,22 @@
 	box-sizing: border-box;
 }
 
+html {
+	height: 100%;
+}
+
 body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	margin: 0;
 	background: var(--color-white);
 	color: var(--color-dark-gray);
 	font-family: var(--ff-muli);
 	line-height: 1.4;
 	font-size: 1.165em;
+	min-height: 100vh;
+	height: 100%;
 }
 
 a {

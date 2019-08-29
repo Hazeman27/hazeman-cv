@@ -1,4 +1,5 @@
-import Nav from './nav.js';
+import Nav from './modules/nav.js';
+import Router from './router.js';
 
 (async () => {
 
@@ -18,5 +19,21 @@ import Nav from './nav.js';
 	const navToggle = document.querySelector('#nav__toggle');
 	const navContent = document.querySelector('#nav__content');
 
-	new Nav(navToggle, navContent).init();
+	const mainContainer = document.querySelector('#main');
+
+	const views = {
+		me: './views/me.html',
+		art: './views/art.html',
+		contact: './views/contact.html'
+	}
+
+	new Nav(
+		navToggle, 
+		navContent, 
+		new Router(
+			mainContainer, 
+			views, 
+			{ view: 'me', title: 'Me' }
+		)
+	);
 })();
