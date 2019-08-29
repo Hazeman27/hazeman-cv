@@ -1,31 +1,35 @@
 export default class Router {
 
-    constructor(container, views, state) {
+    constructor(container, views, defaultState) {
 
         this.container = container;
         this.views = views;
-        this.state = state;
+        this.defaultState = defaultState;
+
+        history.pushState(
+            defaultState, 
+            defaultState.title, 
+            defaultState.view
+        );
 
         this.load();
     }
 
-    async load() {
+    async load(state = this.defaultState) {
 
-        history.pushState(this.state, this.state.title, this.state.view);
-
-        const response = await fetch(this.views[this.state.view]);
+        const response = await fetch(this.views[state.view]);
         const responseText = await response.text();
 
         this.container.innerHTML = responseText;
-        this.importModule();
+        this.importModule(state);
     }
 
-    async importModule() {
+    async importModule(state) {
 
         try {
 
-            const Module = await import(`./modules/${this.state.view}.js`);
-            Module[this.state.title]();
+            const Module = await import(`./modules/${state.view}.js`);
+            Module[state.title]();
 
         } catch (error) {
             console.log(error.message);

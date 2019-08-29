@@ -53,12 +53,13 @@ export default class Nav {
 
 	switchView(event) {
 
-		this.router.state = {
+		const state = {
 			view: this.getViewName(event.target.href),
 			title: event.target.textContent
 		}
 
-		this.router.load();
+		history.pushState(state, state.title, state.view);
+		this.router.load(state);
 
 		event.preventDefault();
 		event.target.blur();
