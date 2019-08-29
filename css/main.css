@@ -68,6 +68,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	position: relative;
 	margin: 0;
 	background: var(--color-white);
 	color: var(--color-dark-gray);
@@ -76,6 +77,25 @@ body {
 	font-size: 1.165em;
 	min-height: 100vh;
 	height: 100%;
+}
+
+body[data-loading] #main {
+	filter: blur(7px);
+}
+
+body[data-loading]::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: transparent;
+	z-index: 999;
+}
+
+#main {
+	transition: filter var(--trans-longer) ease-in-out;
 }
 
 a {

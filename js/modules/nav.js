@@ -54,9 +54,9 @@ export default class Nav {
 	switchView(event) {
 
 		const state = {
-			view: this.getViewName(event.target.href),
+			view: this.getViewName(event.target.href), 
 			title: event.target.textContent
-		}
+		};
 
 		history.pushState(state, state.title, state.view);
 		this.router.load(state);

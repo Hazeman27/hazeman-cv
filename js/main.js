@@ -22,22 +22,31 @@ import Router from './router.js';
 	const mainContainer = document.querySelector('#main');
 
 	const views = {
-		me: './views/me.html',
-		art: './views/art.html',
-		contact: './views/contact.html'
-	}
+		me: {
+			template: './views/me.html'
+		},
 
-	const modules = {
-		art: './modules/art.js'
-	}
+		art: {
+			template: './views/art.html',
+			module: {
+				name: 'Art', 
+				path: './modules/art.js'
+			}
+		},
+
+		contact: {
+			template: './views/contact.html'
+		}
+	};
 
 	new Nav(
+		
 		navToggle, 
-		navContent, 
+		navContent,
+
 		new Router({
 			container: mainContainer, 
 			views: views, 
-			modules: modules,
 			defaultState: { view: 'me', title: 'Me' }
 		})
 	);
