@@ -50,4 +50,21 @@ import Router from './router.js';
 			defaultState: { view: 'me', title: 'Me' }
 		})
 	);
+
+	// :: Service Worker...
+
+	(async () => {
+		
+		if ('serviceWorker' in navigator) {
+
+			try {
+
+				const registration = await navigator.serviceWorker.register('./serviceWorker.js');
+				console.log('Service Worker registration successful with scope: ', registration.scope);
+
+			} catch (error) {
+				console.log('Service Worker registration failed: ', error);
+			}
+		}
+	})();
 })();

@@ -12,21 +12,24 @@ export default class Router {
             this.defaultState.view
         );
 
-        this.load();
+        this.load(this.defaultState);
     }
 
-    async load(state = this.defaultState) {
+    async load(state) {
 
+        const view = this.views[state.view];
         this.displayLoadingEffect();
 
-        const response = await fetch(this.views[state.view].template);
+        const response = await fetch(view.template);
         const responseText = await response.text();
 
         this.container.innerHTML = responseText;
         this.importModule(state.view);
 
         this.listenToImagesLoad();
-        document.title = state.title;
+        view.cached = true;
+
+        document.title = state.title;       
     }
 
     async importModule(view) {

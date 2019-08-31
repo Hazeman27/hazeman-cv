@@ -1,0 +1,21 @@
+{
+    "short_name": "Hazeman",
+    "name": "Hazeman - portfolio",
+    "icons": [
+        {
+            "src": "./media/icons/icon-medium.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "./media/icons/icon-large.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#161016",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#161016"
+}
