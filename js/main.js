@@ -16,11 +16,6 @@ import Router from './router.js';
 		document.querySelector(component[0]).innerHTML = responseText;
 	}
 
-	const navToggle = document.querySelector('#nav__toggle');
-	const navContent = document.querySelector('#nav__content');
-
-	const mainContainer = document.querySelector('#main');
-
 	const views = {
 		me: {
 			template: './views/me.html'
@@ -39,17 +34,17 @@ import Router from './router.js';
 		}
 	};
 
-	new Nav(
+	new Nav({
 		
-		navToggle, 
-		navContent,
+		toggleButton: document.querySelector('#nav__toggle'), 
+		content: document.querySelector('#nav__content'),
 
-		new Router({
-			container: mainContainer, 
+		router : new Router({
+			container: document.querySelector('#main'), 
 			views: views, 
 			defaultState: { view: 'me', title: 'Me' }
 		})
-	);
+	});
 
 	// :: Service Worker...
 

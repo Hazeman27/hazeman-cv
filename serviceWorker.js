@@ -1,6 +1,7 @@
-const CacheName = 'static-v1';
+const CacheName = 'static-v7';
 const itemsToCache = [
     './',
+    './404.html',
     './css/main.css',
     './js/main.js',
 ];
@@ -10,8 +11,6 @@ self.addEventListener('install', (event) => {
     const preCache = async () => {
 
         const cache = await caches.open(CacheName);
-        console.log('Opened cache');
-
         return cache.addAll(itemsToCache);
     };
 
@@ -27,7 +26,13 @@ self.addEventListener('fetch', (event) => {
         if (response) 
             return response;
 
-        response = await fetch(event.request)
+        try {
+
+            response = await fetch(event.request);
+
+        } catch (error) {
+            return await caches.match('./404.html');
+        }
         
         if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;

@@ -6,16 +6,26 @@ export default class Router {
         this.views = params.views;
         this.defaultState = params.defaultState;
 
-        history.pushState(
-            this.defaultState, 
-            this.defaultState.title, 
-            this.defaultState.view
-        );
+        if (this.currentURLMatchesView())
+            this.loadState({
+                view: this.currentView(),
+                title: this.capitalize(this.currentView())
+            });
+        
+        else this.loadState(this.defaultState);
 
-        this.load(this.defaultState);
+        window.addEventListener('popstate', (event) => {
+			this.loadContent(event.state);
+		});
     }
 
-    async load(state) {
+    loadState(state) {
+
+        history.pushState(state, state.title, state.view);
+        this.loadContent(state);
+    }
+
+    async loadContent(state) {
 
         const view = this.views[state.view];
         this.displayLoadingEffect();
@@ -27,7 +37,6 @@ export default class Router {
         this.importModule(state.view);
 
         this.listenToImagesLoad();
-        view.cached = true;
 
         document.title = state.title;       
     }
@@ -80,5 +89,19 @@ export default class Router {
 
     viewHasModule(view) {
         return this.views[view].hasOwnProperty('module');
+    }
+
+    currentURLMatchesView() {
+        return this.views.hasOwnProperty(
+            this.currentView()    
+        );
+    }
+
+    currentView() {
+        return window.location.href.match(/[a-zA-Z]*$/)[0];
+    }
+
+    capitalize(string) {
+        return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
     }
 }

@@ -1,28 +1,24 @@
 export default class Nav {
 
-	constructor(button, content, router) {
+	constructor(params) {
 	
-		this.button = button;
-		this.content = content;
+		this.toggleButton = params.toggleButton;
+		this.content = params.content;
 		this.links = this.content.querySelectorAll('a');
 
-		this.router = router;
+		this.router = params.router;
 
 		this.rectangles = Array.from(
-			this.button.firstElementChild.children
+			this.toggleButton.firstElementChild.children
 		);
 
 		this.toggle = this.toggle.bind(this);
 		this.switchView = this.switchView.bind(this);
 
-		this.button.addEventListener('click', this.toggle);
+		this.toggleButton.addEventListener('click', this.toggle);
 		
 		for (const link of this.links)
 			link.addEventListener('click', this.switchView);
-
-		window.addEventListener('popstate', (event) => {
-			this.router.load(event.state);
-		});
 	}
 
 	toggle() {
@@ -53,13 +49,10 @@ export default class Nav {
 
 	switchView(event) {
 
-		const state = {
+		this.router.loadState({
 			view: this.getViewName(event.target.href), 
 			title: event.target.textContent
-		};
-
-		history.pushState(state, state.title, state.view);
-		this.router.load(state);
+		});
 
 		event.preventDefault();
 		event.target.blur();
