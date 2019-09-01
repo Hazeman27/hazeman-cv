@@ -1,4 +1,4 @@
-##Hazeman
+#Hazeman
 
 Single page progressive web application that encompasses my work as an artist and a front-end web developer.
 
