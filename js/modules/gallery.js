@@ -1,25 +1,28 @@
 export default class Gallery {
 
-	constructor(galleries, lightbox) {
+	constructor(params) {
 
-		this.galleries = galleries;
-		this.items = new Array;
+		this.containers = params.containers;
+		this.itemClassName = params.itemClassName;
 
-		this.galleries.forEach(gallery => this.items.push(
-			Array.from(gallery.children)
-		));
-		
-		this.items = this.items.flat();
-		this.lightbox = new Lightbox(lightbox);
+		this.lightbox = new Lightbox(params.lightboxParams);
 	}
 
 	init() {
 
 		this.lightbox.init();
 
-		this.galleries.forEach(gallery => gallery.addEventListener('click', (event) => {
-			this.lightbox.open(event.target);
-		}));
+		for (const container of this.containers) {
+
+			container.addEventListener('click', (event) => {
+
+				const item = event.path.find(element => {
+					return element.className === this.itemClassName;
+				});
+
+				if (item) this.lightbox.open(item);
+			});
+		}
 	}
 };
 
@@ -27,23 +30,18 @@ export default class Gallery {
 
 class Lightbox {
 
-	constructor(container) {
+	constructor(params) {
 
-		this.container = container;
-		this.name = container.className;
+		this.container = params.container;
+		this.transitions = params.transitions;
 
-		this.classNames = new Map([
-			['content',		`.${this.name}__content`],
-			['text', 		`.${this.name}__text`],
-			['close', 		`.${this.name}__close`],
-			['image', 		`.${this.name}__image`],
-			['title', 		`.${this.name}__text h2`],
-			['description', `.${this.name}__text p`]
-		]);
+		this.className = params.className;
 
-		this.classNames.forEach((value, key) => {
+		this.elements = params.elements;
+		this.mappedElements = params.mappedElements;
+
+		for (const [key, value] of this.elements)
 			this[key] = document.querySelector(value);
-		});
 	}
 
 	init() {
@@ -57,44 +55,33 @@ class Lightbox {
 			if (event.key === 'Escape')
 				this.toggle(0);
 		});
+
+		document.body.addEventListener('click', (event) => {
+
+			if (event.target === this.container)
+				this.toggle();
+		});
 	}
 
 	open(item) {
 
-		const name = item.className;
+		for (const [key, value] of this.mappedElements) {
+		
+			const element = item.querySelector(value).cloneNode(true);
+			this.setClassName(element, key);
 
-		const classNames = new Map([
-			['image',		`.${name}__thumbnail`],
-			['title',		`.${name}__title`],
-			['description',	`.${name}__description`],
-		]);
-
-		try {
-
-			classNames.forEach((value, key) => {
-
-				const element = item.querySelector(value).cloneNode(true);
-				this.setClassName(element, key);
-
-				if (key === 'image') 
-					this.setClassName(element.querySelector('img'), key);
-				
-				this[key].remove();
-				this[key] = element;
-			});
-
-			this.setContent();
-			this.toggle(1);
-
-		} catch (error) {
-				
-			if (error.message === 'Cannot read property \'cloneNode\' of null')
-				console.log('Oops! Seems you have missed that thumbnail. Try hitting inbetween texts...');
+			if (key === 'image') 
+				this.setClassName(element.querySelector('img'), key);
+		
+			this[key].innerHTML = element.innerHTML;
 		}
+
+		this.setContent();
+		this.toggle(1);
 	}
 
 	setClassName(element, suffix) {
-		element.className = `${this.name}__${suffix}`;
+		element.className = `${this.className}__${suffix}`;
 	}
 
 	setContent() {
@@ -110,11 +97,9 @@ class Lightbox {
 		this.container.style.opacity = value;
 
 		if (value)
-			this.container.style.transition = 
-				'opacity var(--trans-normal) ease-in-out, transform 0ms linear 0ms';
+			this.container.style.transition = this.transitions.show;
 		
 		else
-			this.container.style.transition = 
-				'opacity var(--trans-normal) ease-in-out, transform 0ms linear var(--trans-normal)';
+			this.container.style.transition = this.transitions.hide;
 	}
 }

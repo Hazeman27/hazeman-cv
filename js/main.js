@@ -46,12 +46,18 @@ import Router from './router.js';
 		container: document.querySelector('#nav'),
 		toggleButton: document.querySelector('#nav__toggle'),
 		current: document.querySelector('#nav__current'),
+
+		toggleClassName: 'nav__content--visible',
 		breakpoint: 800,
 
 		content: {
 			container: document.querySelector('#nav__content'),
 			links: document.querySelector('#nav__content__links'),
-			sections: document.querySelector('#nav__content__sections')
+			sections: {
+				container: document.querySelector('#nav__content__sections'),
+				titleSelector: 'nav__content__sections__title',
+				linkSelector: 'nav__content__sections__link'
+			},
 		},
 
 		router: new Router({

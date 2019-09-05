@@ -94,22 +94,22 @@ export default class Router {
             const sectionsTitle = this.capitalize(view);
             const sectionsTitleElement = document.createElement('h3');
 
-            sectionsTitleElement.id = 'nav__content__sections__title';
+            sectionsTitleElement.id = this.nav.content.sections.titleSelector;
             sectionsTitleElement.textContent = sectionsTitle;
 
-            this.nav.content.sections.appendChild(sectionsTitleElement);
+            this.nav.content.sections.container.appendChild(sectionsTitleElement);
 
             for (const section of sections) {
 
                 const sectionTarget = document.querySelector(`#${section[0]}`);
-                const sectionElement = document.createElement('a');
+                const sectionLinkElement = document.createElement('a');
 
-                sectionElement.className = 'nav__content__sections__link';
-                sectionElement.textContent = section[1];
+                sectionLinkElement.className = this.nav.content.sections.linkSelector;
+                sectionLinkElement.textContent = section[1];
 
-                this.nav.content.sections.appendChild(sectionElement);
+                this.nav.content.sections.container.appendChild(sectionLinkElement);
 
-                sectionElement.addEventListener('click', () => {
+                sectionLinkElement.addEventListener('click', () => {
 
                     this.nav.toggle();
                     sectionTarget.scrollIntoView();
@@ -147,7 +147,7 @@ export default class Router {
     }
 
     clearNavigationSections() {
-        this.nav.content.sections.innerHTML = '';
+        this.nav.content.sections.container.innerHTML = '';
     }
 
     currentURLMatchesView() {

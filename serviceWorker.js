@@ -1,7 +1,5 @@
-// Worker name: Niner...
-
-const CacheName = 'static-v-10';
-const itemsToCache = [
+const Cache = 'static-v-10';
+const Assets = [
     './',
     './404.html',
     './css/main.css',
@@ -10,8 +8,8 @@ const itemsToCache = [
 
 const preCache = async () => {
 
-    const cache = await caches.open(CacheName);
-    return cache.addAll(itemsToCache);
+    const cache = await caches.open(Cache);
+    return cache.addAll(Assets);
 };
 
 const responseHadler = async (request) => {
@@ -33,17 +31,15 @@ const responseHadler = async (request) => {
         return response;
     }
 
-    const responseToCache = response.clone();
-
-    const cache = await caches.open(CacheName);
-    cache.put(request, responseToCache);
+    const cache = await caches.open(Cache);
+    cache.put(request, response.clone());
 
     return response;
 }
 
 const updateAssets = async (request) => {
 
-    const cache = await caches.open(CacheName);
+    const cache = await caches.open(Cache);
     const response = await fetch(request);
 
     await cache.put(request, response.clone());
