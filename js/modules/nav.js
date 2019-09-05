@@ -1,49 +1,73 @@
 export default class Nav {
 
 	constructor(params) {
-	
+		
+		this.container = params.container;
 		this.toggleButton = params.toggleButton;
+		this.breakpoint = params.breakpoint;
+
 		this.content = params.content;
-		this.links = this.content.querySelectorAll('a');
+		this.current = params.current;
+
+		this.sidenav = this.content.container;
+		this.sidenavFullSlideDistance = this.sidenav.clientWidth + 12;
 
 		this.router = params.router;
+		this.router.nav = this;
 
-		this.rectangles = Array.from(
-			this.toggleButton.firstElementChild.children
-		);
+		this.sidenavTouchHandler =  new SidenavTouchHandler({
+			nav: this,
+			container: this.sidenav,
+			fullSlideDistance: this.sidenavFullSlideDistance,
+			currentTransformDistance: -this.sidenavFullSlideDistance
+		});
 
-		this.toggle = this.toggle.bind(this);
+		// :: Events
+
+		this.handleClick = this.handleClick.bind(this);
 		this.switchView = this.switchView.bind(this);
 
-		this.toggleButton.addEventListener('click', this.toggle);
-		
-		for (const link of this.links)
+		this.container.addEventListener('click', this.handleClick);
+
+		for (const link of this.content.links.children)
 			link.addEventListener('click', this.switchView);
+	}
+
+	handleClick(event) {
+
+		if (event.target === this.container) {
+
+			if (this.toggled)
+				this.toggle();
+
+			return;
+		}
+
+		if (this.toggleButton.contains(event.target))
+			this.toggle();
 	}
 
 	toggle() {
 
-		if (this.toggled) {
+		console.log('toggle');
 
-			for (const rectangle of this.rectangles)
-				rectangle.style.transform = 'initial';
-
-			this.content.style.transform = 'scale(1, 0)';
-			this.content.style.color = 'transparent';
+		if (this.onMobile()) {
 		
-			this.toggled = false;
-		}
+			if (this.toggled) {
 
-		else {
+				this.container.classList.remove('nav__content--visible');
 
-			this.rectangles[0].style.transform = 'translateX(10px)';
-			this.rectangles[1].style.transform = 'translateX(-10px)';
-			this.rectangles[2].style.transform = 'translateX(10px)';
+				this.sidenavTouchHandler.currentTransformDistance = -this.sidenavFullSlideDistance;
+				this.toggled = false;
+			}
 
-			this.content.style.transform = 'scale(1, 1)';
-			this.content.style.color = 'inherit';
-		
-			this.toggled = true;
+			else {
+
+				this.container.classList.add('nav__content--visible');
+
+				this.sidenavTouchHandler.currentTransformDistance = 0;
+				this.toggled = true;
+			}
 		}
 	}
 
@@ -54,11 +78,96 @@ export default class Nav {
 			title: event.target.textContent
 		});
 
+		this.toggle();
+
 		event.preventDefault();
 		event.target.blur();
 	}
 
 	getViewName(href) {
         return href.match(/[a-zA-Z]*$/)[0];
-    }
+	}
+
+	onMobile() {
+		return window.innerWidth <= this.breakpoint;
+	}
+}
+
+class SidenavTouchHandler {
+
+	constructor(params) {
+		
+		this.nav = params.nav;
+		this.container = params.container;
+
+		this.fullSlideDistance = params.fullSlideDistance;
+		this.currentTransformDistance = params.currentTransformDistance;
+
+		this.toggle = params.toggle;
+		this.initialTransition = this.container.style.transition;
+
+		this.handleStart = this.handleStart.bind(this);
+		this.handleMove = this.handleMove.bind(this);
+		this.handleEnd = this.handleEnd.bind(this);
+
+		this.updateTransform = this.updateTransform.bind(this);
+
+		document.body.addEventListener('touchstart', this.handleStart);
+		document.body.addEventListener('touchmove', this.handleMove);
+		document.body.addEventListener('touchend', this.handleEnd);
+	}
+
+	handleStart(event) {
+		
+		this.touchStartX = event.touches[0].clientX;
+		this.touchStartY = event.touches[0].clientY;
+
+		this.container.style.transition = 'none';
+	}
+
+	handleMove(event) {
+
+		this.touchDeltaX = this.touchStartX - event.touches[0].clientX;
+		this.touchDeltaY = this.touchStartY - event.touches[0].clientY;
+
+		requestAnimationFrame(this.updateTransform);
+	}
+
+	updateTransform() {
+
+		if (Math.abs(this.touchDeltaY) <= 20)
+
+			this.container.style.transform = `translateX(${
+				Math.min(0, this.currentTransformDistance - this.touchDeltaX)
+			}px)`;
+		
+		else this.reset();
+	}
+
+	handleEnd() {
+
+		this.container.style = this.initialTransition;
+
+		if (this.openSlide() || this.closeSlide())
+			this.nav.toggle();
+
+		this.touchDeltaX = 0;
+	}
+
+	reset() {
+		this.container.style = this.initialTransition;
+		this.touchDeltaX = 0;
+	}
+
+	openSlide() {
+		return !this.nav.toggled && this.touchDeltaX < 0 && this.crossedThreshold(Math.abs(this.touchDeltaX));
+	}
+
+	closeSlide() {
+		return this.nav.toggled && this.crossedThreshold(this.touchDeltaX);
+	}
+
+	crossedThreshold(value) {
+		return value >= this.container.clientWidth / 4;
+	}
 }

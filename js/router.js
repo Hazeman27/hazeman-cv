@@ -9,7 +9,8 @@ export default class Router {
         if (this.currentURLMatchesView())
             this.loadState({
                 view: this.currentView(),
-                title: this.capitalize(this.currentView())
+                title: this.capitalize(this.currentView()),
+                firstLaunch: true
             });
         
         else this.loadState(this.defaultState);
@@ -21,6 +22,12 @@ export default class Router {
 
     loadState(state) {
 
+        if (!state.firstLaunch && state.view == this.currentView()) {
+
+            this.container.scrollIntoView();
+            return;
+        }
+
         history.pushState(state, state.title, state.view);
         this.loadContent(state);
     }
@@ -28,20 +35,25 @@ export default class Router {
     async loadContent(state) {
 
         const view = this.views[state.view];
+
         this.displayLoadingEffect();
 
         const response = await fetch(view.template);
         const responseText = await response.text();
 
         this.container.innerHTML = responseText;
-        this.importModule(state.view);
+        this.container.scrollIntoView();
+
+        this.importViewModule(state.view);
+        this.loadViewNavigationSections(state.view);
 
         this.listenToImagesLoad();
 
-        document.title = state.title;       
+        document.title = state.title;
+        this.nav.current.textContent = state.title;       
     }
 
-    async importModule(view) {
+    async importViewModule(view) {
 
         if (this.viewHasModule(view)) {
 
@@ -71,6 +83,45 @@ export default class Router {
             });
     }
 
+    loadViewNavigationSections(view) {
+
+        if (this.viewHasSections(view)) {
+
+            this.clearNavigationSections();
+
+            const sections = this.views[view].sections;
+
+            const sectionsTitle = this.capitalize(view);
+            const sectionsTitleElement = document.createElement('h3');
+
+            sectionsTitleElement.id = 'nav__content__sections__title';
+            sectionsTitleElement.textContent = sectionsTitle;
+
+            this.nav.content.sections.appendChild(sectionsTitleElement);
+
+            for (const section of sections) {
+
+                const sectionTarget = document.querySelector(`#${section[0]}`);
+                const sectionElement = document.createElement('a');
+
+                sectionElement.className = 'nav__content__sections__link';
+                sectionElement.textContent = section[1];
+
+                this.nav.content.sections.appendChild(sectionElement);
+
+                sectionElement.addEventListener('click', () => {
+
+                    this.nav.toggle();
+                    sectionTarget.scrollIntoView();
+                });
+            }
+        }
+
+        else {
+            this.clearNavigationSections();
+        }
+    }
+
     displayLoadingEffect() {
 
         document.body.setAttribute('data-loading', '');
@@ -89,6 +140,14 @@ export default class Router {
 
     viewHasModule(view) {
         return this.views[view].hasOwnProperty('module');
+    }
+
+    viewHasSections(view) {
+        return this.views[view].hasOwnProperty('sections');
+    }
+
+    clearNavigationSections() {
+        this.nav.content.sections.innerHTML = '';
     }
 
     currentURLMatchesView() {

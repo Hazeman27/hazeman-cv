@@ -8,14 +8,6 @@ import Router from './router.js';
 		['footer', './components/footer.html']
 	]);
 
-	for (const component of components) {
-
-		const response = await window.fetch(component[1]);
-		const responseText = await response.text();
-
-		document.querySelector(component[0]).innerHTML = responseText;
-	}
-
 	const views = {
 		me: {
 			template: './views/me.html'
@@ -23,6 +15,13 @@ import Router from './router.js';
 
 		art: {
 			template: './views/art.html',
+			sections: new Map([
+				['drawings', 'drawings'],
+				['designs', '99designs'],
+				['more', 'more'],
+				['codepens', 'codepens'],
+				['music', 'music']
+			]),
 			module: {
 				name: 'Art', 
 				path: './modules/art.js'
@@ -34,12 +33,28 @@ import Router from './router.js';
 		}
 	};
 
+	for (const component of components) {
+
+		const response = await window.fetch(component[1]);
+		const responseText = await response.text();
+
+		document.querySelector(component[0]).innerHTML = responseText;
+	}
+
 	new Nav({
 		
-		toggleButton: document.querySelector('#nav__toggle'), 
-		content: document.querySelector('#nav__content'),
+		container: document.querySelector('#nav'),
+		toggleButton: document.querySelector('#nav__toggle'),
+		current: document.querySelector('#nav__current'),
+		breakpoint: 800,
 
-		router : new Router({
+		content: {
+			container: document.querySelector('#nav__content'),
+			links: document.querySelector('#nav__content__links'),
+			sections: document.querySelector('#nav__content__sections')
+		},
+
+		router: new Router({
 			container: document.querySelector('#main'), 
 			views: views, 
 			defaultState: { view: 'me', title: 'Me' }

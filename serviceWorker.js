@@ -1,4 +1,6 @@
-const CacheName = 'static-v7';
+// Worker name: Niner...
+
+const CacheName = 'static-v-10';
 const itemsToCache = [
     './',
     './404.html',
@@ -6,45 +8,67 @@ const itemsToCache = [
     './js/main.js',
 ];
 
+const preCache = async () => {
+
+    const cache = await caches.open(CacheName);
+    return cache.addAll(itemsToCache);
+};
+
+const responseHadler = async (request) => {
+        
+    let response = await caches.match(request);
+
+    if (response) 
+        return response;
+
+    try {
+
+        response = await fetch(request);
+
+    } catch (error) {
+        return await caches.match('./404.html');
+    }
+    
+    if (!response || response.status !== 200 || response.type !== 'basic') {
+        return response;
+    }
+
+    const responseToCache = response.clone();
+
+    const cache = await caches.open(CacheName);
+    cache.put(request, responseToCache);
+
+    return response;
+}
+
+const updateAssets = async (request) => {
+
+    const cache = await caches.open(CacheName);
+    const response = await fetch(request);
+
+    await cache.put(request, response.clone());
+    const clients = await self.clients.matchAll();
+
+    for (const client of clients) {
+
+        const message = {
+            type: 'refresh',
+            url: response.url,
+            eTag: response.headers.get('ETag')
+        };
+
+        client.postMessage(JSON.stringify(message));
+    }
+
+    return response;
+}
+
 self.addEventListener('install', (event) => {
-
-    const preCache = async () => {
-
-        const cache = await caches.open(CacheName);
-        return cache.addAll(itemsToCache);
-    };
-
     event.waitUntil(preCache());
 });
 
 self.addEventListener('fetch', (event) => {
 
-    const responseHadler = async () => {
-        
-        let response = await caches.match(event.request);
-
-        if (response) 
-            return response;
-
-        try {
-
-            response = await fetch(event.request);
-
-        } catch (error) {
-            return await caches.match('./404.html');
-        }
-        
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-        }
-
-        const responseToCache = response.clone();
-
-        const cache = await caches.open(CacheName);
-        cache.put(event.request, responseToCache);
-
-        return response;
-    }
-
-    event.respondWith(responseHadler());
+    event.respondWith(responseHadler(event.request));
+    event.waitUntil(updateAssets(event.request));
 });
