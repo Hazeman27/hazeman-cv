@@ -1,5 +1,4 @@
 import Nav from './modules/nav.js';
-import Router from './router.js';
 
 (async () => {
 
