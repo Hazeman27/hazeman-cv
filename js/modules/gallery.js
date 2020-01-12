@@ -15,8 +15,8 @@ export default class Gallery {
 		for (const container of this.containers) {
 
 			container.addEventListener('click', (event) => {
-
-				const item = event.path.find(element => {
+				
+				const item = event.composedPath().find(element => {
 					return element.className === this.itemClassName;
 				});
 
@@ -39,7 +39,7 @@ class Lightbox {
 
 		this.elements = params.elements;
 		this.mappedElements = params.mappedElements;
-
+		
 		for (const [key, value] of this.elements)
 			this[key] = document.querySelector(value);
 	}
@@ -94,7 +94,7 @@ class Lightbox {
 	toggle(value = 0) {
 
 		this.container.style.transform = `scale(1, ${value})`;
-		this.container.style.opacity = value;
+		this.container.style.opacity = value.toString();
 
 		if (value)
 			this.container.style.transition = this.transitions.show;

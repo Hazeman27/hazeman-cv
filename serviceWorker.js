@@ -12,7 +12,7 @@ const preCache = async () => {
     return cache.addAll(Assets);
 };
 
-const responseHadler = async (request) => {
+const responseHandler = async (request) => {
         
     let response = await caches.match(request);
 
@@ -32,10 +32,10 @@ const responseHadler = async (request) => {
     }
 
     const cache = await caches.open(Cache);
-    cache.put(request, response.clone());
+    await cache.put(request, response.clone());
 
     return response;
-}
+};
 
 const updateAssets = async (request) => {
 
@@ -57,7 +57,7 @@ const updateAssets = async (request) => {
     }
 
     return response;
-}
+};
 
 self.addEventListener('install', (event) => {
     event.waitUntil(preCache());
@@ -65,6 +65,6 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('fetch', (event) => {
 
-    event.respondWith(responseHadler(event.request));
+    event.respondWith(responseHandler(event.request));
     event.waitUntil(updateAssets(event.request));
 });

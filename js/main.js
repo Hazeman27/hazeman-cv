@@ -1,5 +1,4 @@
 import Nav from './modules/nav.js';
-import Router from './router.js';
 
 (async () => {
 
@@ -36,9 +35,7 @@ import Router from './router.js';
 	for (const component of components) {
 
 		const response = await window.fetch(component[1]);
-		const responseText = await response.text();
-
-		document.querySelector(component[0]).innerHTML = responseText;
+		document.querySelector(component[0]).innerHTML = await response.text();
 	}
 
 	new Nav({
@@ -60,11 +57,11 @@ import Router from './router.js';
 			},
 		},
 
-		router: new Router({
+		routerParams: {
 			container: document.querySelector('#main'), 
 			views: views, 
 			defaultState: { view: 'me', title: 'Me' }
-		})
+		}
 	});
 
 	// :: Service Worker...
