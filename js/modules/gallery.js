@@ -39,7 +39,7 @@ class Lightbox {
 
 		this.elements = params.elements;
 		this.mappedElements = params.mappedElements;
-
+		
 		for (const [key, value] of this.elements)
 			this[key] = document.querySelector(value);
 	}

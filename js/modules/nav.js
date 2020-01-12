@@ -53,15 +53,15 @@ export default class Nav {
 	}
 
 	async switchView(event) {
-
+		
+		event.preventDefault();
+		
 		await this.router.loadState({
 			view: this.getViewName(event.target.href), 
 			title: event.target.textContent
 		});
 
 		this.toggle();
-
-		event.preventDefault();
 		event.target.blur();
 	}
 
