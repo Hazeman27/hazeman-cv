@@ -1,4 +1,1 @@
-node_modules/
-gulpfile.js
-package-lock.json
-styles/css/*.css.map
+.idea

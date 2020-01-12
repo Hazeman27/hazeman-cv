@@ -15,8 +15,8 @@ export default class Gallery {
 		for (const container of this.containers) {
 
 			container.addEventListener('click', (event) => {
-
-				const item = event.path.find(element => {
+				
+				const item = event.composedPath().find(element => {
 					return element.className === this.itemClassName;
 				});
 

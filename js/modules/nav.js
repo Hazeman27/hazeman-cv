@@ -1,3 +1,5 @@
+import Router from "../router.js";
+
 export default class Nav {
 
 	constructor(params) {
@@ -10,8 +12,7 @@ export default class Nav {
 		this.content = params.content;
 		this.current = params.current;
 
-		this.router = params.router;
-		this.router.nav = this;
+		this.router = new Router(params.routerParams, this);
 
 		this.handleClick = this.handleClick.bind(this);
 		this.switchView = this.switchView.bind(this);

@@ -1,10 +1,11 @@
 export default class Router {
 
-    constructor(params) {
+    constructor(params, nav) {
 
         this.container = params.container;
         this.views = params.views;
         this.defaultState = params.defaultState;
+        this.nav = nav;
 
         if (this.currentURLMatchesView())
             this.loadState({
@@ -22,7 +23,7 @@ export default class Router {
 
     loadState(state) {
 
-        if (!state.firstLaunch && state.view == this.currentView()) {
+        if (!state.firstLaunch && state.view === this.currentView()) {
 
             this.container.scrollIntoView();
             return;
@@ -35,13 +36,11 @@ export default class Router {
     async loadContent(state) {
 
         const view = this.views[state.view];
-
         this.displayLoadingEffect();
 
         const response = await fetch(view.template);
-        const responseText = await response.text();
-
-        this.container.innerHTML = responseText;
+        
+        this.container.innerHTML = await response.text();
         this.container.scrollIntoView();
 
         this.importViewModule(state.view);
@@ -75,7 +74,7 @@ export default class Router {
 
                 imagesLoaded++;
 
-                if (imagesLoaded == images.length) {
+                if (imagesLoaded === images.length) {
                     
                     this.hideLoadingEffect();
                     imagesLoaded = 0;
