@@ -1,27 +1,29 @@
 export default class Router {
 
-    constructor(params, nav) {
+     constructor(params, nav) {
 
         this.container = params.container;
         this.views = params.views;
         this.defaultState = params.defaultState;
         this.nav = nav;
 
-        if (this.currentURLMatchesView())
-            this.loadState({
+        if (this.currentURLMatchesView()) {
+            
+            (async () => await this.loadState({
                 view: this.currentView(),
                 title: this.capitalize(this.currentView()),
                 firstLaunch: true
-            });
+            }))();
+        }
         
-        else this.loadState(this.defaultState);
+        else (async () => await this.loadState(this.defaultState))();
 
-        window.addEventListener('popstate', (event) => {
-			this.loadContent(event.state);
+        window.addEventListener('popstate', async (event) => {
+			await this.loadContent(event.state);
 		});
     }
 
-    loadState(state) {
+    async loadState(state) {
 
         if (!state.firstLaunch && state.view === this.currentView()) {
 
@@ -30,7 +32,7 @@ export default class Router {
         }
 
         history.pushState(state, state.title, state.view);
-        this.loadContent(state);
+        await this.loadContent(state);
     }
 
     async loadContent(state) {
@@ -67,19 +69,17 @@ export default class Router {
 
         const images = document.querySelectorAll('img');
         let imagesLoaded = 0;
-
-        for (const image of images)
-
+        
+        for (const image of images) {
+    
             image.addEventListener('load', () => {
-
+        
                 imagesLoaded++;
-
-                if (imagesLoaded === images.length) {
-                    
+        
+                if (imagesLoaded === images.length)
                     this.hideLoadingEffect();
-                    imagesLoaded = 0;
-                }
             });
+        }
     }
 
     loadViewNavigationSections(view) {

@@ -52,9 +52,9 @@ export default class Nav {
 		}
 	}
 
-	switchView(event) {
+	async switchView(event) {
 
-		this.router.loadState({
+		await this.router.loadState({
 			view: this.getViewName(event.target.href), 
 			title: event.target.textContent
 		});
