@@ -150,43 +150,43 @@ mark {
 	background-color: blue;
 }
 
-mark.black {
+mark.background-color--black {
 	background-color: black;
 }
 
-mark.palevioletred {
+mark.background-color--palevioletred {
 	background-color: palevioletred;
 }
 
-mark.blue {
+mark.background-color--blue {
 	background-color: blue;
 }
 
-mark.pink {
+mark.background-color--pink {
 	background-color: deeppink;
 }
 
-mark.darkblue {
+mark.background-color--darkblue {
 	background-color: darkslateblue;
 }
 
-mark.orange {
+mark.background-color--orange {
 	background-color: darkorange;
 }
 
-mark.indian {
+mark.background-color--indian {
 	background-color: indianred;
 }
 
-mark.navy {
+mark.background-color--navy {
 	background-color: navy;
 }
 
-mark.violet {
+mark.background-color--violet {
 	background-color: darkorchid;
 }
 
-mark.green {
+mark.background-color--green {
 	background-color: green;
 }
 
@@ -387,11 +387,11 @@ section {
 	opacity: .8;
 }
 
-.card_cover {
+.card__cover {
 	padding: 0;
 }
 
-.card_cover img {
+.card__cover img {
 	min-height: 300px;
 	object-fit: cover;
 	object-position: left;
@@ -506,16 +506,16 @@ section {
 	text-decoration: underline;
 }
 
-.codepens .gallery__item {
+.gallery--codepens .gallery__item {
 	background-color: var(--color-darker);
 }
 
-.codepens .gallery__item__title {
+.gallery--codepens .gallery__item__title {
 	font-size: 1.6em;
 	transform: none;
 }
 
-.codepens .gallery__item__thumbnail {
+.gallery--codepens .gallery__item__thumbnail {
 	opacity: .7;
 }
 
@@ -827,12 +827,12 @@ section {
 		min-height: 15em;
 	}
 
-	.codepens .gallery__item__title {
+	.gallery--codepens .gallery__item__title {
 		font-size: 1.8em;
 		transform: translateY(-200%);
 	}
 
-	.codepens .gallery__item__thumbnail {
+	.gallery--codepens .gallery__item__thumbnail {
 		opacity: 1;
 	}
 
