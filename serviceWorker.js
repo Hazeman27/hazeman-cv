@@ -1,4 +1,4 @@
-const Cache = 'static-v-10';
+const Cache = 'static-v-11';
 const Assets = [
     './',
     './404.html',

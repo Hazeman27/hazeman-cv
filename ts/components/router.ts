@@ -23,7 +23,7 @@ export default class Router {
 
     public async init(): Promise<void> {
 
-        if (this.currentURLMatchesView()) {
+        if (this.getView(Router.currentView())) {
 
             await this.loadState({
                 view: Router.currentView(),
@@ -34,8 +34,8 @@ export default class Router {
 
         else await this.loadState(this.defaultState);
 
-        window.addEventListener('popstate', async (event) => {
-            await this.loadContent(event.state);
+        window.addEventListener('popstate', (event) => {
+            this.loadContent(event.state);
         });
     }
 
@@ -48,7 +48,7 @@ export default class Router {
         }
 
         history.pushState(state, state.title, state.view);
-        await this.loadContent(state);
+        this.loadContent(state);
     }
 
     private async loadContent(state): Promise<void> {
@@ -159,10 +159,6 @@ export default class Router {
 
     private clearNavigationSections(): void {
         this.nav.getContentSections().container.innerHTML = '';
-    }
-
-    private currentURLMatchesView(): Boolean {
-        return this.views.hasOwnProperty(Router.currentView());
     }
 
     private static currentView(): string {
