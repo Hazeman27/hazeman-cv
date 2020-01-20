@@ -6,7 +6,7 @@ export default class Router {
         this.nav = nav;
     }
     async init() {
-        if (this.currentURLMatchesView()) {
+        if (this.getView(Router.currentView())) {
             await this.loadState({
                 view: Router.currentView(),
                 title: Router.capitalize(Router.currentView()),
@@ -15,8 +15,8 @@ export default class Router {
         }
         else
             await this.loadState(this.defaultState);
-        window.addEventListener('popstate', async (event) => {
-            await this.loadContent(event.state);
+        window.addEventListener('popstate', (event) => {
+            this.loadContent(event.state);
         });
     }
     async loadState(state) {
@@ -25,7 +25,7 @@ export default class Router {
             return;
         }
         history.pushState(state, state.title, state.view);
-        await this.loadContent(state);
+        this.loadContent(state);
     }
     async loadContent(state) {
         const view = this.getView(state.view);
@@ -96,9 +96,6 @@ export default class Router {
     }
     clearNavigationSections() {
         this.nav.getContentSections().container.innerHTML = '';
-    }
-    currentURLMatchesView() {
-        return this.views.hasOwnProperty(Router.currentView());
     }
     static currentView() {
         return window.location.href.match(/[a-zA-Z]*$/)[0];
