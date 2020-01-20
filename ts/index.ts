@@ -65,15 +65,15 @@ export default (async (): Promise<void> => {
 	nav.attachEventListeners();
 	await nav.initRouter();
 
-	// :: Service Worker...
-	// if ('serviceWorker' in navigator) {
-	//
-	// 	try {
-	// 		const registration = await navigator.serviceWorker.register('./serviceWorker.js');
-	// 		console.log('Service Worker registration successful with scope: ', registration.scope);
-	//
-	// 	} catch (error) {
-	// 		console.log('Service Worker registration failed: ', error);
-	// 	}
-	// }
+	/* :: Service Worker... */
+	if ('serviceWorker' in navigator) {
+
+		try {
+			const registration = await navigator.serviceWorker.register('./serviceWorker.js');
+			console.log('Service Worker registration successful with scope: ', registration.scope);
+
+		} catch (error) {
+			console.log('Service Worker registration failed: ', error);
+		}
+	}
 })();
