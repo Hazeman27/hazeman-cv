@@ -1,9 +1,14 @@
 import Gallery from '../components/gallery.js';
-export const init = () => {
+
+export const init = (): void => {
+
     new Gallery({
+
         containers: document.querySelectorAll('.gallery[data-lightbox]'),
         itemClassName: 'gallery__item',
+
         lightboxParams: {
+
             container: document.querySelector('.lightbox'),
             className: 'lightbox',
             content: document.querySelector('.lightbox__content'),
@@ -12,11 +17,13 @@ export const init = () => {
             image: document.querySelector('.lightbox__image'),
             title: document.querySelector('.lightbox__text h2'),
             description: document.querySelector('.lightbox__text p'),
+
             mappedElements: {
                 image: '.gallery__item__thumbnail',
                 title: '.gallery__item__title',
                 description: '.gallery__item__description'
             },
+
             transitions: {
                 show: 'opacity var(--trans-normal) ease-in-out, transform 0ms linear 0ms',
                 hide: 'opacity var(--trans-normal) ease-in-out, transform 0ms linear var(--trans-normal)'
@@ -24,4 +31,3 @@ export const init = () => {
         }
     }).init();
 };
-//# sourceMappingURL=art.js.map

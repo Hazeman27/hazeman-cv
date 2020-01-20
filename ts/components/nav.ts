@@ -1,11 +1,27 @@
-import Router from "../router.js";
+import Router from './router.js';
+import {
+	NavParamContent,
+	NavParamContentSections,
+	NavParams
+} from '../interfaces';
 
 export default class Nav {
 
-	constructor(params) {
+	private readonly container: HTMLElement;
+	private readonly toggleClassName: string;
+	private readonly breakpoint: number;
+
+	private toggleButton: HTMLButtonElement;
+	private content: NavParamContent;
+	private current: HTMLElement;
+	private router: Router;
+	private toggled: Boolean;
+
+	public constructor(params: NavParams) {
 		
 		this.container = params.container;
 		this.toggleButton = params.toggleButton;
+
 		this.toggleClassName = params.toggleClassName;
 		this.breakpoint = params.breakpoint;
 
@@ -13,6 +29,21 @@ export default class Nav {
 		this.current = params.current;
 
 		this.router = new Router(params.routerParams, this);
+	}
+
+	public getContentSections(): NavParamContentSections {
+		return this.content.sections;
+	}
+
+	public setCurrentTitle(title: string): void {
+		this.current.textContent = title;
+	}
+
+	public async initRouter(): Promise<void> {
+		return this.router.init();
+	}
+
+	public attachEventListeners(): void {
 
 		this.handleClick = this.handleClick.bind(this);
 		this.switchView = this.switchView.bind(this);
@@ -23,41 +54,38 @@ export default class Nav {
 			link.addEventListener('click', this.switchView);
 	}
 
-	handleClick(event) {
+	private handleClick(event: Event): void {
 
 		if (event.target === this.container && this.toggled ||
-			this.toggleButton.contains(event.target)) 
+			this.toggleButton.contains(event.target as HTMLElement))
 			this.toggle();
 	}
 
-	toggle() {
+	public toggle(): void {
 
 		if (this.onMobile()) {
 		
 			if (this.toggled) {
 
 				document.body.style.overflowY = 'scroll';
-
 				this.container.classList.remove(this.toggleClassName);
 				this.toggled = false;
-			}
 
-			else {
+			} else {
 
 				document.body.style.overflowY = 'hidden';
-
 				this.container.classList.add(this.toggleClassName);
 				this.toggled = true;
 			}
 		}
 	}
 
-	async switchView(event) {
+	private async switchView(event): Promise<void> {
 		
 		event.preventDefault();
 		
 		await this.router.loadState({
-			view: this.getViewName(event.target.href), 
+			view: Nav.getViewName(event.target.href),
 			title: event.target.textContent
 		});
 
@@ -65,11 +93,11 @@ export default class Nav {
 		event.target.blur();
 	}
 
-	getViewName(href) {
-        return href.match(/[a-zA-Z]*$/)[0];
+	private onMobile(): Boolean {
+		return window.innerWidth <= this.breakpoint;
 	}
 
-	onMobile() {
-		return window.innerWidth <= this.breakpoint;
+	private static getViewName(href): string {
+		return href.match(/[a-zA-Z]*$/)[0];
 	}
 }

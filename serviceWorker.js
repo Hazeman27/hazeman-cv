@@ -3,7 +3,7 @@ const Assets = [
     './',
     './404.html',
     './css/main.css',
-    './js/main.js',
+    './js/index.js',
 ];
 
 const preCache = async () => {
