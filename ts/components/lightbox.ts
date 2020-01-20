@@ -26,7 +26,7 @@ export default class Lightbox {
         this.content = params.content;
         this.text = params.text;
         this.closeButton = params.closeButton;
-        this.image = params.closeButton;
+        this.image = params.image;
         this.title = params.title;
         this.description = params.description;
         this.mappedElements = params.mappedElements;
