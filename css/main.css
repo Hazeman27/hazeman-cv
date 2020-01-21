@@ -4,10 +4,11 @@
 
 :root {
 	--color-accent: #006666;
+	--color-accent-light: #4abebe;
 	--color-white: #f1f2f3;
-	--color-light: #e3e4e5;
+	--color-light: #eaebec;
 	--color-dark-gray: #272529;
-	--color-dark: #1f0d2c;
+	--color-dark: #230d30;
 	--color-darker: #161016;
 	--color-99designs: #ff7e60;
 	--color-deviantart: #06cc46;
@@ -69,7 +70,7 @@ body {
 	justify-content: space-between;
 	position: relative;
 	margin: 0;
-	background: var(--color-white);
+	background-color: var(--color-white);
 	color: var(--color-dark-gray);
 	font-family: var(--font-family);
 	line-height: 1.4;
@@ -99,7 +100,6 @@ body[data-loading]::after {
 
 a {
 	color: inherit;
-	text-decoration: none;
 }
 
 b {
@@ -146,8 +146,8 @@ mark {
 	padding: .3em .5em;
 	border-radius: var(--border-radius);
 	color: white;
-	background-image: var(--gradient-violet);
 	background-color: blue;
+	background-image: var(--gradient-violet);
 }
 
 mark.background-color--black {
@@ -306,6 +306,10 @@ section {
 	justify-items: start;
 }
 
+#nav__content__links a {
+	text-decoration: none;
+}
+
 #nav__content__links a::after {
 	content: '';
 	display: block;
@@ -439,6 +443,10 @@ section {
 
 .gallery__title {
 	grid-column: span var(--gallery-cols);
+}
+
+.gallery__title a {
+	text-decoration: none;
 }
 
 .gallery__item {
@@ -689,6 +697,7 @@ section {
 	box-shadow: var(--box-shadow-light);
 	position: relative;
 	padding: var(--padding);
+	text-decoration: none;
 }
 
 .contact-links__link.proton-mail {
@@ -896,5 +905,34 @@ section {
 
 	#nav {
 		--padding: 4rem;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	
+	body {
+		background-color: var(--color-darker);
+		color: var(--color-light);
+	}
+	
+	footer {
+		background-color: var(--color-darker);
+	}
+	
+	i {
+		color: var(--color-accent-light);
+	}
+	
+	b {
+		opacity: .9;
+	}
+	
+	.card__title, p {
+		opacity: .92;
+	}
+	
+	.card {
+		background-color: var(--color-dark);
+		box-shadow: var(--box-shadow-light);
 	}
 }

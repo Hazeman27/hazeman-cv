@@ -1,7 +1,7 @@
 import Nav from './components/nav.js';
 import { View } from './interfaces';
 
-export default (async (): Promise<void> => {
+(async (): Promise<void> => {
 
 	const components: Map<HTMLElement, string> = new Map([
 		[document.querySelector('nav'), './partials/nav.html'],
@@ -66,14 +66,14 @@ export default (async (): Promise<void> => {
 	await nav.initRouter();
 
 	/* :: Service Worker... */
-	if ('serviceWorker' in navigator) {
-
-		try {
-			const registration = await navigator.serviceWorker.register('./serviceWorker.js');
-			console.log('Service Worker registration successful with scope: ', registration.scope);
-
-		} catch (error) {
-			console.log('Service Worker registration failed: ', error);
-		}
-	}
+	// if ('serviceWorker' in navigator) {
+	//
+	// 	try {
+	// 		const registration = await navigator.serviceWorker.register('./serviceWorker.js');
+	// 		console.log('Service Worker registration successful with scope: ', registration.scope);
+	//
+	// 	} catch (error) {
+	// 		console.log('Service Worker registration failed: ', error);
+	// 	}
+	// }
 })();

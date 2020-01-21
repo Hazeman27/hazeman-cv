@@ -2,7 +2,8 @@ import Nav from './nav.js';
 import {
     State,
     View,
-    ViewModuleInfo
+    ViewModule,
+    ViewModuleData
 } from '../interfaces';
 
 export default class Router {
@@ -63,7 +64,6 @@ export default class Router {
 
         this.importViewModule(state.view);
         this.loadViewNavigationSections(state.view);
-
         this.listenToImagesLoad();
 
         document.title = state.title;
@@ -74,10 +74,10 @@ export default class Router {
 
         if (this.viewHasModule(view)) {
 
-            const data: ViewModuleInfo =  this.getView(view).module;
-            const module = await import(data.path);
+            const data: ViewModuleData = this.getView(view).module;
+            const importObject: ViewModule = await import(data.path);
 
-            module['init']();
+            importObject.module.boot();
         }
     }
 

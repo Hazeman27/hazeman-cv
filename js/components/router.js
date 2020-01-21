@@ -42,8 +42,8 @@ export default class Router {
     async importViewModule(view) {
         if (this.viewHasModule(view)) {
             const data = this.getView(view).module;
-            const module = await import(data.path);
-            module['init']();
+            const importObject = await import(data.path);
+            importObject.module.boot();
         }
     }
     listenToImagesLoad() {

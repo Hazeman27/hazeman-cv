@@ -1,5 +1,5 @@
 import Nav from './components/nav.js';
-export default (async () => {
+(async () => {
     const components = new Map([
         [document.querySelector('nav'), './partials/nav.html'],
         [document.querySelector('footer'), './partials/footer.html']
@@ -53,14 +53,15 @@ export default (async () => {
     nav.attachEventListeners();
     await nav.initRouter();
     /* :: Service Worker... */
-    if ('serviceWorker' in navigator) {
-        try {
-            const registration = await navigator.serviceWorker.register('./serviceWorker.js');
-            console.log('Service Worker registration successful with scope: ', registration.scope);
-        }
-        catch (error) {
-            console.log('Service Worker registration failed: ', error);
-        }
-    }
+    // if ('serviceWorker' in navigator) {
+    //
+    // 	try {
+    // 		const registration = await navigator.serviceWorker.register('./serviceWorker.js');
+    // 		console.log('Service Worker registration successful with scope: ', registration.scope);
+    //
+    // 	} catch (error) {
+    // 		console.log('Service Worker registration failed: ', error);
+    // 	}
+    // }
 })();
 //# sourceMappingURL=index.js.map
