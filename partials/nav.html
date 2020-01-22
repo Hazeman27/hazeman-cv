@@ -1,6 +1,7 @@
+<!--suppress ALL -->
 <button id="nav__toggle"
-        name="navigation panel toggle"
-        type="button">
+        aria-label="navigation panel toggle"
+        aria-hidden="false">
 	<svg width="32"
 	     height="22">
 		<rect x="0"
@@ -16,17 +17,26 @@
 		      width="32"
 		      height="4"></rect>
 	</svg>
-</button><a aria-label="Return to home page"
-            href="me"
-            id="nav__logo"></a><span id="nav__current">Hazeman</span>
-<div id="nav__content">
-	<div id="nav__content__links">
+</button>
+<a aria-label="Return to home page"
+   aria-hidden="true"
+   href="me"
+   class="nav__logo"></a>
+<span class="nav__current"
+      aria-hidden="false">Hazeman</span>
+<div class="nav__content"
+     aria-hidden="true">
+	<div class="nav__content__links">
 		<a href="me"
-		   aria-label="Go to 'Me' page">Me</a>
+		   aria-label="Go to 'Me' page">Me
+		</a>
 		<a href="art"
-		   aria-label="Go to 'Art' page">Art</a>
+		   aria-label="Go to 'Art' page">Art
+		</a>
 		<a href="contact"
-		   aria-label="Go to 'Contact' page">Contact</a>
+		   aria-label="Go to 'Contact' page">Contact
+		</a>
 	</div>
-	<div id="nav__content__sections"></div>
+	<div class="nav__content__sections"
+	     aria-label="current page sections"></div>
 </div>

@@ -18,7 +18,6 @@ import Nav from './components/nav.js';
                 ['music', 'music']
             ]),
             module: {
-                name: 'Art',
                 path: '../modules/art.js'
             }
         }, {
@@ -30,38 +29,40 @@ import Nav from './components/nav.js';
         element.innerHTML = await response.text();
     }
     const nav = new Nav({
-        container: document.querySelector('#nav'),
+        container: document.querySelector('nav'),
+        logo: document.querySelector('.nav__logo'),
         toggleButton: document.querySelector('#nav__toggle'),
-        current: document.querySelector('#nav__current'),
-        toggleClassName: 'nav__content--visible',
+        current: document.querySelector('.nav__current'),
+        toggleContainerClassName: 'nav--content-visible',
+        toggleContentClassName: 'nav__content--visible',
         breakpoint: 800,
         content: {
-            container: document.querySelector('#nav__content'),
-            links: document.querySelector('#nav__content__links'),
+            container: document.querySelector('.nav__content'),
+            links: document.querySelector('.nav__content__links'),
             sections: {
-                container: document.querySelector('#nav__content__sections'),
+                container: document.querySelector('.nav__content__sections'),
                 titleSelector: 'nav__content__sections__title',
                 linkSelector: 'nav__content__sections__link'
             },
         },
         routerParams: {
-            container: document.querySelector('#main'),
+            container: document.querySelector('main'),
             views: views,
             defaultState: { view: 'me', title: 'Me' }
         }
     });
     nav.attachEventListeners();
+    nav.setAriaHiddenAttribute();
     await nav.initRouter();
     /* :: Service Worker... */
-    // if ('serviceWorker' in navigator) {
-    //
-    // 	try {
-    // 		const registration = await navigator.serviceWorker.register('./serviceWorker.js');
-    // 		console.log('Service Worker registration successful with scope: ', registration.scope);
-    //
-    // 	} catch (error) {
-    // 		console.log('Service Worker registration failed: ', error);
-    // 	}
-    // }
+    if ('serviceWorker' in navigator) {
+        try {
+            const registration = await navigator.serviceWorker.register('./serviceWorker.js');
+            console.log('Service Worker registration successful with scope: ', registration.scope);
+        }
+        catch (error) {
+            console.log('Service Worker registration failed: ', error);
+        }
+    }
 })();
 //# sourceMappingURL=index.js.map

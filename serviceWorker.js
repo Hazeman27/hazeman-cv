@@ -1,8 +1,7 @@
 const Cache = 'static-v-11';
 const Assets = [
     './',
-    './404.html',
-    './css/main.css',
+    './style.css',
     './js/index.js',
 ];
 

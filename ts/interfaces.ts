@@ -1,5 +1,4 @@
 export interface ViewModuleData {
-    name: string;
     path: string;
 }
 
@@ -30,8 +29,10 @@ export interface NavParamContent {
 
 export interface NavParams {
     container: HTMLElement;
+    logo: HTMLAnchorElement;
     toggleButton: HTMLButtonElement;
-    toggleClassName: string;
+    toggleContainerClassName: string;
+    toggleContentClassName: string,
     breakpoint: number;
     content: NavParamContent;
     current: HTMLElement;

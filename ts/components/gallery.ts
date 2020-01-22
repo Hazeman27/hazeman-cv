@@ -5,8 +5,7 @@ export default class Gallery {
 
 	private readonly containers: NodeListOf<HTMLElement>;
 	private readonly itemClassName: string;
-
-	private lightbox: Lightbox;
+	private readonly lightbox: Lightbox;
 
 	public constructor(params: GalleryParams) {
 
@@ -22,12 +21,13 @@ export default class Gallery {
 		for (const container of this.containers) {
 
 			container.addEventListener('click', (event: Event) => {
-				
-				const item = event.composedPath().find(element => {
+
+				const item: EventTarget = event.composedPath().find(element => {
 					return (element as HTMLElement).className === this.itemClassName;
 				});
 
-				if (item) this.lightbox.open(item as HTMLElement);
+				if (item)
+					this.lightbox.open(item as HTMLElement);
 			});
 		}
 	}

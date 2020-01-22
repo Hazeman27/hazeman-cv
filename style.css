@@ -79,7 +79,7 @@ body {
 	height: 100%;
 }
 
-body[data-loading] #main {
+body[data-loading] main {
 	filter: blur(7px);
 }
 
@@ -94,7 +94,7 @@ body[data-loading]::after {
 	z-index: 999;
 }
 
-#main {
+main {
 	transition: filter var(--trans-longer) ease-in-out;
 }
 
@@ -233,7 +233,7 @@ section {
 /* :: Navigation bar :: */
 /* :: */
 
-#nav {
+nav {
 	--padding: 1rem;
 
 	display: flex;
@@ -249,7 +249,7 @@ section {
 	z-index: 99;
 }
 
-#nav::after {
+nav::after {
 	content: '';
 	position: fixed;
 	top: 0;
@@ -275,11 +275,11 @@ section {
 		transform var(--trans-short) ease-in-out;
 }
 
-#nav__current {
+.nav__current {
 	padding-left: 1.25rem;
 }
 
-#nav__content {
+.nav__content {
 	display: grid;
 	grid: auto / 1fr 1fr;
 	gap: 1rem;
@@ -298,19 +298,19 @@ section {
 		transform var(--trans-normal) ease-in-out;
 }
 
-#nav__content__links,
-#nav__content__sections {
+.nav__content__links,
+.nav__content__sections {
 	display: grid;
 	grid: auto / 1fr;
 	gap: 1rem;
 	justify-items: start;
 }
 
-#nav__content__links a {
+.nav__content__links a {
 	text-decoration: none;
 }
 
-#nav__content__links a::after {
+.nav__content__links a::after {
 	content: '';
 	display: block;
 	width: 100%;
@@ -322,16 +322,16 @@ section {
 		transform var(--trans-short) ease-in-out;
 }
 
-#nav__content__links a:hover::after,
-#nav__content__links a:focus::after {
+.nav__content__links a:hover::after,
+.nav__content__links a:focus::after {
 	transform: scale(1, 1);
 }
 
-#nav__content__sections {
+.nav__content__sections {
 	font-size: 1.05rem;
 }
 
-#nav__content__sections__title {
+.nav__content__sections__title {
 	margin: 0;
 	font-size: inherit;
 	font-weight: 400;
@@ -350,21 +350,21 @@ section {
 
 /* Nav: visible */
 
-#nav.nav__content--visible #nav__content {
+.nav__content--visible {
 	transform: translateX(0px);
 }
 
-#nav.nav__content--visible::after {
+.nav--content-visible::after {
 	background-color: rgba(0, 0, 0, .45);
 	pointer-events: auto;
 }
 
-#nav.nav__content--visible #nav__toggle svg rect:nth-of-type(1),
-#nav.nav__content--visible #nav__toggle svg rect:nth-of-type(3) {
+.nav--content-visible #nav__toggle svg rect:nth-of-type(1),
+.nav--content-visible #nav__toggle svg rect:nth-of-type(3) {
 	transform: translateX(10px);
 }
 
-#nav.nav__content--visible #nav__toggle svg rect:nth-of-type(2) {
+.nav--content-visible #nav__toggle svg rect:nth-of-type(2) {
 	transform: translateX(-10px);
 }
 
@@ -735,6 +735,7 @@ section {
 /* :: */
 
 @media only screen and (min-width: 800px) {
+	
 	:root {
 		--gallery-cols: 2;
 	}
@@ -743,25 +744,25 @@ section {
 	/* :: Navigation: desktop mode */
 	/* :: */
 
-	#nav {
+	nav {
 		--padding: 2rem;
 		--logo-size: 48px;
 	}
 
-	#nav__logo {
+	.nav__logo {
 		width: var(--logo-size);
 		height: var(--logo-size);
-		background-image: url('../media/icons/icon-medium.png');
+		background-image: url('media/icons/icon-medium.png');
 		background-size: 100%;
 		z-index: 100;
 	}
 
-	#nav__current,
+	.nav__current,
 	#nav__toggle {
 		display: none;
 	}
 	
-	#nav__content {
+	.nav__content {
 		grid: "... sections links" / calc(var(--logo-size) + var(--padding))  1fr .4fr;
 		align-items: center;
 		position: fixed;
@@ -774,26 +775,26 @@ section {
 		padding: 0 var(--padding);
 	}
 	
-	#nav__content__links,
-	#nav__content__sections {
+	.nav__content__links,
+	.nav__content__sections {
 		display: flex;
 	}
 	
-	#nav__content__links {
+	.nav__content__links {
 		grid-area: links;
 		justify-self: end;
 	}
 
-	#nav__content__links a + a {
+	.nav__content__links a + a {
 		margin-left: var(--padding);
 	}
 
-	#nav__content__sections {
+	.nav__content__sections {
 		grid-area: sections;
 		justify-self: start;
 	}
 
-	#nav__content__sections__title {
+	.nav__content__sections__title {
 		display: none;
 	}
 
@@ -801,8 +802,7 @@ section {
 		cursor: pointer;
 	}
 
-	.nav__content__sections__link +
-	.nav__content__sections__link {
+	.nav__content__sections__link + .nav__content__sections__link {
 		margin-left: var(--padding);
 	}
 
@@ -873,16 +873,17 @@ section {
 }
 
 @media only screen and (min-width: 1080px) {
-	#nav__content {
-		grid: "... sections links" / .4fr 1fr .4fr;
-	}
-
-	#nav__content__sections {
-		justify-self: center;
-	}
 	
 	:root {
 		--gallery-cols: 3;
+	}
+	
+	.nav__content {
+		grid: "... sections links" / .4fr 1fr .4fr;
+	}
+
+	.nav__content__sections {
+		justify-self: center;
 	}
 
 	.lightbox__text {
@@ -899,11 +900,12 @@ section {
 }
 
 @media only screen and (min-width: 1366px) {
+	
 	:root {
 		--gallery-cols: 4;
 	}
 
-	#nav {
+	nav {
 		--padding: 4rem;
 	}
 }
