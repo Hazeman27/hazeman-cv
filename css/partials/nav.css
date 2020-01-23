@@ -1,0 +1,134 @@
+nav {
+	--padding: 1rem;
+	
+	display: flex;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	height: var(--nav-height);
+	width: 100%;
+	background-color: var(--color-darker);
+	color: var(--color-light);
+	padding: 0 var(--padding);
+	box-shadow: var(--box-shadow-light);
+	z-index: 99;
+}
+
+nav::after {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: transparent;
+	pointer-events: none;
+	z-index: -1;
+	transition:
+		background-color var(--trans-normal) ease-in-out;
+}
+
+#nav__toggle {
+	background-color: transparent;
+	border: none;
+	fill: var(--color-light);
+	padding: 0;
+}
+
+#nav__toggle svg rect {
+	transition:
+		transform var(--trans-short) ease-in-out;
+}
+
+.nav__current {
+	padding-left: 1.25rem;
+}
+
+.nav__content {
+	display: grid;
+	grid: auto / 1fr 1fr;
+	gap: 1rem;
+	align-items: start;
+	position: fixed;
+	height: 100vh;
+	width: var(--nav-panel-width);
+	top: var(--nav-height);
+	left: 0;
+	background-color: inherit;
+	box-shadow: var(--box-shadow-light);
+	padding: var(--padding);
+	will-change: transform;
+	transform: translateX(-105%);
+	transition:
+		transform var(--trans-normal) ease-in-out;
+}
+
+.nav__content__links,
+.nav__content__sections {
+	display: grid;
+	grid: auto / 1fr;
+	gap: 1rem;
+	justify-items: start;
+}
+
+.nav__content__links a {
+	text-decoration: none;
+}
+
+.nav__content__links a::after {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 2px;
+	background-color: currentColor;
+	transform: scale(0, 1);
+	transform-origin: left;
+	transition:
+		transform var(--trans-short) ease-in-out;
+}
+
+.nav__content__links a:hover::after,
+.nav__content__links a:focus::after {
+	transform: scale(1, 1);
+}
+
+.nav__content__sections {
+	font-size: 1.05rem;
+}
+
+.nav__content__sections__title {
+	margin: 0;
+	font-size: inherit;
+	font-weight: 400;
+	opacity: .5;
+}
+
+.nav__content__sections__link {
+	opacity: .8;
+	text-transform: lowercase;
+}
+
+.nav__content__sections__link:hover,
+.nav__content__sections__link:focus {
+	opacity: 1;
+}
+
+/* Nav: visible */
+
+.nav__content--visible {
+	transform: translateX(0px);
+}
+
+.nav--content-visible::after {
+	background-color: rgba(0, 0, 0, .45);
+	pointer-events: auto;
+}
+
+.nav--content-visible #nav__toggle svg rect:nth-of-type(1),
+.nav--content-visible #nav__toggle svg rect:nth-of-type(3) {
+	transform: translateX(10px);
+}
+
+.nav--content-visible #nav__toggle svg rect:nth-of-type(2) {
+	transform: translateX(-10px);
+}

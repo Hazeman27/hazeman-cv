@@ -1,4 +1,5 @@
 import Nav from './components/nav.js';
+import ColorSchemeController from "./components/prefers-color-scheme.js";
 (async () => {
     const components = new Map([
         [document.querySelector('nav'), './partials/nav.html'],
@@ -54,11 +55,11 @@ import Nav from './components/nav.js';
     nav.attachEventListeners();
     nav.setAriaHiddenAttribute();
     await nav.initRouter();
+    new ColorSchemeController(document.querySelector('#color-scheme-selector'));
     /* :: Service Worker... */
     if ('serviceWorker' in navigator) {
         try {
-            const registration = await navigator.serviceWorker.register('./serviceWorker.js');
-            console.log('Service Worker registration successful with scope: ', registration.scope);
+            await navigator.serviceWorker.register('./service-worker.js');
         }
         catch (error) {
             console.log('Service Worker registration failed: ', error);
