@@ -61,9 +61,10 @@ export default class ColorSchemeController {
     }
     static setScheme(preference) {
         localStorage.setItem('preferred-color-scheme', preference);
-        if (this.preferenceIsDark(preference) || this.defaultPreferenceIsDark(preference)) {
+        if (this.preferenceIsDark(preference) || this.defaultPreferenceIsDark(preference))
             document.body.setAttribute('data-theme', ColorSchemeController.options.dark.value);
-        }
+        else
+            document.body.removeAttribute('data-theme');
     }
 }
 ColorSchemeController.options = {
