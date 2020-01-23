@@ -1,0 +1,23 @@
+:root {
+	--gallery-cols: 3;
+}
+
+.nav__content {
+	grid: "... sections links" / .4fr 1fr .4fr;
+}
+
+.nav__content__sections {
+	justify-self: center;
+}
+
+.lightbox__text {
+	display: block;
+}
+
+.gallery.codepen {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.gallery.codepen .gallery__title {
+	grid-column: span 3;
+}

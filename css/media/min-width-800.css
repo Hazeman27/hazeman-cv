@@ -1,0 +1,134 @@
+:root {
+	--gallery-cols: 2;
+}
+
+/* :: */
+/* :: Navigation: desktop mode */
+/* :: */
+
+nav {
+	--padding: 2rem;
+	--logo-size: 48px;
+}
+
+.nav__logo {
+	width: var(--logo-size);
+	height: var(--logo-size);
+	background-image: url('../../media/icons/icon-medium.png');
+	background-size: 100%;
+	z-index: 100;
+}
+
+.nav__current,
+#nav__toggle {
+	display: none;
+}
+
+.nav__content {
+	grid: "... sections links" / calc(var(--logo-size) + var(--padding))  1fr .4fr;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	height: var(--nav-height);
+	width: 100%;
+	transform: none;
+	box-shadow: none;
+	background-color: transparent;
+	padding: 0 var(--padding);
+}
+
+.nav__content__links,
+.nav__content__sections {
+	display: flex;
+}
+
+.nav__content__links {
+	grid-area: links;
+	justify-self: end;
+}
+
+.nav__content__links a + a {
+	margin-left: var(--padding);
+}
+
+.nav__content__sections {
+	grid-area: sections;
+	justify-self: start;
+}
+
+.nav__content__sections__title {
+	display: none;
+}
+
+.nav__content__sections__link {
+	cursor: pointer;
+}
+
+.nav__content__sections__link + .nav__content__sections__link {
+	margin-left: var(--padding);
+}
+
+/* :: */
+/* :: Gallery */
+/* :: */
+
+.gallery__item:hover,
+.gallery__item:focus {
+	background-color: var(--color-darker);
+}
+
+.gallery__item:hover .gallery__item__thumbnail,
+.gallery__item:focus .gallery__item__thumbnail {
+	opacity: .7;
+}
+
+.gallery__item:hover::after,
+.gallery__item:focus::after {
+	opacity: 1;
+}
+
+.gallery__item:hover .gallery__item__title,
+.gallery__item:hover .gallery__item__description,
+.gallery__item:focus .gallery__item__title,
+.gallery__item:focus .gallery__item__description {
+	transform: translateY(0);
+}
+
+.gallery__item__thumbnail {
+	min-height: 15em;
+}
+
+.gallery--codepens .gallery__item__title {
+	font-size: 1.8em;
+	transform: translateY(-200%);
+}
+
+.gallery--codepens .gallery__item__thumbnail {
+	opacity: 1;
+}
+
+.lightbox__close rect {
+	fill: transparent;
+}
+
+.lightbox__close:hover rect,
+.lightbox__close:focus rect {
+	fill: var(--color-darker);
+}
+
+.contact-links {
+	flex-direction: row;
+}
+
+.contact-links__link + .contact-links__link {
+	margin-top: 0;
+	margin-left: 1.5em;
+}
+
+.contact-links__link__text {
+	font-size: 1.2rem;
+}
+
+.music__group {
+	grid-template-columns: 1fr 1fr;
+}

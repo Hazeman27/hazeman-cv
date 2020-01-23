@@ -15,8 +15,8 @@ export default class Router {
         }
         else
             await this.loadState(this.defaultState);
-        window.addEventListener('popstate', (event) => {
-            this.loadContent(event.state);
+        window.addEventListener('popstate', async (event) => {
+            await this.loadContent(event.state);
         });
     }
     async loadState(state) {
@@ -25,7 +25,7 @@ export default class Router {
             return;
         }
         history.pushState(state, state.title, state.view);
-        this.loadContent(state);
+        await this.loadContent(state);
     }
     async loadContent(state) {
         const view = this.getView(state.view);
@@ -65,7 +65,7 @@ export default class Router {
         const sections = this.getView(view).sections;
         const sectionsTitle = Router.capitalize(view);
         const sectionsTitleElement = document.createElement('h3');
-        sectionsTitleElement.id = this.nav.getContentSections().titleSelector;
+        sectionsTitleElement.classList.add(this.nav.getContentSections().titleSelector);
         sectionsTitleElement.textContent = sectionsTitle;
         this.nav.getContentSections()
             .container
@@ -73,8 +73,7 @@ export default class Router {
         for (const [id, title] of sections) {
             const sectionTarget = document.querySelector(`#${id}`);
             const sectionLinkElement = document.createElement('a');
-            sectionLinkElement.className =
-                this.nav.getContentSections().linkSelector;
+            sectionLinkElement.classList.add(this.nav.getContentSections().linkSelector);
             sectionLinkElement.textContent = title;
             this.nav.getContentSections()
                 .container

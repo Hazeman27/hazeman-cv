@@ -10,9 +10,8 @@ export default class Router {
 
     private readonly views: Array<View>;
     private readonly defaultState: State;
-
-    private container: HTMLElement;
-    private nav: Nav;
+    private readonly container: HTMLElement;
+    private readonly nav: Nav;
 
     public constructor(params, nav) {
 
@@ -35,8 +34,8 @@ export default class Router {
 
         else await this.loadState(this.defaultState);
 
-        window.addEventListener('popstate', (event) => {
-            this.loadContent(event.state);
+        window.addEventListener('popstate', async (event: PopStateEvent) => {
+            await this.loadContent(event.state);
         });
     }
 
@@ -49,15 +48,15 @@ export default class Router {
         }
 
         history.pushState(state, state.title, state.view);
-        this.loadContent(state);
+        await this.loadContent(state);
     }
 
     private async loadContent(state): Promise<void> {
 
-        const view = this.getView(state.view);
+        const view: View = this.getView(state.view);
         Router.displayLoadingEffect();
 
-        const response = await fetch(view.template);
+        const response: Response = await fetch(view.template);
 
         this.container.innerHTML = await response.text();
         this.container.scrollIntoView();
@@ -114,7 +113,10 @@ export default class Router {
         const sectionsTitleElement: HTMLHeadingElement =
             document.createElement('h3');
 
-        sectionsTitleElement.id = this.nav.getContentSections().titleSelector;
+        sectionsTitleElement.classList.add(
+            this.nav.getContentSections().titleSelector
+        );
+
         sectionsTitleElement.textContent = sectionsTitle;
 
         this.nav.getContentSections()
@@ -129,8 +131,9 @@ export default class Router {
             const sectionLinkElement: HTMLAnchorElement =
                 document.createElement('a');
 
-            sectionLinkElement.className =
-                this.nav.getContentSections().linkSelector;
+            sectionLinkElement.classList.add(
+                this.nav.getContentSections().linkSelector
+            );
 
             sectionLinkElement.textContent = title;
 

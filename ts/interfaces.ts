@@ -1,5 +1,4 @@
 export interface ViewModuleData {
-    name: string;
     path: string;
 }
 
@@ -30,8 +29,10 @@ export interface NavParamContent {
 
 export interface NavParams {
     container: HTMLElement;
+    logo: HTMLAnchorElement;
     toggleButton: HTMLButtonElement;
-    toggleClassName: string;
+    toggleContainerClassName: string;
+    toggleContentClassName: string,
     breakpoint: number;
     content: NavParamContent;
     current: HTMLElement;
@@ -78,4 +79,21 @@ export interface LightboxParams {
     description: HTMLParagraphElement;
     mappedElements: LightboxParamMappedElements;
     transitions: LightboxParamTransitions;
+}
+
+export interface colorSchemeOption {
+    text: string;
+    value: string;
+}
+
+export interface colorSchemeOptions {
+    dark: colorSchemeOption;
+    light: colorSchemeOption;
+    default: colorSchemeOption;
+}
+
+export interface currentColorSchemeOptions {
+    current: colorSchemeOption;
+    second: colorSchemeOption;
+    third: colorSchemeOption;
 }

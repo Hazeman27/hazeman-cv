@@ -2,8 +2,10 @@ import Router from './router.js';
 export default class Nav {
     constructor(params) {
         this.container = params.container;
+        this.logo = params.logo;
         this.toggleButton = params.toggleButton;
-        this.toggleClassName = params.toggleClassName;
+        this.toggleContainerClassName = params.toggleContainerClassName;
+        this.toggleContentClassName = params.toggleContentClassName;
         this.breakpoint = params.breakpoint;
         this.content = params.content;
         this.current = params.current;
@@ -15,9 +17,6 @@ export default class Nav {
     setCurrentTitle(title) {
         this.current.textContent = title;
     }
-    async initRouter() {
-        return this.router.init();
-    }
     attachEventListeners() {
         this.handleClick = this.handleClick.bind(this);
         this.switchView = this.switchView.bind(this);
@@ -25,23 +24,38 @@ export default class Nav {
         for (const link of this.content.links.children)
             link.addEventListener('click', this.switchView);
     }
+    async initRouter() {
+        return this.router.init();
+    }
+    setAriaHiddenAttribute() {
+        if (this.onDesktop()) {
+            this.logo.setAttribute('aria-hidden', 'false');
+            this.toggleButton.setAttribute('aria-hidden', 'true');
+            this.current.setAttribute('aria-hidden', 'true');
+            this.content.container.setAttribute('aria-hidden', 'false');
+        }
+    }
     handleClick(event) {
         if (event.target === this.container && this.toggled ||
             this.toggleButton.contains(event.target))
             this.toggle();
     }
     toggle() {
-        if (this.onMobile()) {
-            if (this.toggled) {
-                document.body.style.overflowY = 'scroll';
-                this.container.classList.remove(this.toggleClassName);
-                this.toggled = false;
-            }
-            else {
-                document.body.style.overflowY = 'hidden';
-                this.container.classList.add(this.toggleClassName);
-                this.toggled = true;
-            }
+        if (this.onDesktop())
+            return;
+        if (this.toggled) {
+            document.body.style.overflowY = 'scroll';
+            this.container.classList.remove(this.toggleContainerClassName);
+            this.content.container.classList.remove(this.toggleContentClassName);
+            this.content.container.setAttribute('aria-hidden', 'true');
+            this.toggled = false;
+        }
+        else {
+            document.body.style.overflowY = 'hidden';
+            this.container.classList.add(this.toggleContainerClassName);
+            this.content.container.classList.add(this.toggleContentClassName);
+            this.content.container.setAttribute('aria-hidden', 'false');
+            this.toggled = true;
         }
     }
     async switchView(event) {
@@ -53,8 +67,8 @@ export default class Nav {
         this.toggle();
         event.target.blur();
     }
-    onMobile() {
-        return window.innerWidth <= this.breakpoint;
+    onDesktop() {
+        return window.innerWidth > this.breakpoint;
     }
     static getViewName(href) {
         return href.match(/[a-zA-Z]*$/)[0];

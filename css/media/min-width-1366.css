@@ -1,0 +1,7 @@
+:root {
+	--gallery-cols: 4;
+}
+
+nav {
+	--padding: 4rem;
+}

@@ -8,26 +8,27 @@ import {
 export default class Nav {
 
 	private readonly container: HTMLElement;
-	private readonly toggleClassName: string;
+	private readonly logo: HTMLAnchorElement;
+	private readonly toggleContainerClassName: string;
+	private readonly toggleContentClassName: string;
 	private readonly breakpoint: number;
+	private readonly toggleButton: HTMLButtonElement;
+	private readonly content: NavParamContent;
+	private readonly current: HTMLElement;
+	private readonly router: Router;
 
-	private toggleButton: HTMLButtonElement;
-	private content: NavParamContent;
-	private current: HTMLElement;
-	private router: Router;
 	private toggled: Boolean;
 
 	public constructor(params: NavParams) {
 		
 		this.container = params.container;
+		this.logo = params.logo;
 		this.toggleButton = params.toggleButton;
-
-		this.toggleClassName = params.toggleClassName;
+		this.toggleContainerClassName = params.toggleContainerClassName;
+		this.toggleContentClassName = params.toggleContentClassName;
 		this.breakpoint = params.breakpoint;
-
 		this.content = params.content;
 		this.current = params.current;
-
 		this.router = new Router(params.routerParams, this);
 	}
 
@@ -37,10 +38,6 @@ export default class Nav {
 
 	public setCurrentTitle(title: string): void {
 		this.current.textContent = title;
-	}
-
-	public async initRouter(): Promise<void> {
-		return this.router.init();
 	}
 
 	public attachEventListeners(): void {
@@ -54,6 +51,21 @@ export default class Nav {
 			link.addEventListener('click', this.switchView);
 	}
 
+	public async initRouter(): Promise<void> {
+		return this.router.init();
+	}
+
+	public setAriaHiddenAttribute() {
+
+		if (this.onDesktop()) {
+
+			this.logo.setAttribute('aria-hidden', 'false');
+			this.toggleButton.setAttribute('aria-hidden', 'true');
+			this.current.setAttribute('aria-hidden', 'true');
+			this.content.container.setAttribute('aria-hidden', 'false');
+		}
+	}
+
 	private handleClick(event: Event): void {
 
 		if (event.target === this.container && this.toggled ||
@@ -63,20 +75,32 @@ export default class Nav {
 
 	public toggle(): void {
 
-		if (this.onMobile()) {
+		if (this.onDesktop())
+			return;
 		
-			if (this.toggled) {
+		if (this.toggled) {
 
-				document.body.style.overflowY = 'scroll';
-				this.container.classList.remove(this.toggleClassName);
-				this.toggled = false;
+			document.body.style.overflowY = 'scroll';
+			this.container.classList.remove(this.toggleContainerClassName);
 
-			} else {
+			this.content.container.classList.remove(
+				this.toggleContentClassName
+			);
 
-				document.body.style.overflowY = 'hidden';
-				this.container.classList.add(this.toggleClassName);
-				this.toggled = true;
-			}
+			this.content.container.setAttribute('aria-hidden', 'true');
+			this.toggled = false;
+
+		} else {
+
+			document.body.style.overflowY = 'hidden';
+			this.container.classList.add(this.toggleContainerClassName);
+
+			this.content.container.classList.add(
+				this.toggleContentClassName
+			);
+
+			this.content.container.setAttribute('aria-hidden', 'false');
+			this.toggled = true;
 		}
 	}
 
@@ -93,8 +117,8 @@ export default class Nav {
 		event.target.blur();
 	}
 
-	private onMobile(): Boolean {
-		return window.innerWidth <= this.breakpoint;
+	private onDesktop(): Boolean {
+		return window.innerWidth > this.breakpoint;
 	}
 
 	private static getViewName(href): string {

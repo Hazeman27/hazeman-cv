@@ -1,0 +1,51 @@
+.card {
+	max-width: var(--single-col-width);
+	padding: 1em;
+	position: relative;
+	border-radius: var(--border-radius);
+	background-color: var(--color-white);
+	box-shadow: var(--box-shadow-light);
+	overflow: hidden;
+}
+
+.card__title {
+	text-align: center;
+	font-weight: 400;
+	font-size: 1.6em;
+	margin-bottom: .5em;
+	margin-top: 0;
+	opacity: .8;
+}
+
+.card--cover {
+	padding: 0;
+}
+
+.card--cover img {
+	min-height: 300px;
+	object-fit: cover;
+	object-position: left;
+}
+
+.card a {
+	font-weight: 700;
+}
+
+.illustration {
+	max-width: var(--single-col-width);
+}
+
+.avatar img {
+	width: 200px;
+	border-radius: 50%;
+	box-shadow: var(--box-shadow-medium);
+	filter: none;
+	transition:
+		filter var(--trans-normal) ease-in-out,
+		box-shadow var(--trans-normal) ease-in-out;
+}
+
+.avatar img:hover,
+.avatar img:focus {
+	filter: contrast(115%);
+}
