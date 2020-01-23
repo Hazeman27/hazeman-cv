@@ -68,18 +68,36 @@ html, body {
 }
 
 body {
+	--background-color: var(--color-white);
+	--foreground-color: var(--color-dark-gray);
+	--footer-background-color: var(--color-dark-gray);
+	--italic-text-color: var(--color-accent);
+	--bold-text-opacity: .7;
+	--paragraph-opacity: .8;
+	--card-background-color: var(--color-white);
+	
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	position: relative;
 	margin: 0;
-	background-color: var(--color-white);
-	color: var(--color-dark-gray);
+	background-color: var(--background-color);
+	color: var(--foreground-color);
 	font-family: var(--font-family-primary);
 	line-height: 1.4;
 	font-size: 1.165em;
 	min-height: 100vh;
 	height: 100%;
+}
+
+body[data-theme="dark"] {
+	--background-color: var(--color-darker);
+	--foreground-color: var(--color-light);
+	--footer-background-color: var(--color-darker);
+	--italic-text-color: var(--color-accent-light);
+	--bold-text-opacity: .88;
+	--paragraph-opacity: .92;
+	--card-background-color: var(--color-dark);
 }
 
 body[data-loading] main {
@@ -102,15 +120,15 @@ a {
 }
 
 b {
-	opacity: .7;
+	opacity: var(--bold-text-opacity);
 }
 
 p {
-	opacity: .8;
+	opacity: var(--paragraph-opacity);
 }
 
 i {
-	color: var(--color-accent);
+	color: var(--italic-text-color);
 	font-weight: 700;
 }
 
@@ -196,13 +214,14 @@ select {
 	background-color: transparent;
 	color: inherit;
 	font-family: var(--font-family-primary);
+	font-size: 85%;
 	padding: .25rem .5rem;
 	--webkit-appereance: none;
 }
 
 option {
 	font-family: var(--font-family-primary);
-	background-color: darkorchid;
+	background-color: var(--color-darker);
 	color: white;
 	border-radius: var(--border-radius);
 	line-height: 2;
@@ -229,7 +248,7 @@ footer {
 	color: rgba(255, 255, 255, 0.6);
 	font-size: .8em;
 	text-align: center;
-	background-color: var(--color-dark-gray);
+	background-color: var(--footer-background-color);
 	padding: 1.5em;
 	margin-top: 6em;
 }

@@ -11,22 +11,15 @@ nav {
 	--logo-size: 48px;
 }
 
-.nav__logo {
-	width: var(--logo-size);
-	height: var(--logo-size);
-	background-image: url('../../media/icons/icon-medium.png');
-	background-size: 100%;
-	z-index: 100;
-}
-
 .nav__current,
 #nav__toggle {
 	display: none;
 }
 
 .nav__content {
-	grid: "... sections links" / calc(var(--logo-size) + var(--padding))  1fr .4fr;
+	grid: "color-scheme sections links" / .2fr  1fr .4fr;
 	align-items: center;
+	align-content: stretch;
 	position: fixed;
 	top: 0;
 	height: var(--nav-height);
@@ -45,6 +38,14 @@ nav {
 .nav__content__links {
 	grid-area: links;
 	justify-self: end;
+}
+
+.nav__content__links a {
+	font-size: 1.05rem;
+}
+
+.nav__content__sections {
+	font-size: .925rem;
 }
 
 .nav__content__links a + a {
@@ -66,6 +67,18 @@ nav {
 
 .nav__content__sections__link + .nav__content__sections__link {
 	margin-left: var(--padding);
+}
+
+.nav__content__color-scheme-select {
+	grid-area: color-scheme;
+}
+
+.nav__content__color-scheme-select__icon {
+	margin-right: calc(var(--size) / 4);
+}
+
+#color-scheme-selector {
+	padding: .25rem;
 }
 
 /* :: */

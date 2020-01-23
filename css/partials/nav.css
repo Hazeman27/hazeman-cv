@@ -49,6 +49,7 @@ nav::after {
 	grid: auto / 1fr 1fr;
 	gap: 1rem;
 	align-items: start;
+	align-content: start;
 	position: fixed;
 	height: 100vh;
 	width: var(--nav-panel-width);
@@ -111,6 +112,21 @@ nav::after {
 .nav__content__sections__link:hover,
 .nav__content__sections__link:focus {
 	opacity: 1;
+}
+
+.nav__content__color-scheme-select {
+	display: flex;
+	align-items: center;
+	font-size: 1rem;
+}
+
+.nav__content__color-scheme-select__icon {
+	--size: 16px;
+	
+	background-image: url('../../media/icons/sun.svg');
+	width: var(--size);
+	height: var(--size);
+	margin-right: calc(var(--size) / 2);
 }
 
 /* Nav: visible */

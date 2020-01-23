@@ -5,7 +5,6 @@ const Assets = [
     './css/media/min-width-800.css',
     './css/media/min-width-1080.css',
     './css/media/min-width-1366.css',
-    './css/media/prefers-color-scheme-dark.css',
     './js/index.js',
 ];
 
