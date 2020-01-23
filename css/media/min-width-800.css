@@ -71,6 +71,7 @@ nav {
 
 .nav__content__color-scheme-select {
 	grid-area: color-scheme;
+	font-size: .925rem;
 }
 
 .nav__content__color-scheme-select__icon {
