@@ -1,5 +1,5 @@
 import Nav from './components/nav.js';
-import ColorSchemeController from "./components/prefers-color-scheme.js";
+import ColorSchemeController from "./components/color-scheme-controller.js";
 (async () => {
     const components = new Map([
         [document.querySelector('nav'), './partials/nav.html'],

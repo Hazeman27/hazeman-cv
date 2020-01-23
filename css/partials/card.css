@@ -3,7 +3,7 @@
 	padding: 1em;
 	position: relative;
 	border-radius: var(--border-radius);
-	background-color: var(--color-white);
+	background-color: var(--card-background-color);
 	box-shadow: var(--box-shadow-light);
 	overflow: hidden;
 }

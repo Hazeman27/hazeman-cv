@@ -14,7 +14,7 @@ export default class ColorSchemeController {
         },
 
         default: {
-            text: 'System default',
+            text: 'System',
             value: 'default'
         }
     };
@@ -22,30 +22,30 @@ export default class ColorSchemeController {
     private static readonly systemPreference: MediaQueryList =
         window.matchMedia('(prefers-color-scheme: dark)');
     
-    private readonly selectElement: HTMLSelectElement;
-    private readonly currentPreference: string;
+    private readonly selection: HTMLSelectElement;
+    private readonly currentScheme: string;
 
-    constructor(selectElement: HTMLSelectElement) {
+    constructor(selection: HTMLSelectElement) {
 
-        this.selectElement = selectElement;
-        this.currentPreference = ColorSchemeController.getCurrentPreference();
+        this.selection = selection;
+        this.currentScheme = ColorSchemeController.getCurrentPreference();
 
-        ColorSchemeController.setPreference(this.currentPreference);
+        ColorSchemeController.setScheme(this.currentScheme);
         
-        this.renderOptions();
+        this.renderSchemeOptions();
         this.attachEventListeners();
     }
 
-    private renderOptions(): void {
+    private renderSchemeOptions(): void {
 
-        this.selectElement.innerHTML = '';
+        this.selection.innerHTML = '';
         
         let optionValues = Object.getOwnPropertyNames(
             ColorSchemeController.options
         );
         
         let current: string = optionValues
-            .find(option => option === this.currentPreference);
+            .find(option => option === this.currentScheme);
         
         if (current === undefined)
             current = ColorSchemeController.options.default.value;
@@ -69,7 +69,7 @@ export default class ColorSchemeController {
             option.textContent = currentOptions[entry].text;
             option.value = currentOptions[entry].value;
 
-            this.selectElement.appendChild(option);
+            this.selection.appendChild(option);
         }
     }
 
@@ -79,7 +79,7 @@ export default class ColorSchemeController {
         this.handleSystemPreferenceChange =
             this.handleSystemPreferenceChange.bind(this);
 
-        this.selectElement.addEventListener('change', this.handleChange);
+        this.selection.addEventListener('change', this.handleChange);
         
         ColorSchemeController.systemPreference.addEventListener('change',
             this.handleSystemPreferenceChange
@@ -88,19 +88,21 @@ export default class ColorSchemeController {
 
     private handleSystemPreferenceChange(): void {
 
-        if (this.currentPreference !== ColorSchemeController.options.default.value)
+        if (this.currentScheme !== ColorSchemeController.options.default.value)
             return;
 
-        ColorSchemeController.setPreference();
+        ColorSchemeController.setScheme(
+            ColorSchemeController.options.default.value
+        );
     }
 
     private handleChange(): void {
 
-        const selectedOption: HTMLOptionElement = this.selectElement.options.item(
-            this.selectElement.options.selectedIndex
+        const selectedOption: HTMLOptionElement = this.selection.options.item(
+            this.selection.options.selectedIndex
         );
 
-        ColorSchemeController.setPreference(selectedOption.value);
+        ColorSchemeController.setScheme(selectedOption.value);
     }
 
     private static getCurrentPreference(): string {
@@ -111,21 +113,26 @@ export default class ColorSchemeController {
     private static systemPreferenceIsDark(): Boolean {
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
+    
+    private static preferenceIsDark(preference: string) {
+        return preference === ColorSchemeController.options.dark.value;
+    }
+    
+    private static defaultPreferenceIsDark(preference: string) {
+        return preference === ColorSchemeController.options.default.value &&
+            this.systemPreferenceIsDark();
+    }
 
-    private static setPreference(
-        preference: string = ColorSchemeController.options.default.value
-    ): void {
+    private static setScheme(preference: string): void {
 
         localStorage.setItem('preferred-color-scheme', preference);
         
-        if (preference === ColorSchemeController.options.dark.value ||
-            (preference === ColorSchemeController.options.default.value && this.systemPreferenceIsDark()))
+        if (this.preferenceIsDark(preference) || this.defaultPreferenceIsDark(preference)) {
+            
             document.body.setAttribute('data-theme',
                 ColorSchemeController.options.dark.value
             );
-    
-        else document.body.setAttribute('data-theme',
-            ColorSchemeController.options.light.value
-        );
+            
+        }
     }
 }
