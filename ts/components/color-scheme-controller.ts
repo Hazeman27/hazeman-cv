@@ -14,7 +14,7 @@ export default class ColorSchemeController {
         },
 
         default: {
-            text: 'System default',
+            text: 'System',
             value: 'default'
         }
     };
@@ -133,11 +133,6 @@ export default class ColorSchemeController {
                 ColorSchemeController.options.dark.value
             );
             
-        } else {
-            
-            document.body.setAttribute('data-theme',
-                ColorSchemeController.options.light.value
-            );
         }
     }
 }

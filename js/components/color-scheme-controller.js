@@ -64,9 +64,6 @@ export default class ColorSchemeController {
         if (this.preferenceIsDark(preference) || this.defaultPreferenceIsDark(preference)) {
             document.body.setAttribute('data-theme', ColorSchemeController.options.dark.value);
         }
-        else {
-            document.body.setAttribute('data-theme', ColorSchemeController.options.light.value);
-        }
     }
 }
 ColorSchemeController.options = {
@@ -79,7 +76,7 @@ ColorSchemeController.options = {
         value: 'light'
     },
     default: {
-        text: 'System default',
+        text: 'System',
         value: 'default'
     }
 };
