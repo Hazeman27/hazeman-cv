@@ -2,10 +2,7 @@ export default class ColorSchemeController {
     constructor(selectElement) {
         this.selectElement = selectElement;
         this.currentPreference = ColorSchemeController.getCurrentPreference();
-        if (this.currentPreference)
-            ColorSchemeController.setPreference(this.currentPreference);
-        else
-            ColorSchemeController.setPreference();
+        ColorSchemeController.setPreference(this.currentPreference);
         this.renderOptions();
         this.attachEventListeners();
     }
@@ -49,7 +46,8 @@ export default class ColorSchemeController {
         ColorSchemeController.setPreference(selectedOption.value);
     }
     static getCurrentPreference() {
-        return localStorage.getItem('preferred-color-scheme');
+        return localStorage.getItem('preferred-color-scheme') ||
+            ColorSchemeController.options.default.value;
     }
     static systemPreferenceIsDark() {
         return window.matchMedia('(prefers-color-scheme: dark)').matches;

@@ -23,19 +23,15 @@ export default class ColorSchemeController {
         window.matchMedia('(prefers-color-scheme: dark)');
     
     private readonly selectElement: HTMLSelectElement;
-    private readonly currentPreference: string | null;
+    private readonly currentPreference: string;
 
     constructor(selectElement: HTMLSelectElement) {
 
         this.selectElement = selectElement;
         this.currentPreference = ColorSchemeController.getCurrentPreference();
 
-        if (this.currentPreference)
-            ColorSchemeController.setPreference(this.currentPreference);
-
-        else
-            ColorSchemeController.setPreference();
-
+        ColorSchemeController.setPreference(this.currentPreference);
+        
         this.renderOptions();
         this.attachEventListeners();
     }
@@ -48,7 +44,7 @@ export default class ColorSchemeController {
             ColorSchemeController.options
         );
         
-        let current: string | undefined = optionValues
+        let current: string = optionValues
             .find(option => option === this.currentPreference);
         
         if (current === undefined)
@@ -107,8 +103,9 @@ export default class ColorSchemeController {
         ColorSchemeController.setPreference(selectedOption.value);
     }
 
-    private static getCurrentPreference(): string | null {
-        return localStorage.getItem('preferred-color-scheme');
+    private static getCurrentPreference(): string {
+        return localStorage.getItem('preferred-color-scheme') ||
+            ColorSchemeController.options.default.value;
     }
 
     private static systemPreferenceIsDark(): Boolean {

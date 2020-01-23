@@ -68,7 +68,6 @@ import { View } from './interfaces';
 	nav.setAriaHiddenAttribute();
 
 	await nav.initRouter();
-
 	new ColorSchemeController(document.querySelector('#color-scheme-selector'));
 
 	/* :: Service Worker... */

@@ -16,6 +16,7 @@
 	--color-teespring: #ed2561;
 	--color-proton: #505061;
 	--color-github: #24292e;
+	--color-darkorchid: #7E29A8;
 
 	--gradient-violet:
 		linear-gradient(to top left,
@@ -28,7 +29,7 @@
 			transparent,
 			rgba(0, 0, 0, .45));
 
-	--font-family: muli, sans-serif;
+	--font-family-primary: muli, sans-serif;
 
 	--single-col-width: 666px;
 	--nav-height: 48px;
@@ -53,6 +54,11 @@
 	box-sizing: border-box;
 }
 
+*::selection {
+	background-color: var(--color-darkorchid);
+	color: white;
+}
+
 html {
 	height: 100%;
 }
@@ -69,7 +75,7 @@ body {
 	margin: 0;
 	background-color: var(--color-white);
 	color: var(--color-dark-gray);
-	font-family: var(--font-family);
+	font-family: var(--font-family-primary);
 	line-height: 1.4;
 	font-size: 1.165em;
 	min-height: 100vh;
@@ -175,12 +181,31 @@ mark.background-color--navy {
 	background-color: navy;
 }
 
-mark.background-color--violet {
-	background-color: darkorchid;
+mark.background-color--darkorchid {
+	background-color: var(--color-darkorchid);
 }
 
 mark.background-color--green {
 	background-color: green;
+}
+
+select {
+	border-width: 0;
+	border-color: var(--color-darkorchid);
+	border-radius: var(--border-radius);
+	background-color: transparent;
+	color: inherit;
+	font-family: var(--font-family-primary);
+	padding: .25rem .5rem;
+	--webkit-appereance: none;
+}
+
+option {
+	font-family: var(--font-family-primary);
+	background-color: darkorchid;
+	color: white;
+	border-radius: var(--border-radius);
+	line-height: 2;
 }
 
 figure {
