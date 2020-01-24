@@ -1,15 +1,6 @@
 export default class Lightbox {
-    constructor(params) {
-        this.container = params.container;
-        this.transitions = params.transitions;
-        this.className = params.className;
-        this.content = params.content;
-        this.text = params.text;
-        this.closeButton = params.closeButton;
-        this.image = params.image;
-        this.title = params.title;
-        this.description = params.description;
-        this.mappedElements = params.mappedElements;
+    constructor(parameters) {
+        Object.assign(this, parameters);
     }
     init() {
         this.closeButton.addEventListener('click', () => {

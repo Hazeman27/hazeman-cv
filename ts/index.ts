@@ -4,7 +4,7 @@ import { View } from './interfaces';
 
 (async (): Promise<void> => {
 
-	const components: Map<HTMLElement, string> = new Map([
+	const partials: Map<HTMLElement, string> = new Map([
 		[document.querySelector('nav'), './partials/nav.html'],
 		[document.querySelector('footer'), './partials/footer.html']
 	]);
@@ -22,31 +22,28 @@ import { View } from './interfaces';
 			['codepens', 'codepens'],
 			['music', 'music']
 		]),
-		module: {
-			path: '../modules/art.js'
-		}
+		module: '../modules/art.js'
 	}, {
 		name: 'contact',
 		template: './views/contact.html'
 	}];
 
-	for (const [element, componentPath] of components) {
+	for (const [element, path] of partials) {
 
-		const response = await window.fetch(componentPath);
+		const response: Response = await window.fetch(path);
 		element.innerHTML = await response.text();
 	}
 
-	const nav: Nav = new Nav({
-
+	await new Nav({
 		container: document.querySelector('nav'),
 		logo: document.querySelector('.nav__logo'),
 		toggleButton: document.querySelector('#nav__toggle'),
 		current: document.querySelector('.nav__current'),
-
+		
 		toggleContainerClassName: 'nav--content-visible',
 		toggleContentClassName: 'nav__content--visible',
 		breakpoint: 800,
-
+		
 		content: {
 			container: document.querySelector('.nav__content'),
 			links: document.querySelector('.nav__content__links'),
@@ -56,18 +53,14 @@ import { View } from './interfaces';
 				linkSelector: 'nav__content__sections__link'
 			},
 		},
-
+		
 		routerParams: {
 			container: document.querySelector('main'),
 			views: views,
 			defaultState: { view: 'me', title: 'Me' }
 		}
-	});
-
-	nav.attachEventListeners();
-	nav.setAriaHiddenAttribute();
-
-	await nav.initRouter();
+	}).attachEventListeners().setAriaHiddenAttribute().initRouter();
+	
 	new ColorSchemeController(document.querySelector('#color-scheme-selector'));
 
 	/* :: Service Worker... */

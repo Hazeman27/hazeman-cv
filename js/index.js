@@ -1,7 +1,7 @@
 import Nav from './components/nav.js';
 import ColorSchemeController from "./components/color-scheme-controller.js";
 (async () => {
-    const components = new Map([
+    const partials = new Map([
         [document.querySelector('nav'), './partials/nav.html'],
         [document.querySelector('footer'), './partials/footer.html']
     ]);
@@ -18,18 +18,16 @@ import ColorSchemeController from "./components/color-scheme-controller.js";
                 ['codepens', 'codepens'],
                 ['music', 'music']
             ]),
-            module: {
-                path: '../modules/art.js'
-            }
+            module: '../modules/art.js'
         }, {
             name: 'contact',
             template: './views/contact.html'
         }];
-    for (const [element, componentPath] of components) {
-        const response = await window.fetch(componentPath);
+    for (const [element, path] of partials) {
+        const response = await window.fetch(path);
         element.innerHTML = await response.text();
     }
-    const nav = new Nav({
+    await new Nav({
         container: document.querySelector('nav'),
         logo: document.querySelector('.nav__logo'),
         toggleButton: document.querySelector('#nav__toggle'),
@@ -51,10 +49,7 @@ import ColorSchemeController from "./components/color-scheme-controller.js";
             views: views,
             defaultState: { view: 'me', title: 'Me' }
         }
-    });
-    nav.attachEventListeners();
-    nav.setAriaHiddenAttribute();
-    await nav.initRouter();
+    }).attachEventListeners().setAriaHiddenAttribute().initRouter();
     new ColorSchemeController(document.querySelector('#color-scheme-selector'));
     /* :: Service Worker... */
     if ('serviceWorker' in navigator) {

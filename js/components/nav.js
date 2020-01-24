@@ -1,15 +1,8 @@
 import Router from './router.js';
 export default class Nav {
-    constructor(params) {
-        this.container = params.container;
-        this.logo = params.logo;
-        this.toggleButton = params.toggleButton;
-        this.toggleContainerClassName = params.toggleContainerClassName;
-        this.toggleContentClassName = params.toggleContentClassName;
-        this.breakpoint = params.breakpoint;
-        this.content = params.content;
-        this.current = params.current;
-        this.router = new Router(params.routerParams, this);
+    constructor(parameters) {
+        Object.assign(this, parameters);
+        this.router = new Router(this.routerParams, this);
     }
     getContentSections() {
         return this.content.sections;
@@ -23,25 +16,33 @@ export default class Nav {
         this.container.addEventListener('click', this.handleClick);
         for (const link of this.content.links.children)
             link.addEventListener('click', this.switchView);
+        return this;
     }
     async initRouter() {
-        return this.router.init();
+        await this.router.init();
+        return this;
     }
     setAriaHiddenAttribute() {
-        if (this.onDesktop()) {
+        if (Nav.overBreakpoint(this.breakpoint)) {
             this.logo.setAttribute('aria-hidden', 'false');
             this.toggleButton.setAttribute('aria-hidden', 'true');
             this.current.setAttribute('aria-hidden', 'true');
             this.content.container.setAttribute('aria-hidden', 'false');
         }
+        return this;
+    }
+    clickedAway(event) {
+        return event.target === this.container && this.toggled;
+    }
+    toggleButtonClicked(event) {
+        return this.toggleButton.contains(event.target);
     }
     handleClick(event) {
-        if (event.target === this.container && this.toggled ||
-            this.toggleButton.contains(event.target))
+        if (this.clickedAway(event) || this.toggleButtonClicked(event))
             this.toggle();
     }
     toggle() {
-        if (this.onDesktop())
+        if (Nav.overBreakpoint(this.breakpoint))
             return;
         if (this.toggled) {
             document.body.style.overflowY = 'scroll';
@@ -67,8 +68,8 @@ export default class Nav {
         this.toggle();
         event.target.blur();
     }
-    onDesktop() {
-        return window.innerWidth > this.breakpoint;
+    static overBreakpoint(breakpoint) {
+        return window.innerWidth > breakpoint;
     }
     static getViewName(href) {
         return href.match(/[a-zA-Z]*$/)[0];
