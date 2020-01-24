@@ -5,7 +5,7 @@
 }
 
 .contact-links__link {
-	--padding: 1em;
+	--padding: .65em;
 	
 	display: flex;
 	align-items: center;
@@ -39,7 +39,7 @@
 
 .contact-links__link__text {
 	color: var(--color-light);
-	font-size: 1rem;
+	font-size: .9rem;
 }
 
 .contact-links__link+.contact-links__link {

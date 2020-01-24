@@ -77,3 +77,61 @@
 [debug] [2020-01-23T15:25:33.760Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: public
 [info] +  hosting: Local server: http://localhost:5000
+[debug] [2020-01-23T17:28:31.197Z] ----------------------------------------------------------------------
+[debug] [2020-01-23T17:28:31.202Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\tremu\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2020-01-23T17:28:31.202Z] CLI Version:   7.12.1
+[debug] [2020-01-23T17:28:31.202Z] Platform:      win32
+[debug] [2020-01-23T17:28:31.202Z] Node Version:  v12.14.0
+[debug] [2020-01-23T17:28:31.204Z] Time:          Thu Jan 23 2020 18:28:31 GMT+0100 (Central European Standard Time)
+[debug] [2020-01-23T17:28:31.204Z] ----------------------------------------------------------------------
+[debug] [2020-01-23T17:28:31.204Z] 
+[debug] [2020-01-23T17:28:31.223Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-01-23T17:28:31.225Z] > authorizing via signed-in user
+[debug] [2020-01-23T17:28:31.225Z] [iam] checking project blog-11ddf for permissions ["firebase.projects.get"]
+[debug] [2020-01-23T17:28:31.230Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-01-23T17:28:31.231Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-01-23T17:28:31.419Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-23T17:28:31.437Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/blog-11ddf:testIamPermissions  
+
+[debug] [2020-01-23T17:28:32.308Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-23T17:28:32.310Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/blog-11ddf  
+ 
+[debug] [2020-01-23T17:28:32.572Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'D:\Development\web\phpstorm\hazeman.eu'...
+[info] 
+[debug] [2020-01-23T17:28:32.578Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/blog-11ddf/webApps/-/config  
+ 
+[debug] [2020-01-23T17:28:33.072Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+[debug] [2020-01-24T19:25:18.531Z] ----------------------------------------------------------------------
+[debug] [2020-01-24T19:25:18.533Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\tremu\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2020-01-24T19:25:18.534Z] CLI Version:   7.12.1
+[debug] [2020-01-24T19:25:18.534Z] Platform:      win32
+[debug] [2020-01-24T19:25:18.534Z] Node Version:  v12.14.0
+[debug] [2020-01-24T19:25:18.535Z] Time:          Fri Jan 24 2020 20:25:18 GMT+0100 (Central European Standard Time)
+[debug] [2020-01-24T19:25:18.535Z] ----------------------------------------------------------------------
+[debug] [2020-01-24T19:25:18.535Z] 
+[debug] [2020-01-24T19:25:18.549Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-01-24T19:25:18.550Z] > authorizing via signed-in user
+[debug] [2020-01-24T19:25:18.550Z] [iam] checking project blog-11ddf for permissions ["firebase.projects.get"]
+[debug] [2020-01-24T19:25:18.552Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-01-24T19:25:18.552Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-01-24T19:25:18.689Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-24T19:25:18.701Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/blog-11ddf:testIamPermissions  
+
+[debug] [2020-01-24T19:25:19.561Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-24T19:25:19.562Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/blog-11ddf  
+ 
+[debug] [2020-01-24T19:25:19.808Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'D:\Development\web\phpstorm\hazeman.eu'...
+[info] 
+[debug] [2020-01-24T19:25:19.814Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/blog-11ddf/webApps/-/config  
+ 
+[debug] [2020-01-24T19:25:20.342Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000

@@ -1,8 +1,9 @@
 import Router from './router.js';
 import {
-	NavParamContent,
-	NavParamContentSections,
-	NavParams
+	NavParameterContent,
+	NavParameterContentSections,
+	NavParameters,
+	RouterParameters
 } from '../interfaces';
 
 export default class Nav {
@@ -13,26 +14,19 @@ export default class Nav {
 	private readonly toggleContentClassName: string;
 	private readonly breakpoint: number;
 	private readonly toggleButton: HTMLButtonElement;
-	private readonly content: NavParamContent;
+	private readonly content: NavParameterContent;
 	private readonly current: HTMLElement;
+	private readonly routerParams: RouterParameters;
 	private readonly router: Router;
 
 	private toggled: Boolean;
 
-	public constructor(params: NavParams) {
-		
-		this.container = params.container;
-		this.logo = params.logo;
-		this.toggleButton = params.toggleButton;
-		this.toggleContainerClassName = params.toggleContainerClassName;
-		this.toggleContentClassName = params.toggleContentClassName;
-		this.breakpoint = params.breakpoint;
-		this.content = params.content;
-		this.current = params.current;
-		this.router = new Router(params.routerParams, this);
+	public constructor(parameters: NavParameters) {
+		Object.assign(this, parameters);
+		this.router = new Router(this.routerParams, this);
 	}
 
-	public getContentSections(): NavParamContentSections {
+	public getContentSections(): NavParameterContentSections {
 		return this.content.sections;
 	}
 
@@ -40,7 +34,7 @@ export default class Nav {
 		this.current.textContent = title;
 	}
 
-	public attachEventListeners(): void {
+	public attachEventListeners(): Nav {
 
 		this.handleClick = this.handleClick.bind(this);
 		this.switchView = this.switchView.bind(this);
@@ -49,33 +43,45 @@ export default class Nav {
 
 		for (const link of this.content.links.children)
 			link.addEventListener('click', this.switchView);
+		
+		return this;
 	}
 
-	public async initRouter(): Promise<void> {
-		return this.router.init();
+	public async initRouter(): Promise<Nav> {
+		await this.router.init();
+		return this;
 	}
 
-	public setAriaHiddenAttribute() {
+	public setAriaHiddenAttribute(): Nav {
 
-		if (this.onDesktop()) {
+		if (Nav.overBreakpoint(this.breakpoint)) {
 
 			this.logo.setAttribute('aria-hidden', 'false');
 			this.toggleButton.setAttribute('aria-hidden', 'true');
 			this.current.setAttribute('aria-hidden', 'true');
 			this.content.container.setAttribute('aria-hidden', 'false');
 		}
+		
+		return this;
+	}
+	
+	private clickedAway(event: Event): Boolean {
+		return event.target === this.container && this.toggled;
+	}
+	
+	private toggleButtonClicked(event: Event): Boolean {
+		return this.toggleButton.contains(event.target as HTMLElement)
 	}
 
 	private handleClick(event: Event): void {
 
-		if (event.target === this.container && this.toggled ||
-			this.toggleButton.contains(event.target as HTMLElement))
+		if (this.clickedAway(event) || this.toggleButtonClicked(event))
 			this.toggle();
 	}
 
 	public toggle(): void {
 
-		if (this.onDesktop())
+		if (Nav.overBreakpoint(this.breakpoint))
 			return;
 		
 		if (this.toggled) {
@@ -117,8 +123,8 @@ export default class Nav {
 		event.target.blur();
 	}
 
-	private onDesktop(): Boolean {
-		return window.innerWidth > this.breakpoint;
+	private static overBreakpoint(breakpoint: number): Boolean {
+		return window.innerWidth > breakpoint;
 	}
 
 	private static getViewName(href): string {

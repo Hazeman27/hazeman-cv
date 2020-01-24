@@ -1,15 +1,15 @@
 import {
-    LightboxParamMappedElements,
-    LightboxParams,
-    LightboxParamTransitions
+    LightboxParameterMappedElements,
+    LightboxParameters,
+    LightboxParameterTransitions
 } from '../interfaces';
 
 export default class Lightbox {
 
     private readonly container: HTMLElement;
-    private readonly transitions: LightboxParamTransitions;
+    private readonly transitions: LightboxParameterTransitions;
     private readonly className: string;
-    private readonly mappedElements: LightboxParamMappedElements;
+    private readonly mappedElements: LightboxParameterMappedElements;
 
     private content: HTMLElement;
     private text: HTMLElement;
@@ -18,21 +18,11 @@ export default class Lightbox {
     private title: HTMLHeadingElement;
     private description: HTMLParagraphElement;
 
-    public constructor(params: LightboxParams) {
-
-        this.container = params.container;
-        this.transitions = params.transitions;
-        this.className = params.className;
-        this.content = params.content;
-        this.text = params.text;
-        this.closeButton = params.closeButton;
-        this.image = params.image;
-        this.title = params.title;
-        this.description = params.description;
-        this.mappedElements = params.mappedElements;
+    public constructor(parameters: LightboxParameters) {
+        Object.assign(this, parameters);
     }
 
-    public init() {
+    public init(): void {
 
         this.closeButton.addEventListener('click', () => {
             this.toggle(0);

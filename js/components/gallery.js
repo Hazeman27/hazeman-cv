@@ -1,9 +1,8 @@
 import Lightbox from './lightbox.js';
 export default class Gallery {
-    constructor(params) {
-        this.containers = params.containers;
-        this.itemClassName = params.itemClassName;
-        this.lightbox = new Lightbox(params.lightboxParams);
+    constructor(parameters) {
+        Object.assign(this, parameters);
+        this.lightbox = new Lightbox(this.lightboxParams);
     }
     init() {
         this.lightbox.init();

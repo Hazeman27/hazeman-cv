@@ -26,6 +26,10 @@
 	justify-self: center;
 }
 
+.nav__content__color-scheme-select {
+	font-size: 1.05rem;
+}
+
 .nav__content__color-scheme-select__icon {
 	margin-right: calc(var(--size) / 2);
 }
