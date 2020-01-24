@@ -40,7 +40,7 @@ export default class Nav {
 		this.current.textContent = title;
 	}
 
-	public attachEventListeners(): void {
+	public attachEventListeners(): Nav {
 
 		this.handleClick = this.handleClick.bind(this);
 		this.switchView = this.switchView.bind(this);
@@ -49,33 +49,45 @@ export default class Nav {
 
 		for (const link of this.content.links.children)
 			link.addEventListener('click', this.switchView);
+		
+		return this;
 	}
 
-	public async initRouter(): Promise<void> {
-		return this.router.init();
+	public async initRouter(): Promise<Nav> {
+		await this.router.init();
+		return this;
 	}
 
-	public setAriaHiddenAttribute() {
+	public setAriaHiddenAttribute(): Nav {
 
-		if (this.onDesktop()) {
+		if (Nav.overBreakpoint(this.breakpoint)) {
 
 			this.logo.setAttribute('aria-hidden', 'false');
 			this.toggleButton.setAttribute('aria-hidden', 'true');
 			this.current.setAttribute('aria-hidden', 'true');
 			this.content.container.setAttribute('aria-hidden', 'false');
 		}
+		
+		return this;
+	}
+	
+	private clickedAway(event: Event): Boolean {
+		return event.target === this.container && this.toggled;
+	}
+	
+	private toggleButtonClicked(event: Event): Boolean {
+		return this.toggleButton.contains(event.target as HTMLElement)
 	}
 
 	private handleClick(event: Event): void {
 
-		if (event.target === this.container && this.toggled ||
-			this.toggleButton.contains(event.target as HTMLElement))
+		if (this.clickedAway(event) || this.toggleButtonClicked(event))
 			this.toggle();
 	}
 
 	public toggle(): void {
 
-		if (this.onDesktop())
+		if (Nav.overBreakpoint(this.breakpoint))
 			return;
 		
 		if (this.toggled) {
@@ -117,8 +129,8 @@ export default class Nav {
 		event.target.blur();
 	}
 
-	private onDesktop(): Boolean {
-		return window.innerWidth > this.breakpoint;
+	private static overBreakpoint(breakpoint: number): Boolean {
+		return window.innerWidth > breakpoint;
 	}
 
 	private static getViewName(href): string {

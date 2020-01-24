@@ -2,8 +2,7 @@ import Nav from './nav.js';
 import {
     State,
     View,
-    ViewModule,
-    ViewModuleData
+    ViewModule
 } from '../interfaces';
 
 export default class Router {
@@ -72,11 +71,9 @@ export default class Router {
     private async importViewModule(view): Promise<void> {
 
         if (this.viewHasModule(view)) {
-
-            const data: ViewModuleData = this.getView(view).module;
-            const importObject: ViewModule = await import(data.path);
-
-            importObject.module.boot();
+            
+            const module: ViewModule = await import(this.getView(view).module);
+            module.boot();
         }
     }
 

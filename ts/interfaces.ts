@@ -1,18 +1,12 @@
-export interface ViewModuleData {
-    path: string;
-}
-
 export interface View {
     name: string;
     template: string;
     sections?: Map<string, string>;
-    module?: ViewModuleData;
+    module?: string;
 }
 
 export interface ViewModule {
-    module: {
-        boot(): void
-    };
+    boot(): void
 }
 
 export interface NavParamContentSections {

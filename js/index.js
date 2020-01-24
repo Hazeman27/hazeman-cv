@@ -18,9 +18,7 @@ import ColorSchemeController from "./components/color-scheme-controller.js";
                 ['codepens', 'codepens'],
                 ['music', 'music']
             ]),
-            module: {
-                path: '../modules/art.js'
-            }
+            module: '../modules/art.js'
         }, {
             name: 'contact',
             template: './views/contact.html'
@@ -29,7 +27,7 @@ import ColorSchemeController from "./components/color-scheme-controller.js";
         const response = await window.fetch(componentPath);
         element.innerHTML = await response.text();
     }
-    const nav = new Nav({
+    await new Nav({
         container: document.querySelector('nav'),
         logo: document.querySelector('.nav__logo'),
         toggleButton: document.querySelector('#nav__toggle'),
@@ -51,10 +49,7 @@ import ColorSchemeController from "./components/color-scheme-controller.js";
             views: views,
             defaultState: { view: 'me', title: 'Me' }
         }
-    });
-    nav.attachEventListeners();
-    nav.setAriaHiddenAttribute();
-    await nav.initRouter();
+    }).attachEventListeners().setAriaHiddenAttribute().initRouter();
     new ColorSchemeController(document.querySelector('#color-scheme-selector'));
     /* :: Service Worker... */
     if ('serviceWorker' in navigator) {
