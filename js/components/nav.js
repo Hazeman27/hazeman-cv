@@ -1,15 +1,8 @@
 import Router from './router.js';
 export default class Nav {
-    constructor(params) {
-        this.container = params.container;
-        this.logo = params.logo;
-        this.toggleButton = params.toggleButton;
-        this.toggleContainerClassName = params.toggleContainerClassName;
-        this.toggleContentClassName = params.toggleContentClassName;
-        this.breakpoint = params.breakpoint;
-        this.content = params.content;
-        this.current = params.current;
-        this.router = new Router(params.routerParams, this);
+    constructor(parameters) {
+        Object.assign(this, parameters);
+        this.router = new Router(this.routerParams, this);
     }
     getContentSections() {
         return this.content.sections;

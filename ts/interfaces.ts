@@ -1,93 +1,93 @@
 export interface View {
-    name: string;
-    template: string;
-    sections?: Map<string, string>;
-    module?: string;
+	name: string;
+	template: string;
+	sections?: Map<string, string>;
+	module?: string;
 }
 
 export interface ViewModule {
-    boot(): void
+	boot(): void;
 }
 
-export interface NavParamContentSections {
-    container: HTMLElement;
-    titleSelector: string;
-    linkSelector: string;
+export interface NavParameterContentSections {
+	container: HTMLElement;
+	titleSelector: string;
+	linkSelector: string;
 }
 
-export interface NavParamContent {
-    container: HTMLElement;
-    links: HTMLElement;
-    sections: NavParamContentSections;
+export interface NavParameterContent {
+	container: HTMLElement;
+	links: HTMLElement;
+	sections: NavParameterContentSections;
 }
 
-export interface NavParams {
-    container: HTMLElement;
-    logo: HTMLAnchorElement;
-    toggleButton: HTMLButtonElement;
-    toggleContainerClassName: string;
-    toggleContentClassName: string,
-    breakpoint: number;
-    content: NavParamContent;
-    current: HTMLElement;
-    routerParams: RouterParams;
+export interface NavParameters {
+	container: HTMLElement;
+	logo: HTMLAnchorElement;
+	toggleButton: HTMLButtonElement;
+	toggleContainerClassName: string;
+	toggleContentClassName: string,
+	breakpoint: number;
+	content: NavParameterContent;
+	current: HTMLElement;
+	routerParams: RouterParameters;
 }
 
 export interface State {
-    view: string;
-    title: string;
-    firstLaunch?: Boolean;
+	view: string;
+	title: string;
+	firstLaunch?: Boolean;
 }
 
-export interface RouterParams {
-    container: HTMLElement;
-    views: Array<View>;
-    defaultState: State;
+export interface RouterParameters {
+	container: HTMLElement;
+	views: Array<View>;
+	defaultState: State;
 }
 
-export interface GalleryParams {
-    containers: NodeListOf<HTMLElement>;
-    itemClassName: string;
-    lightboxParams: LightboxParams;
+export interface GalleryParameters {
+	containers: NodeListOf<HTMLElement>;
+	itemClassName: string;
+	lightboxParams: LightboxParameters;
 }
 
-export interface LightboxParamTransitions {
-    show: string;
-    hide: string;
+export interface LightboxParameterTransitions {
+	show: string;
+	hide: string;
 }
 
-export interface LightboxParamMappedElements {
-    image: string;
-    title: string;
-    description: string;
+export interface LightboxParameterMappedElements {
+	image: string;
+	title: string;
+	description: string;
 }
 
-export interface LightboxParams {
-    container: HTMLElement;
-    className: string;
-    content: HTMLElement;
-    text: HTMLElement;
-    closeButton: HTMLButtonElement;
-    image: HTMLPictureElement;
-    title: HTMLHeadingElement;
-    description: HTMLParagraphElement;
-    mappedElements: LightboxParamMappedElements;
-    transitions: LightboxParamTransitions;
+export interface LightboxParameters {
+	container: HTMLElement;
+	className: string;
+	content: HTMLElement;
+	text: HTMLElement;
+	closeButton: HTMLButtonElement;
+	image: HTMLPictureElement;
+	title: HTMLHeadingElement;
+	description: HTMLParagraphElement;
+	mappedElements: LightboxParameterMappedElements;
+	transitions: LightboxParameterTransitions;
 }
 
-export interface colorSchemeOption {
-    text: string;
-    value: string;
+export interface ColorSchemeOption {
+	text: string;
+	value: string;
 }
 
-export interface colorSchemeOptions {
-    dark: colorSchemeOption;
-    light: colorSchemeOption;
-    default: colorSchemeOption;
+export interface ColorSchemeOptions {
+	dark: ColorSchemeOption;
+	light: ColorSchemeOption;
+	default: ColorSchemeOption;
 }
 
-export interface currentColorSchemeOptions {
-    current: colorSchemeOption;
-    second: colorSchemeOption;
-    third: colorSchemeOption;
+export interface CurrentColorSchemeOptions {
+	current: ColorSchemeOption;
+	second: ColorSchemeOption;
+	third: ColorSchemeOption;
 }

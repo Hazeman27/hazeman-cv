@@ -1,20 +1,19 @@
 import Lightbox from './lightbox.js';
-import { GalleryParams } from '../interfaces';
+import { GalleryParameters, LightboxParameters } from '../interfaces';
 
 export default class Gallery {
 
 	private readonly containers: NodeListOf<HTMLElement>;
 	private readonly itemClassName: string;
+	private readonly lightboxParams: LightboxParameters;
 	private readonly lightbox: Lightbox;
 
-	public constructor(params: GalleryParams) {
-
-		this.containers = params.containers;
-		this.itemClassName = params.itemClassName;
-		this.lightbox = new Lightbox(params.lightboxParams);
+	public constructor(parameters: GalleryParameters) {
+		Object.assign(this, parameters);
+		this.lightbox = new Lightbox(this.lightboxParams);
 	}
 
-	public init() {
+	public init(): void {
 
 		this.lightbox.init();
 

@@ -134,6 +134,10 @@ nav {
 	flex-direction: row;
 }
 
+.contact-links__link {
+	--padding: 1rem;
+}
+
 .contact-links__link + .contact-links__link {
 	margin-top: 0;
 	margin-left: 1.5em;

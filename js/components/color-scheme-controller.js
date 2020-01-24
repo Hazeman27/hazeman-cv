@@ -1,8 +1,8 @@
 export default class ColorSchemeController {
     constructor(selection) {
         this.selection = selection;
-        this.currentScheme = ColorSchemeController.getCurrentPreference();
-        ColorSchemeController.setScheme(this.currentScheme);
+        this.currentPreference = ColorSchemeController.getCurrentPreference();
+        ColorSchemeController.setScheme(this.currentPreference);
         this.renderSchemeOptions();
         this.attachEventListeners();
     }
@@ -10,7 +10,7 @@ export default class ColorSchemeController {
         this.selection.innerHTML = '';
         let optionValues = Object.getOwnPropertyNames(ColorSchemeController.options);
         let current = optionValues
-            .find(option => option === this.currentScheme);
+            .find(option => option === this.currentPreference);
         if (current === undefined)
             current = ColorSchemeController.options.default.value;
         const second = optionValues
@@ -37,9 +37,8 @@ export default class ColorSchemeController {
         ColorSchemeController.systemPreference.addEventListener('change', this.handleSystemPreferenceChange);
     }
     handleSystemPreferenceChange() {
-        if (this.currentScheme !== ColorSchemeController.options.default.value)
-            return;
-        ColorSchemeController.setScheme(ColorSchemeController.options.default.value);
+        if (ColorSchemeController.preferenceIsDefault(this.currentPreference))
+            ColorSchemeController.setScheme(ColorSchemeController.options.default.value);
     }
     handleChange() {
         const selectedOption = this.selection.options.item(this.selection.options.selectedIndex);
@@ -49,6 +48,9 @@ export default class ColorSchemeController {
         return localStorage.getItem('preferred-color-scheme') ||
             ColorSchemeController.options.default.value;
     }
+    static preferenceIsDefault(preference) {
+        return preference === ColorSchemeController.options.default.value;
+    }
     static systemPreferenceIsDark() {
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
@@ -56,8 +58,7 @@ export default class ColorSchemeController {
         return preference === ColorSchemeController.options.dark.value;
     }
     static defaultPreferenceIsDark(preference) {
-        return preference === ColorSchemeController.options.default.value &&
-            this.systemPreferenceIsDark();
+        return this.preferenceIsDefault(preference) && this.systemPreferenceIsDark();
     }
     static setScheme(preference) {
         localStorage.setItem('preferred-color-scheme', preference);

@@ -1,7 +1,7 @@
 import Nav from './components/nav.js';
 import ColorSchemeController from "./components/color-scheme-controller.js";
 (async () => {
-    const components = new Map([
+    const partials = new Map([
         [document.querySelector('nav'), './partials/nav.html'],
         [document.querySelector('footer'), './partials/footer.html']
     ]);
@@ -23,8 +23,8 @@ import ColorSchemeController from "./components/color-scheme-controller.js";
             name: 'contact',
             template: './views/contact.html'
         }];
-    for (const [element, componentPath] of components) {
-        const response = await window.fetch(componentPath);
+    for (const [element, path] of partials) {
+        const response = await window.fetch(path);
         element.innerHTML = await response.text();
     }
     await new Nav({

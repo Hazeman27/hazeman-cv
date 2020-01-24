@@ -4,7 +4,7 @@ import { View } from './interfaces';
 
 (async (): Promise<void> => {
 
-	const components: Map<HTMLElement, string> = new Map([
+	const partials: Map<HTMLElement, string> = new Map([
 		[document.querySelector('nav'), './partials/nav.html'],
 		[document.querySelector('footer'), './partials/footer.html']
 	]);
@@ -28,9 +28,9 @@ import { View } from './interfaces';
 		template: './views/contact.html'
 	}];
 
-	for (const [element, componentPath] of components) {
+	for (const [element, path] of partials) {
 
-		const response = await window.fetch(componentPath);
+		const response: Response = await window.fetch(path);
 		element.innerHTML = await response.text();
 	}
 

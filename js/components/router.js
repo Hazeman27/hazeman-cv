@@ -1,8 +1,8 @@
 export default class Router {
-    constructor(params, nav) {
-        this.container = params.container;
-        this.views = params.views;
-        this.defaultState = params.defaultState;
+    constructor(parameters, nav) {
+        this.container = parameters.container;
+        this.views = parameters.views;
+        this.defaultState = parameters.defaultState;
         this.nav = nav;
     }
     async init() {
@@ -58,9 +58,8 @@ export default class Router {
     }
     loadViewNavigationSections(view) {
         this.clearNavigationSections();
-        if (!this.viewHasSections(view)) {
+        if (!this.viewHasSections(view))
             return;
-        }
         const sections = this.getView(view).sections;
         const sectionsTitle = Router.capitalize(view);
         const sectionsTitleElement = document.createElement('h3');

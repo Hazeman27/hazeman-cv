@@ -1,8 +1,9 @@
 import Router from './router.js';
 import {
-	NavParamContent,
-	NavParamContentSections,
-	NavParams
+	NavParameterContent,
+	NavParameterContentSections,
+	NavParameters,
+	RouterParameters
 } from '../interfaces';
 
 export default class Nav {
@@ -13,26 +14,19 @@ export default class Nav {
 	private readonly toggleContentClassName: string;
 	private readonly breakpoint: number;
 	private readonly toggleButton: HTMLButtonElement;
-	private readonly content: NavParamContent;
+	private readonly content: NavParameterContent;
 	private readonly current: HTMLElement;
+	private readonly routerParams: RouterParameters;
 	private readonly router: Router;
 
 	private toggled: Boolean;
 
-	public constructor(params: NavParams) {
-		
-		this.container = params.container;
-		this.logo = params.logo;
-		this.toggleButton = params.toggleButton;
-		this.toggleContainerClassName = params.toggleContainerClassName;
-		this.toggleContentClassName = params.toggleContentClassName;
-		this.breakpoint = params.breakpoint;
-		this.content = params.content;
-		this.current = params.current;
-		this.router = new Router(params.routerParams, this);
+	public constructor(parameters: NavParameters) {
+		Object.assign(this, parameters);
+		this.router = new Router(this.routerParams, this);
 	}
 
-	public getContentSections(): NavParamContentSections {
+	public getContentSections(): NavParameterContentSections {
 		return this.content.sections;
 	}
 
