@@ -74,20 +74,3 @@ export interface LightboxParameters {
 	mappedElements: LightboxParameterMappedElements;
 	transitions: LightboxParameterTransitions;
 }
-
-export interface ColorSchemeOption {
-	text: string;
-	value: string;
-}
-
-export interface ColorSchemeOptions {
-	dark: ColorSchemeOption;
-	light: ColorSchemeOption;
-	default: ColorSchemeOption;
-}
-
-export interface CurrentColorSchemeOptions {
-	current: ColorSchemeOption;
-	second: ColorSchemeOption;
-	third: ColorSchemeOption;
-}

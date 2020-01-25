@@ -1,5 +1,5 @@
 import Nav from './components/nav.js';
-import ColorSchemeController from "./components/color-scheme-controller.js";
+import ColorSchemeController from './components/color-scheme-controller.js';
 (async () => {
     const partials = new Map([
         [document.querySelector('nav'), './partials/nav.html'],
@@ -42,7 +42,7 @@ import ColorSchemeController from "./components/color-scheme-controller.js";
                 container: document.querySelector('.nav__content__sections'),
                 titleSelector: 'nav__content__sections__title',
                 linkSelector: 'nav__content__sections__link'
-            },
+            }
         },
         routerParams: {
             container: document.querySelector('main'),
@@ -52,13 +52,13 @@ import ColorSchemeController from "./components/color-scheme-controller.js";
     }).attachEventListeners().setAriaHiddenAttribute().initRouter();
     new ColorSchemeController(document.querySelector('#color-scheme-selector'));
     /* :: Service Worker... */
-    if ('serviceWorker' in navigator) {
-        try {
-            await navigator.serviceWorker.register('./service-worker.js');
-        }
-        catch (error) {
-            console.log('Service Worker registration failed: ', error);
-        }
-    }
+    // if ('serviceWorker' in navigator) {
+    //
+    // 	try {
+    // 		await navigator.serviceWorker.register('./service-worker.js');
+    // 	} catch (error) {
+    // 		console.log('Service Worker registration failed: ', error);
+    // 	}
+    // }
 })();
 //# sourceMappingURL=index.js.map

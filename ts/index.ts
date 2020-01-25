@@ -1,14 +1,14 @@
 import Nav from './components/nav.js';
-import ColorSchemeController from "./components/color-scheme-controller.js";
+import ColorSchemeController from './components/color-scheme-controller.js';
 import { View } from './interfaces';
 
 (async (): Promise<void> => {
-
+	
 	const partials: Map<HTMLElement, string> = new Map([
 		[document.querySelector('nav'), './partials/nav.html'],
 		[document.querySelector('footer'), './partials/footer.html']
 	]);
-
+	
 	const views: Array<View> = [{
 		name: 'me',
 		template: './views/me.html'
@@ -27,13 +27,13 @@ import { View } from './interfaces';
 		name: 'contact',
 		template: './views/contact.html'
 	}];
-
+	
 	for (const [element, path] of partials) {
-
+		
 		const response: Response = await window.fetch(path);
 		element.innerHTML = await response.text();
 	}
-
+	
 	await new Nav({
 		container: document.querySelector('nav'),
 		logo: document.querySelector('.nav__logo'),
@@ -51,7 +51,7 @@ import { View } from './interfaces';
 				container: document.querySelector('.nav__content__sections'),
 				titleSelector: 'nav__content__sections__title',
 				linkSelector: 'nav__content__sections__link'
-			},
+			}
 		},
 		
 		routerParams: {
@@ -62,14 +62,14 @@ import { View } from './interfaces';
 	}).attachEventListeners().setAriaHiddenAttribute().initRouter();
 	
 	new ColorSchemeController(document.querySelector('#color-scheme-selector'));
-
+	
 	/* :: Service Worker... */
-	if ('serviceWorker' in navigator) {
-
-		try {
-			await navigator.serviceWorker.register('./service-worker.js');
-		} catch (error) {
-			console.log('Service Worker registration failed: ', error);
-		}
-	}
+	// if ('serviceWorker' in navigator) {
+	//
+	// 	try {
+	// 		await navigator.serviceWorker.register('./service-worker.js');
+	// 	} catch (error) {
+	// 		console.log('Service Worker registration failed: ', error);
+	// 	}
+	// }
 })();

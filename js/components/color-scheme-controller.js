@@ -1,86 +1,100 @@
+class ColorScheme {
+    constructor(textContent, value) {
+        this._textContent = textContent;
+        this._value = value;
+    }
+    get textContent() {
+        return this._textContent;
+    }
+    get value() {
+        return this._value;
+    }
+}
+class ColorSchemeOptions {
+    constructor(colorSchemes) {
+        this._colorSchemes = colorSchemes;
+    }
+    get colorSchemes() {
+        return this._colorSchemes;
+    }
+    set current(colorScheme) {
+        if (this._colorSchemes.includes(colorScheme))
+            this._current = colorScheme;
+    }
+    *[Symbol.iterator]() {
+        if (this._current)
+            yield this._current;
+        for (const scheme of this._colorSchemes) {
+            if (scheme !== this._current)
+                yield scheme;
+        }
+    }
+}
 export default class ColorSchemeController {
     constructor(selection) {
         this.selection = selection;
-        this.currentPreference = ColorSchemeController.getCurrentPreference();
-        ColorSchemeController.setScheme(this.currentPreference);
+        this.currentScheme = ColorSchemeController.getCurrentScheme();
+        ColorSchemeController.setScheme(this.currentScheme);
         this.renderSchemeOptions();
         this.attachEventListeners();
     }
     renderSchemeOptions() {
         this.selection.innerHTML = '';
-        let optionValues = Object.getOwnPropertyNames(ColorSchemeController.options);
-        let current = optionValues
-            .find(option => option === this.currentPreference);
-        if (current === undefined)
-            current = ColorSchemeController.options.default.value;
-        const second = optionValues
-            .find(option => option !== current);
-        const third = optionValues
-            .find(option => option !== second && option !== current);
-        const currentOptions = {
-            current: ColorSchemeController.options[current],
-            second: ColorSchemeController.options[second],
-            third: ColorSchemeController.options[third]
-        };
-        for (const entry of Object.getOwnPropertyNames(currentOptions)) {
+        ColorSchemeController.options.current = this.currentScheme;
+        for (const schemeOption of ColorSchemeController.options) {
             const option = document.createElement('option');
-            option.textContent = currentOptions[entry].text;
-            option.value = currentOptions[entry].value;
+            option.textContent = schemeOption.textContent;
+            option.value = schemeOption.value;
             this.selection.appendChild(option);
         }
     }
     attachEventListeners() {
         this.handleChange = this.handleChange.bind(this);
-        this.handleSystemPreferenceChange =
-            this.handleSystemPreferenceChange.bind(this);
+        this.handleSystemSchemeChange = this.handleSystemSchemeChange.bind(this);
         this.selection.addEventListener('change', this.handleChange);
-        ColorSchemeController.systemPreference.addEventListener('change', this.handleSystemPreferenceChange);
+        ColorSchemeController.systemScheme.addEventListener('change', this.handleSystemSchemeChange);
     }
-    handleSystemPreferenceChange() {
-        if (ColorSchemeController.preferenceIsDefault(this.currentPreference))
-            ColorSchemeController.setScheme(ColorSchemeController.options.default.value);
+    handleSystemSchemeChange() {
+        if (ColorSchemeController.isDefaultScheme(this.currentScheme))
+            ColorSchemeController.setScheme(ColorSchemeController.defaultScheme);
     }
     handleChange() {
         const selectedOption = this.selection.options.item(this.selection.options.selectedIndex);
-        ColorSchemeController.setScheme(selectedOption.value);
+        ColorSchemeController.setScheme(ColorSchemeController.getSchemeByValue(selectedOption.value));
     }
-    static getCurrentPreference() {
-        return localStorage.getItem('preferred-color-scheme') ||
-            ColorSchemeController.options.default.value;
+    static getSchemeByValue(value) {
+        return ColorSchemeController.options.colorSchemes.find(scheme => scheme.value === value);
     }
-    static preferenceIsDefault(preference) {
-        return preference === ColorSchemeController.options.default.value;
+    static getCurrentScheme() {
+        return ColorSchemeController.getSchemeByValue(localStorage.getItem('preferred-color-scheme')) || ColorSchemeController.defaultScheme;
     }
-    static systemPreferenceIsDark() {
+    static isDefaultScheme(scheme) {
+        return scheme === ColorSchemeController.defaultScheme;
+    }
+    static isDarkScheme(scheme) {
+        return scheme === ColorSchemeController.darkScheme;
+    }
+    static systemSchemeIsDark() {
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
-    static preferenceIsDark(preference) {
-        return preference === ColorSchemeController.options.dark.value;
+    static defaultSchemeIsDark(scheme) {
+        return this.isDefaultScheme(scheme) && this.systemSchemeIsDark();
     }
-    static defaultPreferenceIsDark(preference) {
-        return this.preferenceIsDefault(preference) && this.systemPreferenceIsDark();
-    }
-    static setScheme(preference) {
-        localStorage.setItem('preferred-color-scheme', preference);
-        if (this.preferenceIsDark(preference) || this.defaultPreferenceIsDark(preference))
-            document.body.setAttribute('data-theme', ColorSchemeController.options.dark.value);
+    static setScheme(scheme) {
+        localStorage.setItem('preferred-color-scheme', scheme.value);
+        if (this.isDarkScheme(scheme) || this.defaultSchemeIsDark(scheme))
+            document.body.setAttribute('data-theme', ColorSchemeController.darkScheme.value);
         else
-            document.body.removeAttribute('data-theme');
+            document.body.setAttribute('data-theme', scheme.value);
     }
 }
-ColorSchemeController.options = {
-    dark: {
-        text: 'Dark',
-        value: 'dark'
-    },
-    light: {
-        text: 'Light',
-        value: 'light'
-    },
-    default: {
-        text: 'System',
-        value: 'default'
-    }
-};
-ColorSchemeController.systemPreference = window.matchMedia('(prefers-color-scheme: dark)');
+ColorSchemeController.defaultScheme = new ColorScheme('System', 'default');
+ColorSchemeController.darkScheme = new ColorScheme('Dark', 'dark');
+ColorSchemeController.lightScheme = new ColorScheme('Light', 'light');
+ColorSchemeController.options = new ColorSchemeOptions([
+    ColorSchemeController.defaultScheme,
+    ColorSchemeController.darkScheme,
+    ColorSchemeController.lightScheme
+]);
+ColorSchemeController.systemScheme = window.matchMedia('(prefers-color-scheme: dark)');
 //# sourceMappingURL=color-scheme-controller.js.map

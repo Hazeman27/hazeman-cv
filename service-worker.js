@@ -26,7 +26,7 @@ const responseHandler = async (request) => {
         response = await fetch(request);
 
     } catch (error) {
-        return await caches.match('./404.html');
+        return await caches.match('./index.html');
     }
     
     if (!response || response.status !== 200 || response.type !== 'basic') {
