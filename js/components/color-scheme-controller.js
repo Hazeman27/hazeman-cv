@@ -1,86 +1,69 @@
-export default class ColorSchemeController {
-    constructor(selection) {
-        this.selection = selection;
-        this.currentPreference = ColorSchemeController.getCurrentPreference();
-        ColorSchemeController.setScheme(this.currentPreference);
-        this.renderSchemeOptions();
-        this.attachEventListeners();
-    }
-    renderSchemeOptions() {
-        this.selection.innerHTML = '';
-        let optionValues = Object.getOwnPropertyNames(ColorSchemeController.options);
-        let current = optionValues
-            .find(option => option === this.currentPreference);
-        if (current === undefined)
-            current = ColorSchemeController.options.default.value;
-        const second = optionValues
-            .find(option => option !== current);
-        const third = optionValues
-            .find(option => option !== second && option !== current);
-        const currentOptions = {
-            current: ColorSchemeController.options[current],
-            second: ColorSchemeController.options[second],
-            third: ColorSchemeController.options[third]
-        };
-        for (const entry of Object.getOwnPropertyNames(currentOptions)) {
-            const option = document.createElement('option');
-            option.textContent = currentOptions[entry].text;
-            option.value = currentOptions[entry].value;
-            this.selection.appendChild(option);
-        }
-    }
-    attachEventListeners() {
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSystemPreferenceChange =
-            this.handleSystemPreferenceChange.bind(this);
-        this.selection.addEventListener('change', this.handleChange);
-        ColorSchemeController.systemPreference.addEventListener('change', this.handleSystemPreferenceChange);
-    }
-    handleSystemPreferenceChange() {
-        if (ColorSchemeController.preferenceIsDefault(this.currentPreference))
-            ColorSchemeController.setScheme(ColorSchemeController.options.default.value);
-    }
-    handleChange() {
-        const selectedOption = this.selection.options.item(this.selection.options.selectedIndex);
-        ColorSchemeController.setScheme(selectedOption.value);
-    }
-    static getCurrentPreference() {
-        return localStorage.getItem('preferred-color-scheme') ||
-            ColorSchemeController.options.default.value;
-    }
-    static preferenceIsDefault(preference) {
-        return preference === ColorSchemeController.options.default.value;
-    }
-    static systemPreferenceIsDark() {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    static preferenceIsDark(preference) {
-        return preference === ColorSchemeController.options.dark.value;
-    }
-    static defaultPreferenceIsDark(preference) {
-        return this.preferenceIsDefault(preference) && this.systemPreferenceIsDark();
-    }
-    static setScheme(preference) {
-        localStorage.setItem('preferred-color-scheme', preference);
-        if (this.preferenceIsDark(preference) || this.defaultPreferenceIsDark(preference))
-            document.body.setAttribute('data-theme', ColorSchemeController.options.dark.value);
-        else
-            document.body.removeAttribute('data-theme');
-    }
+import { capitalize } from '../utils.js';
+
+export default function colorSchemeController(selectElement) {
+    renderOptions(selectElement, setScheme(getCurrentPreference()));
+    attachEventListeners(selectElement);
 }
-ColorSchemeController.options = {
-    dark: {
-        text: 'Dark',
-        value: 'dark'
-    },
-    light: {
-        text: 'Light',
-        value: 'light'
-    },
-    default: {
-        text: 'System',
-        value: 'default'
+
+function attachEventListeners(selectElement) {
+    
+    selectElement.addEventListener('change', () => {
+        setScheme(selectElement.options.item(selectElement.options.selectedIndex).value);
+    });
+    
+    window.matchMedia('(prefers-color-scheme: dark)')
+          .addEventListener('change', () => {
+              if (getCurrentPreference() === 'system')
+                  setScheme('system');
+          });
+}
+
+function renderOptions(selectElement, currentScheme) {
+    
+    selectElement.appendChild(createSchemeOption(currentScheme));
+    
+    for (const schemeOption of generateSchemeOptions(currentScheme))
+        selectElement.appendChild(createSchemeOption(schemeOption));
+}
+
+function createSchemeOption(scheme) {
+    
+    const option = document.createElement('option');
+    
+    option.textContent = capitalize(scheme);
+    option.value = scheme;
+    
+    return option;
+}
+
+function *generateSchemeOptions(currentScheme) {
+    
+    if (currentScheme === 'system')
+        yield *['dark', 'light'];
+    
+    else if (currentScheme === 'dark')
+        yield *['light', 'system'];
+    
+    else
+        yield *['dark', 'system'];
+}
+
+function setScheme(scheme) {
+    
+    if (scheme === 'system') {
+        document.body.setAttribute('data-theme', getSystemPreference());
+    } else {
+        document.body.setAttribute('data-theme', scheme);
     }
-};
-ColorSchemeController.systemPreference = window.matchMedia('(prefers-color-scheme: dark)');
-//# sourceMappingURL=color-scheme-controller.js.map
+    
+    localStorage.setItem('preferred-color-scheme', scheme);
+    return scheme;
+}
+
+function getSystemPreference() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function getCurrentPreference() {
+    return localStorage.getItem('preferred-color-scheme') || 'system';
+}

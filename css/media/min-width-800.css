@@ -1,14 +1,9 @@
-:root {
-	--gallery-cols: 2;
-}
-
 /* :: */
 /* :: Navigation: desktop mode */
 /* :: */
 
 nav {
 	--padding: 2rem;
-	--logo-size: 48px;
 }
 
 .nav__current,

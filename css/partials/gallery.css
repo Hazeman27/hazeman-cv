@@ -1,6 +1,8 @@
 .gallery {
+	--item-min-width: 230px;
+	
 	display: grid;
-	grid-template-columns: repeat(var(--gallery-cols), 1fr);
+	grid-template-columns: repeat(auto-fill, minmax(var(--item-min-width), 1fr));
 	gap: 2em;
 	justify-content: center;
 	width: 100%;
@@ -12,7 +14,7 @@
 }
 
 .gallery__title {
-	grid-column: span var(--gallery-cols);
+	grid-column: 1 / -1;
 }
 
 .gallery__title a {
@@ -24,8 +26,8 @@
 	position: relative;
 	border-radius: var(--border-radius);
 	box-shadow: var(--box-shadow-light);
-	background-color: transparent;
-	color: var(--color-white);
+	background-color: var(--color-gray);
+	color: transparent;
 	overflow: hidden;
 	filter: contrast(110%);
 	cursor: pointer;
@@ -51,6 +53,7 @@
 
 .gallery__item__title,
 .gallery__item__description {
+	color: var(--color-white);
 	transition: transform var(--trans-normal) ease-in-out;
 }
 
@@ -112,7 +115,9 @@
 	height: 100vh;
 	padding: .5em;
 	color: var(--color-white);
-	background-color: rgba(0, 0, 0, 0.85);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	background-color: rgba(0, 0, 0, .75);
 	transform: scale(1, 0);
 	opacity: 0;
 	transition:

@@ -1,114 +1,104 @@
+import {
+    capitalize,
+    clearElementsInnerHTML,
+    getCurrentViewName
+} from '../utils.js';
+
 export default class Router {
-    constructor(parameters, nav) {
-        this.container = parameters.container;
-        this.views = parameters.views;
-        this.defaultState = parameters.defaultState;
-        this.nav = nav;
+    container;
+    views;
+    defaultState;
+    navCurrent;
+    navContentSections;
+    navToggle;
+
+    constructor(parameters) {
+        Object.assign(this, parameters)
     }
-    async init() {
-        if (this.getView(Router.currentView())) {
+
+    async init(navCurrent, navContentSections, navToggle) {
+        this.navCurrent = navCurrent;
+        this.navContentSections = navContentSections;
+        this.navToggle = navToggle;
+        
+        if (this.getView(getCurrentViewName())) {
             await this.loadState({
-                view: Router.currentView(),
-                title: Router.capitalize(Router.currentView()),
+                view: getCurrentViewName(),
+                title: capitalize(getCurrentViewName()),
                 firstLaunch: true
             });
-        }
-        else
+        } else {
             await this.loadState(this.defaultState);
+        }
+
         window.addEventListener('popstate', async (event) => {
             await this.loadContent(event.state);
         });
     }
+
     async loadState(state) {
-        if (!state.firstLaunch && state.view === Router.currentView()) {
+
+        if (!state.firstLaunch && state.view === getCurrentViewName()) {
             this.container.scrollIntoView();
             return;
         }
+
         history.pushState(state, state.title, state.view);
         await this.loadContent(state);
     }
+
     async loadContent(state) {
         const view = this.getView(state.view);
-        Router.displayLoadingEffect();
         const response = await fetch(view.template);
+
         this.container.innerHTML = await response.text();
         this.container.scrollIntoView();
-        this.importViewModule(state.view);
-        this.loadViewNavigationSections(state.view);
-        this.listenToImagesLoad();
+
+        if (view.hasOwnProperty('module')) {
+            const module = await import(view.module);
+            module['boot']();
+        }
+
+        this.loadViewNavigationSections(view);
+        
         document.title = state.title;
-        this.nav.setCurrentTitle(state.title);
+        this.navCurrent.textContent = state.title;
     }
-    async importViewModule(view) {
-        if (this.viewHasModule(view)) {
-            const module = await import(this.getView(view).module);
-            module.boot();
-        }
-    }
-    listenToImagesLoad() {
-        const images = document.querySelectorAll('img');
-        let imagesLoaded = 0;
-        for (const image of images) {
-            image.addEventListener('load', () => {
-                imagesLoaded++;
-                if (imagesLoaded === images.length)
-                    Router.hideLoadingEffect();
-            });
-        }
-    }
+
     loadViewNavigationSections(view) {
-        this.clearNavigationSections();
-        if (!this.viewHasSections(view))
+    
+        clearElementsInnerHTML(this.navContentSections.container);
+    
+        if (!view.hasOwnProperty('sections'))
             return;
-        const sections = this.getView(view).sections;
-        const sectionsTitle = Router.capitalize(view);
+        
+        const sections = view.sections;
+        const sectionsTitle = capitalize(view.name);
         const sectionsTitleElement = document.createElement('h3');
-        sectionsTitleElement.classList.add(this.nav.getContentSections().titleSelector);
+
+        sectionsTitleElement.classList.add(this.navContentSections.titleSelector);
         sectionsTitleElement.textContent = sectionsTitle;
-        this.nav.getContentSections()
-            .container
-            .appendChild(sectionsTitleElement);
+
+        this.navContentSections.container.appendChild(sectionsTitleElement);
+
         for (const [id, title] of sections) {
+
             const sectionTarget = document.querySelector(`#${id}`);
             const sectionLinkElement = document.createElement('a');
-            sectionLinkElement.classList.add(this.nav.getContentSections().linkSelector);
+
+            sectionLinkElement.classList.add(this.navContentSections.linkSelector);
             sectionLinkElement.textContent = title;
-            this.nav.getContentSections()
-                .container
-                .appendChild(sectionLinkElement);
+
+            this.navContentSections.container.appendChild(sectionLinkElement);
+
             sectionLinkElement.addEventListener('click', () => {
-                this.nav.toggle();
+                this.navToggle();
                 sectionTarget.scrollIntoView();
             });
         }
     }
+
     getView(viewName) {
         return this.views.find(view => view.name === viewName);
     }
-    viewHasModule(view) {
-        return this.getView(view).hasOwnProperty('module');
-    }
-    viewHasSections(view) {
-        return this.getView(view).hasOwnProperty('sections');
-    }
-    clearNavigationSections() {
-        this.nav.getContentSections().container.innerHTML = '';
-    }
-    static currentView() {
-        return window.location.href.match(/[a-zA-Z]*$/)[0];
-    }
-    static capitalize(string) {
-        return `${string[0].toUpperCase()}${string.slice(1)}`;
-    }
-    static displayLoadingEffect() {
-        document.body.setAttribute('data-loading', '');
-        document.body.style.overflowY = 'hidden';
-        document.body.style.cursor = 'wait';
-    }
-    static hideLoadingEffect() {
-        document.body.removeAttribute('data-loading');
-        document.body.style.overflowY = 'scroll';
-        document.body.style.cursor = 'default';
-    }
 }
-//# sourceMappingURL=router.js.map

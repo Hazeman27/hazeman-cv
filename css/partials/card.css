@@ -1,4 +1,5 @@
 .card {
+	width: 100%;
 	max-width: var(--single-col-width);
 	padding: 1em;
 	position: relative;
@@ -8,6 +9,16 @@
 	overflow: hidden;
 }
 
+.card--cover {
+	padding: 0;
+}
+
+.card--code-snippet {
+	font-size: 1.1rem;
+	background-color: var(--color-dark-gray);
+	color: var(--color-light);
+}
+
 .card__title {
 	text-align: center;
 	font-weight: 400;
@@ -15,10 +26,6 @@
 	margin-bottom: .5em;
 	margin-top: 0;
 	opacity: .8;
-}
-
-.card--cover {
-	padding: 0;
 }
 
 .card--cover img {
