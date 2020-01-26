@@ -12,7 +12,7 @@ nav {
 	padding: 11px var(--padding);
 	box-shadow: var(--box-shadow-light);
 	z-index: 99;
-	opacity: .89;
+	opacity: .91;
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
 	transition: none;
