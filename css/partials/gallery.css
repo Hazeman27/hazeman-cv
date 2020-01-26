@@ -115,7 +115,9 @@
 	height: 100vh;
 	padding: .5em;
 	color: var(--color-white);
-	background-color: rgba(0, 0, 0, 0.85);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	background-color: rgba(0, 0, 0, .75);
 	transform: scale(1, 0);
 	opacity: 0;
 	transition:

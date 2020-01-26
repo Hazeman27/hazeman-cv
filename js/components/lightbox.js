@@ -46,9 +46,13 @@ export default class Lightbox {
     toggle(value = 0) {
         this.container.style.transform = `scale(1, ${value})`;
         this.container.style.opacity = value.toString();
-        if (value)
+        if (value) {
             this.container.style.transition = this.transitions.show;
-        else
+            this.container.setAttribute('aria-hidden', 'false');
+        }
+        else {
             this.container.style.transition = this.transitions.hide;
+            this.container.setAttribute('aria-hidden', 'true');
+        }
     }
 }

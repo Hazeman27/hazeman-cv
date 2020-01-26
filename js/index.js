@@ -1,5 +1,5 @@
 import Nav from './components/nav.js';
-import ColorSchemeController from './components/color-scheme-controller.js';
+import colorSchemeController from './components/color-scheme-controller.js';
 (async () => {
     const partials = new Map([
         [document.querySelector('nav'), './partials/nav.html'],
@@ -50,7 +50,7 @@ import ColorSchemeController from './components/color-scheme-controller.js';
             defaultState: { view: 'me', title: 'Me' }
         }
     }).attachEventListeners().setAriaHiddenAttribute().initRouter();
-    new ColorSchemeController(document.querySelector('#color-scheme-selector'));
+    colorSchemeController(document.querySelector('#color-scheme-selector'));
     /* :: Service Worker... */
     if ('serviceWorker' in navigator) {
         try {
