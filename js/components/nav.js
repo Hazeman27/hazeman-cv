@@ -1,101 +1,65 @@
-import Router from './router.js';
+import { getViewName, isPastBreakpoint, setAttribute } from '../utils.js';
 
-export default class Nav {
+export default function nav(
+    container,
+    toggleButton,
+    current,
+    toggleContainerClassName,
+    toggleContentClassName,
+    breakpoint,
+    content,
+    router
+) {
+    router.init(current, content.sections, toggle);
     
-    constructor(parameters) {
-        Object.assign(this, parameters);
-        this.router = new Router(this.routerParams, this);
-    }
+    setAttribute('aria-hidden', breakpoint, new Map([
+        [toggleButton, 'true'],
+        [current, 'true'],
+        [content.container, 'false']
+    ]));
     
-    static overBreakpoint(breakpoint) {
-        return window.innerWidth > breakpoint;
-    }
-    
-    static getViewName(href) {
-        return href.match(/[a-zA-Z]*$/)[0];
-    }
-    
-    getContentSections() {
-        return this.content.sections;
-    }
-    
-    setCurrentTitle(title) {
-        this.current.textContent = title;
-    }
-    
-    attachEventListeners() {
+    container.addEventListener('click', (event) => {
         
-        this.handleClick = this.handleClick.bind(this);
-        this.switchView = this.switchView.bind(this);
-        this.container.addEventListener('click', this.handleClick);
-        
-        for (const link of this.content.links.children)
-            link.addEventListener('click', this.switchView);
-        
-        return this;
-    }
-    
-    async initRouter() {
-        await this.router.init();
-        return this;
-    }
-    
-    setAriaHiddenAttribute() {
-        
-        if (Nav.overBreakpoint(this.breakpoint)) {
-           
-            this.logo.setAttribute('aria-hidden', 'false');
-            this.toggleButton.setAttribute('aria-hidden', 'true');
-            this.current.setAttribute('aria-hidden', 'true');
-            this.content.container.setAttribute('aria-hidden', 'false');
+        if (event.target === container && toggled() || toggleButton.contains(event.target)) {
+            toggle({
+                container,
+                content,
+                breakpoint,
+                toggleContainerClassName,
+                toggleContentClassName
+            });
         }
-        
-        return this;
-    }
+    });
     
-    toggle() {
-        
-        if (Nav.overBreakpoint(this.breakpoint))
+    for (const link of content.links.children)
+        link.addEventListener('click', async (event) => {
+            event.preventDefault();
+            await router.loadState({
+                view: getViewName(event.target.href),
+                title: event.target.textContent.trim()
+            });
+            toggle();
+            event.target.blur();
+        });
+    
+    function toggle() {
+        if (isPastBreakpoint(breakpoint))
             return;
         
-        if (this.toggled) {
+        if (toggled()) {
             document.body.style.overflowY = 'scroll';
-            this.container.classList.remove(this.toggleContainerClassName);
-            this.content.container.classList.remove(this.toggleContentClassName);
-            this.content.container.setAttribute('aria-hidden', 'true');
-            this.toggled = false;
+            container.classList.remove(toggleContainerClassName);
+            content.container.classList.remove(toggleContentClassName);
+            content.container.setAttribute('aria-hidden', 'true');
         } else {
             document.body.style.overflowY = 'hidden';
-            this.container.classList.add(this.toggleContainerClassName);
-            this.content.container.classList.add(this.toggleContentClassName);
-            this.content.container.setAttribute('aria-hidden', 'false');
-            this.toggled = true;
+            container.classList.add(toggleContainerClassName);
+            content.container.classList.add(toggleContentClassName);
+            content.container.setAttribute('aria-hidden', 'false');
         }
     }
     
-    clickedAway(event) {
-        return event.target === this.container && this.toggled;
-    }
-    
-    toggleButtonClicked(event) {
-        return this.toggleButton.contains(event.target);
-    }
-    
-    handleClick(event) {
-        if (this.clickedAway(event) || this.toggleButtonClicked(event))
-            this.toggle();
-    }
-    
-    async switchView(event) {
-        
-        event.preventDefault();
-        
-        await this.router.loadState({
-            view: Nav.getViewName(event.target.href),
-            title: event.target.textContent.trim()
-        });
-        
-        this.toggle();
-        event.target.blur();
+    function toggled() {
+        return container.classList.contains(toggleContainerClassName);
     }
 }

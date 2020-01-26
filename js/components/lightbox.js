@@ -1,4 +1,13 @@
+import { clearElementsInnerHTML } from '../utils.js';
+
 export default class Lightbox {
+    container;
+    className;
+    closeButton;
+    text;
+    content;
+    transitions;
+    mappedElements;
     
     constructor(parameters) {
         Object.assign(this, parameters);
@@ -23,7 +32,7 @@ export default class Lightbox {
     
     open(item) {
         
-        this.clearContent();
+        clearElementsInnerHTML(this.image, this.title, this.description);
         
         this.image = item.querySelector(this.mappedElements.image).cloneNode(true);
         this.setClassName(this.image, 'image');
@@ -41,12 +50,6 @@ export default class Lightbox {
     
     setClassName(element, suffix) {
         element.className = `${this.className}__${suffix}`;
-    }
-    
-    clearContent() {
-        this.image.innerHTML = '';
-        this.title.innerHTML = '';
-        this.description.innerHTML = '';
     }
     
     setContent() {
