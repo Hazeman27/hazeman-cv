@@ -1,13 +1,5 @@
-.nav__logo {
-	width: var(--logo-size);
-	height: var(--logo-size);
-	background-image: url('../../media/icons/icon-medium.png');
-	background-size: 100%;
-	z-index: 100;
-}
-
 .nav__content {
-	grid: "... color-scheme sections links" / .2fr .2fr 1fr .4fr;
+	grid: "color-scheme sections links" / .4fr 1fr .4fr;
 }
 
 .nav__content__links a {
