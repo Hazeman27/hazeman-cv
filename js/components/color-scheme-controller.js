@@ -14,12 +14,12 @@ class ColorSchemeOptions {
     constructor(colorSchemes) {
         this._colorSchemes = colorSchemes;
     }
-    get colorSchemes() {
-        return this._colorSchemes;
-    }
     set current(colorScheme) {
         if (this._colorSchemes.includes(colorScheme))
             this._current = colorScheme;
+    }
+    get colorSchemes() {
+        return this._colorSchemes;
     }
     *[Symbol.iterator]() {
         if (this._current)
@@ -37,30 +37,6 @@ export default class ColorSchemeController {
         ColorSchemeController.setScheme(this.currentScheme);
         this.renderSchemeOptions();
         this.attachEventListeners();
-    }
-    renderSchemeOptions() {
-        this.selection.innerHTML = '';
-        ColorSchemeController.options.current = this.currentScheme;
-        for (const schemeOption of ColorSchemeController.options) {
-            const option = document.createElement('option');
-            option.textContent = schemeOption.textContent;
-            option.value = schemeOption.value;
-            this.selection.appendChild(option);
-        }
-    }
-    attachEventListeners() {
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSystemSchemeChange = this.handleSystemSchemeChange.bind(this);
-        this.selection.addEventListener('change', this.handleChange);
-        ColorSchemeController.systemScheme.addEventListener('change', this.handleSystemSchemeChange);
-    }
-    handleSystemSchemeChange() {
-        if (ColorSchemeController.isDefaultScheme(this.currentScheme))
-            ColorSchemeController.setScheme(ColorSchemeController.defaultScheme);
-    }
-    handleChange() {
-        const selectedOption = this.selection.options.item(this.selection.options.selectedIndex);
-        ColorSchemeController.setScheme(ColorSchemeController.getSchemeByValue(selectedOption.value));
     }
     static getSchemeByValue(value) {
         return ColorSchemeController.options.colorSchemes.find(scheme => scheme.value === value);
@@ -86,6 +62,30 @@ export default class ColorSchemeController {
             document.body.setAttribute('data-theme', ColorSchemeController.darkScheme.value);
         else
             document.body.setAttribute('data-theme', scheme.value);
+    }
+    renderSchemeOptions() {
+        this.selection.innerHTML = '';
+        ColorSchemeController.options.current = this.currentScheme;
+        for (const schemeOption of ColorSchemeController.options) {
+            const option = document.createElement('option');
+            option.textContent = schemeOption.textContent;
+            option.value = schemeOption.value;
+            this.selection.appendChild(option);
+        }
+    }
+    attachEventListeners() {
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSystemSchemeChange = this.handleSystemSchemeChange.bind(this);
+        this.selection.addEventListener('change', this.handleChange);
+        ColorSchemeController.systemScheme.addEventListener('change', this.handleSystemSchemeChange);
+    }
+    handleSystemSchemeChange() {
+        if (ColorSchemeController.isDefaultScheme(this.currentScheme))
+            ColorSchemeController.setScheme(ColorSchemeController.defaultScheme);
+    }
+    handleChange() {
+        const selectedOption = this.selection.options.item(this.selection.options.selectedIndex);
+        ColorSchemeController.setScheme(ColorSchemeController.getSchemeByValue(selectedOption.value));
     }
 }
 ColorSchemeController.defaultScheme = new ColorScheme('System', 'default');

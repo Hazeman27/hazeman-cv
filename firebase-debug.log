@@ -1,0 +1,22 @@
+[debug] [2020-01-26T02:16:45.472Z] ----------------------------------------------------------------------
+[debug] [2020-01-26T02:16:45.477Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\tremu\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only hosting
+[debug] [2020-01-26T02:16:45.477Z] CLI Version:   7.12.1
+[debug] [2020-01-26T02:16:45.477Z] Platform:      win32
+[debug] [2020-01-26T02:16:45.477Z] Node Version:  v12.14.0
+[debug] [2020-01-26T02:16:45.478Z] Time:          Sun Jan 26 2020 03:16:45 GMT+0100 (Central European Standard Time)
+[debug] [2020-01-26T02:16:45.478Z] ----------------------------------------------------------------------
+[debug] [2020-01-26T02:16:45.478Z] 
+[debug] [2020-01-26T02:16:45.493Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-01-26T02:16:45.494Z] > authorizing via signed-in user
+[debug] [2020-01-26T02:16:45.494Z] [iam] checking project blog-11ddf for permissions ["firebase.projects.get"]
+[debug] [2020-01-26T02:16:45.496Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/blog-11ddf:testIamPermissions  
+
+[debug] [2020-01-26T02:16:46.405Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-26T02:16:46.411Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/blog-11ddf  
+ 
+[debug] [2020-01-26T02:16:46.651Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-26T02:16:46.655Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/blog-11ddf/webApps/-/config  
+ 
+[debug] [2020-01-26T02:16:47.137Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000

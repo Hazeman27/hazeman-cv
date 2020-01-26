@@ -20,20 +20,21 @@ class ColorScheme {
 class ColorSchemeOptions {
 	
 	private readonly _colorSchemes: Array<ColorScheme>;
-	private _current: ColorScheme;
-	
+
 	constructor(colorSchemes: Array<ColorScheme>) {
 		this._colorSchemes = colorSchemes;
 	}
 	
-	get colorSchemes(): Array<ColorScheme> {
-		return this._colorSchemes;
-	}
+	private _current: ColorScheme;
 	
 	set current(colorScheme: ColorScheme) {
 		
 		if (this._colorSchemes.includes(colorScheme))
 			this._current = colorScheme;
+	}
+	
+	get colorSchemes(): Array<ColorScheme> {
+		return this._colorSchemes;
 	}
 	
 	*[Symbol.iterator]() {
@@ -76,6 +77,48 @@ export default class ColorSchemeController {
 		
 		this.renderSchemeOptions();
 		this.attachEventListeners();
+	}
+	
+	private static getSchemeByValue(value: string): ColorScheme {
+		return ColorSchemeController.options.colorSchemes.find(
+			scheme => scheme.value === value
+		);
+	}
+	
+	private static getCurrentScheme(): ColorScheme {
+		return ColorSchemeController.getSchemeByValue(
+			localStorage.getItem('preferred-color-scheme')
+		) || ColorSchemeController.defaultScheme;
+	}
+	
+	private static isDefaultScheme(scheme: ColorScheme): Boolean {
+		return scheme === ColorSchemeController.defaultScheme;
+	}
+	
+	private static isDarkScheme(scheme: ColorScheme) {
+		return scheme === ColorSchemeController.darkScheme;
+	}
+	
+	private static systemSchemeIsDark(): Boolean {
+		return window.matchMedia('(prefers-color-scheme: dark)').matches;
+	}
+	
+	private static defaultSchemeIsDark(scheme: ColorScheme) {
+		return this.isDefaultScheme(scheme) && this.systemSchemeIsDark();
+	}
+	
+	private static setScheme(scheme: ColorScheme): void {
+		
+		localStorage.setItem('preferred-color-scheme', scheme.value);
+		
+		if (this.isDarkScheme(scheme) || this.defaultSchemeIsDark(scheme))
+			
+			document.body.setAttribute('data-theme',
+				ColorSchemeController.darkScheme.value
+			);
+		
+		else
+			document.body.setAttribute('data-theme', scheme.value);
 	}
 	
 	private renderSchemeOptions(): void {
@@ -121,47 +164,5 @@ export default class ColorSchemeController {
 		ColorSchemeController.setScheme(
 			ColorSchemeController.getSchemeByValue(selectedOption.value)
 		);
-	}
-	
-	private static getSchemeByValue(value: string): ColorScheme {
-		return ColorSchemeController.options.colorSchemes.find(
-			scheme => scheme.value === value
-		);
-	}
-	
-	private static getCurrentScheme(): ColorScheme {
-		return ColorSchemeController.getSchemeByValue(
-			localStorage.getItem('preferred-color-scheme')
-		) || ColorSchemeController.defaultScheme;
-	}
-	
-	private static isDefaultScheme(scheme: ColorScheme): Boolean {
-		return scheme === ColorSchemeController.defaultScheme;
-	}
-	
-	private static isDarkScheme(scheme: ColorScheme) {
-		return scheme === ColorSchemeController.darkScheme;
-	}
-	
-	private static systemSchemeIsDark(): Boolean {
-		return window.matchMedia('(prefers-color-scheme: dark)').matches;
-	}
-	
-	private static defaultSchemeIsDark(scheme: ColorScheme) {
-		return this.isDefaultScheme(scheme) && this.systemSchemeIsDark();
-	}
-	
-	private static setScheme(scheme: ColorScheme): void {
-		
-		localStorage.setItem('preferred-color-scheme', scheme.value);
-		
-		if (this.isDarkScheme(scheme) || this.defaultSchemeIsDark(scheme))
-			
-			document.body.setAttribute('data-theme',
-				ColorSchemeController.darkScheme.value
-			);
-		
-		else
-			document.body.setAttribute('data-theme', scheme.value);
 	}
 }

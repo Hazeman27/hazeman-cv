@@ -4,6 +4,12 @@ export default class Nav {
         Object.assign(this, parameters);
         this.router = new Router(this.routerParams, this);
     }
+    static overBreakpoint(breakpoint) {
+        return window.innerWidth > breakpoint;
+    }
+    static getViewName(href) {
+        return href.match(/[a-zA-Z]*$/)[0];
+    }
     getContentSections() {
         return this.content.sections;
     }
@@ -31,16 +37,6 @@ export default class Nav {
         }
         return this;
     }
-    clickedAway(event) {
-        return event.target === this.container && this.toggled;
-    }
-    toggleButtonClicked(event) {
-        return this.toggleButton.contains(event.target);
-    }
-    handleClick(event) {
-        if (this.clickedAway(event) || this.toggleButtonClicked(event))
-            this.toggle();
-    }
     toggle() {
         if (Nav.overBreakpoint(this.breakpoint))
             return;
@@ -59,6 +55,16 @@ export default class Nav {
             this.toggled = true;
         }
     }
+    clickedAway(event) {
+        return event.target === this.container && this.toggled;
+    }
+    toggleButtonClicked(event) {
+        return this.toggleButton.contains(event.target);
+    }
+    handleClick(event) {
+        if (this.clickedAway(event) || this.toggleButtonClicked(event))
+            this.toggle();
+    }
     async switchView(event) {
         event.preventDefault();
         await this.router.loadState({
@@ -67,12 +73,6 @@ export default class Nav {
         });
         this.toggle();
         event.target.blur();
-    }
-    static overBreakpoint(breakpoint) {
-        return window.innerWidth > breakpoint;
-    }
-    static getViewName(href) {
-        return href.match(/[a-zA-Z]*$/)[0];
     }
 }
 //# sourceMappingURL=nav.js.map
