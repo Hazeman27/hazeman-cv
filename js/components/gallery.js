@@ -18,4 +18,3 @@ export default class Gallery {
     }
 }
 ;
-//# sourceMappingURL=gallery.js.map

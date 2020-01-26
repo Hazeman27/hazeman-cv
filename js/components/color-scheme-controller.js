@@ -97,4 +97,3 @@ ColorSchemeController.options = new ColorSchemeOptions([
     ColorSchemeController.lightScheme
 ]);
 ColorSchemeController.systemScheme = window.matchMedia('(prefers-color-scheme: dark)');
-//# sourceMappingURL=color-scheme-controller.js.map

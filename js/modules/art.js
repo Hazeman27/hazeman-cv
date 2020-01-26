@@ -24,4 +24,3 @@ export const boot = () => {
         }
     }).init();
 };
-//# sourceMappingURL=art.js.map

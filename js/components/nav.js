@@ -75,4 +75,3 @@ export default class Nav {
         event.target.blur();
     }
 }
-//# sourceMappingURL=nav.js.map

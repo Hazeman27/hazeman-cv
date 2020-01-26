@@ -61,4 +61,3 @@ import ColorSchemeController from './components/color-scheme-controller.js';
         }
     }
 })();
-//# sourceMappingURL=index.js.map

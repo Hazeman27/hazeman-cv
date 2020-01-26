@@ -52,4 +52,3 @@ export default class Lightbox {
             this.container.style.transition = this.transitions.hide;
     }
 }
-//# sourceMappingURL=lightbox.js.map

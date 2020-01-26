@@ -88,4 +88,3 @@ export default class Router {
         this.nav.getContentSections().container.innerHTML = '';
     }
 }
-//# sourceMappingURL=router.js.map
