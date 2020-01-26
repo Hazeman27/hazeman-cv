@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="css/media/min-width-800.css" media="(min-width: 800px)">
 	<link rel="stylesheet" href="css/media/min-width-1080.css" media="(min-width: 1080px)">
 	<link rel="stylesheet" href="css/media/min-width-1366.css" media="(min-width: 1366px)">
-	<script defer src="js/index.js" type="module"></script>
+	<script async src="js/index.js" type="module"></script>
 	<script type="application/ld+json">
 		{
 			"@context": "https://schema.org",
@@ -35,11 +35,11 @@
 		}
 	</script>
 	<script nomodule>
-		window.onload = function () {
-			console.log('lol');
+		window.onload = function() {
 			document.querySelector('#js-error').style.display = 'block';
 		};
 	</script>
+	
 </head>
 <body>
 	<nav></nav>
@@ -50,8 +50,8 @@
 				<p>Sorry, seems like your browser can't execute JavaScript required for this website to work. Try opening this page in different browser...</p>
 			</div>
 		</noscript>
-		<div class="card" id="js-error" style="display: none">
-			<h2 class="card__title">No JavaScript</h2>
+		<div id="js-error" style="display: none">
+			<h2>No JavaScript!</h2>
 			<p>Sorry, seems like your browser can't execute JavaScript required for this website to work. Try opening this page in different browser...</p>
 		</div>
 	</main>
