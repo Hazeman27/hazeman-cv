@@ -1,14 +1,12 @@
-import Gallery from '../components/gallery.js';
+import gallery from '../components/gallery.js';
+import Lightbox from '../components/lightbox.js';
 
 export const boot = (): void => {
 	
-	new Gallery({
-		
-		containers: document.querySelectorAll('.gallery[data-lightbox]'),
-		itemClassName: 'gallery__item',
-		
-		lightboxParams: {
-			
+	gallery(
+		document.querySelectorAll('.gallery[data-lightbox]'),
+		'gallery__item',
+		new Lightbox({
 			container: document.querySelector('.lightbox'),
 			className: 'lightbox',
 			content: document.querySelector('.lightbox__content'),
@@ -28,6 +26,6 @@ export const boot = (): void => {
 				show: 'opacity var(--trans-normal) ease-in-out, transform 0ms linear 0ms',
 				hide: 'opacity var(--trans-normal) ease-in-out, transform 0ms linear var(--trans-normal)'
 			}
-		}
-	}).init();
+		})
+	);
 };

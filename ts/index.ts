@@ -1,7 +1,6 @@
 import Nav from './components/nav.js';
-import ColorSchemeController from './components/color-scheme-controller.js';
+import colorSchemeController from './components/color-scheme-controller.js';
 import { View } from './interfaces';
-import { colorSchemeController } from './components/color-scheme-controller-simple.js';
 
 (async (): Promise<void> => {
 	

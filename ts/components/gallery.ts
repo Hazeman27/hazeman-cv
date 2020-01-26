@@ -1,33 +1,23 @@
 import Lightbox from './lightbox.js';
-import { GalleryParameters, LightboxParameters } from '../interfaces';
 
-export default class Gallery {
+export default function gallery(
+	entries: NodeListOf<HTMLElement>,
+	itemClassName: string,
+	lightbox: Lightbox
+) {
 	
-	private readonly containers: NodeListOf<HTMLElement>;
-	private readonly itemClassName: string;
-	private readonly lightboxParams: LightboxParameters;
-	private readonly lightbox: Lightbox;
+	lightbox.init();
 	
-	public constructor(parameters: GalleryParameters) {
-		Object.assign(this, parameters);
-		this.lightbox = new Lightbox(this.lightboxParams);
-	}
-	
-	public init(): void {
+	for (const entry of entries) {
 		
-		this.lightbox.init();
-		
-		for (const container of this.containers) {
+		entry.addEventListener('click', (event: Event) => {
 			
-			container.addEventListener('click', (event: Event) => {
-				
-				const item: EventTarget = event.composedPath().find(element => {
-					return (element as HTMLElement).className === this.itemClassName;
-				});
-				
-				if (item)
-					this.lightbox.open(item as HTMLElement);
+			const item: EventTarget = event.composedPath().find(e => {
+				return (e as HTMLElement).className === itemClassName
 			});
-		}
+			
+			if (item)
+				lightbox.open(item as HTMLElement);
+		});
 	}
-};
+}

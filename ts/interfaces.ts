@@ -45,12 +45,6 @@ export interface RouterParameters {
 	defaultState: State;
 }
 
-export interface GalleryParameters {
-	containers: NodeListOf<HTMLElement>;
-	itemClassName: string;
-	lightboxParams: LightboxParameters;
-}
-
 export interface LightboxParameterTransitions {
 	show: string;
 	hide: string;

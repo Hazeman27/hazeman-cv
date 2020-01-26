@@ -124,6 +124,10 @@ nav::after {
 	font-size: 1.05rem;
 }
 
+.nav__content__color-scheme-select option:first-letter {
+	text-transform: uppercase;
+}
+
 .nav__content__color-scheme-select__icon {
 	--size: 18px;
 	
