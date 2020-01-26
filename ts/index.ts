@@ -64,12 +64,12 @@ import { View } from './interfaces';
 	new ColorSchemeController(document.querySelector('#color-scheme-selector'));
 	
 	/* :: Service Worker... */
-	// if ('serviceWorker' in navigator) {
-	//
-	// 	try {
-	// 		await navigator.serviceWorker.register('./service-worker.js');
-	// 	} catch (error) {
-	// 		console.log('Service Worker registration failed: ', error);
-	// 	}
-	// }
+	if ('serviceWorker' in navigator) {
+
+		try {
+			await navigator.serviceWorker.register('./service-worker.js');
+		} catch (error) {
+			console.log('Service Worker registration failed: ', error);
+		}
+	}
 })();

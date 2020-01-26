@@ -24,7 +24,7 @@
 	position: relative;
 	border-radius: var(--border-radius);
 	box-shadow: var(--box-shadow-light);
-	background-color: transparent;
+	background-color: var(--color-dark-gray);
 	color: var(--color-white);
 	overflow: hidden;
 	filter: contrast(110%);

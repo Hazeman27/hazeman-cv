@@ -1,17 +1,15 @@
-const Cache = 'static-v-12';
-const Assets = [
-    './',
-    './css/main.css',
-    './css/media/min-width-800.css',
-    './css/media/min-width-1080.css',
-    './css/media/min-width-1366.css',
-    './js/index.js',
-];
-
 const preCache = async () => {
-
-    const cache = await caches.open(Cache);
-    return cache.addAll(Assets);
+    
+    const cache = await caches.open('static-v-12');
+    
+    return cache.addAll([
+        './',
+        './css/main.css',
+        './css/media/min-width-800.css',
+        './css/media/min-width-1080.css',
+        './css/media/min-width-1366.css',
+        './js/index.js',
+    ]);
 };
 
 const responseHandler = async (request) => {
@@ -22,9 +20,7 @@ const responseHandler = async (request) => {
         return response;
 
     try {
-
         response = await fetch(request);
-
     } catch (error) {
         return await caches.match('./index.html');
     }
@@ -66,7 +62,6 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-
     event.respondWith(responseHandler(event.request));
     event.waitUntil(updateAssets(event.request));
 });

@@ -69,7 +69,7 @@ export default class Nav {
         event.preventDefault();
         await this.router.loadState({
             view: Nav.getViewName(event.target.href),
-            title: event.target.textContent
+            title: event.target.textContent.trim()
         });
         this.toggle();
         event.target.blur();

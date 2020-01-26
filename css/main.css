@@ -102,21 +102,6 @@ body[data-theme="dark"] {
 	--abbr-background-color: darkblue;
 }
 
-body[data-loading] main {
-	filter: blur(7px);
-}
-
-body[data-loading]::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	background-color: transparent;
-	z-index: 999;
-}
-
 a {
 	color: inherit;
 }
@@ -137,7 +122,6 @@ i {
 img {
 	display: block;
 	max-width: 100%;
-	background-color: var(--color-dark-gray);
 }
 
 h2 {
