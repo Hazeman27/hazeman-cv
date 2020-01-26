@@ -12,6 +12,7 @@
 	<link rel="preload" href="./js/components/router.js" as="script" crossorigin="anonymous">
 	<link rel="preload" href="./js/components/nav.js" as="script" crossorigin="anonymous">
 	<link rel="manifest" href="manifest.json">
+	<link rel="apple-touch-icon" href="media/icons/icon-medium.png" type="image/png">
 	<link rel="shortcut icon" href="media/icons/icon.svg" type="image/svg">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:400,700,900&display=swap">
 	<link rel="stylesheet" href="css/main.css">
@@ -33,10 +34,27 @@
 			}
 		}
 	</script>
+	<script nomodule>
+		window.onload = function () {
+			console.log('lol');
+			document.querySelector('#js-error').style.display = 'block';
+		};
+	</script>
 </head>
 <body>
 	<nav></nav>
-	<main></main>
+	<main>
+		<noscript>
+			<div class="card">
+				<h2 class="card__title">No JavaScript</h2>
+				<p>Sorry, seems like your browser can't execute JavaScript required for this website to work. Try opening this page in different browser...</p>
+			</div>
+		</noscript>
+		<div class="card" id="js-error" style="display: none">
+			<h2 class="card__title">No JavaScript</h2>
+			<p>Sorry, seems like your browser can't execute JavaScript required for this website to work. Try opening this page in different browser...</p>
+		</div>
+	</main>
 	<footer></footer>
 </body>
 </html>
