@@ -24,6 +24,8 @@ export default class Lightbox {
     
     open(item) {
         
+        if (!item) return;
+
         clearElementsInnerHTML(this.image, this.title, this.description);
         
         this.image = item.querySelector(this.mappedElements.image).cloneNode(true);
