@@ -9,7 +9,7 @@ import colorSchemeController from './components/color-scheme-controller.js';
     ]);
     
     for (const [element, path] of partials) {
-        const response = await window.fetch(path);
+        const response = await fetch(path);
         element.innerHTML = await response.text();
     }
     
@@ -38,11 +38,11 @@ import colorSchemeController from './components/color-scheme-controller.js';
                 name: 'art',
                 template: './views/art.html',
                 sections: new Map([
-                    ['drawings', 'drawings'],
-                    ['designs', '99designs'],
-                    ['more', 'more'],
-                    ['codepens', 'codepens'],
-                    ['music', 'music']
+                    ['#drawings', 'drawings'],
+                    ['#designs', '99designs'],
+                    ['#more', 'more'],
+                    ['#codepens', 'codepens'],
+                    ['#music', 'music']
                 ]),
                 module: '../modules/art.js'
             }, {

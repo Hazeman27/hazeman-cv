@@ -9,22 +9,25 @@ export default class Router {
         Object.assign(this, parameters)
     }
 
-    async init(navCurrent, navContentSections, navToggle) {
+    async init(navCurrent, navSections, navToggle) {
+
         this.navCurrent = navCurrent;
-        this.navContentSections = navContentSections;
+        this.navSections = navSections;
         this.navToggle = navToggle;
         
         if (this.getView(getCurrentViewName())) {
+
             await this.loadState({
                 view: getCurrentViewName(),
                 title: capitalize(getCurrentViewName()),
                 firstLaunch: true
             });
+
         } else {
             await this.loadState(this.defaultState);
         }
 
-        window.addEventListener('popstate', async (event) => {
+        self.addEventListener('popstate', async (event) => {
             await this.loadContent(event.state);
         });
     }
@@ -41,6 +44,7 @@ export default class Router {
     }
 
     async loadContent(state) {
+
         const view = this.getView(state.view);
         const response = await fetch(view.template);
 
@@ -52,42 +56,38 @@ export default class Router {
             module.default();
         }
 
-        this.loadViewNavigationSections(view);
+        this.loadViewNavSections(view);
         
         document.title = state.title;
         this.navCurrent.textContent = state.title;
     }
 
-    loadViewNavigationSections(view) {
+    loadViewNavSections(view) {
     
-        clearElementsInnerHTML(this.navContentSections.container);
+        clearElementsInnerHTML(this.navSections.container);
     
         if (!view.hasOwnProperty('sections'))
             return;
         
-        const sections = view.sections;
-        const sectionsTitle = capitalize(view.name);
-        const sectionsTitleElement = document.createElement('h3');
-
-        sectionsTitleElement.classList.add(this.navContentSections.titleSelector);
-        sectionsTitleElement.textContent = sectionsTitle;
-
-        this.navContentSections.container.appendChild(sectionsTitleElement);
-
-        for (const [id, title] of sections) {
-
-            const sectionTarget = document.querySelector(`#${id}`);
-            const sectionLinkElement = document.createElement('a');
-
-            sectionLinkElement.classList.add(this.navContentSections.linkSelector);
-            sectionLinkElement.textContent = title;
-
-            this.navContentSections.container.appendChild(sectionLinkElement);
-
-            sectionLinkElement.addEventListener('click', () => {
-                this.navToggle();
-                sectionTarget.scrollIntoView();
-            });
+        this.navSections.container.appendChild(Object.assign(
+            document.createElement('h3'), {
+                className: this.navSections.titleSelector,
+                textContent: capitalize(view.name)
+            }
+        ));
+    
+        for (const [id, title] of view.sections) {
+    
+            this.navSections.container.appendChild(Object.assign(
+                document.createElement('a'), {
+                    className: this.navSections.linkSelector,
+                    textContent: title,
+                    onclick: () => {
+                        this.navToggle();
+                        document.querySelector(id).scrollIntoView();
+                    }
+                }
+            ));
         }
     }
 

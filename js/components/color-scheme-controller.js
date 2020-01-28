@@ -11,7 +11,7 @@ function attachEventListeners(selectElement) {
         setScheme(selectElement.options.item(selectElement.options.selectedIndex).value);
     });
     
-    window.matchMedia('(prefers-color-scheme: dark)')
+    self.matchMedia('(prefers-color-scheme: dark)')
           .addEventListener('change', () => {
               if (getCurrentPreference() === 'system')
                   setScheme('system');
@@ -27,13 +27,10 @@ function renderOptions(selectElement, currentScheme) {
 }
 
 function createSchemeOption(scheme) {
-    
-    const option = document.createElement('option');
-    
-    option.textContent = capitalize(scheme);
-    option.value = scheme;
-    
-    return option;
+    return Object.assign(document.createElement('option'), {
+        textContent: capitalize(scheme),
+        value: scheme
+    });
 }
 
 function *generateSchemeOptions(currentScheme) {
@@ -61,7 +58,7 @@ function setScheme(scheme) {
 }
 
 function getSystemPreference() {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return self.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 function getCurrentPreference() {
