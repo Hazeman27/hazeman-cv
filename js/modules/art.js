@@ -1,7 +1,7 @@
 import gallery from '../components/gallery.js';
 import Lightbox from '../components/lightbox.js';
 
-export const boot = () => {
+export default function() {
     gallery(document.querySelectorAll('.gallery[data-lightbox]'), 'gallery__item', new Lightbox({
         container: document.querySelector('.lightbox'),
         className: 'lightbox',

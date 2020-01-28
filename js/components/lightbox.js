@@ -1,14 +1,6 @@
 import { clearElementsInnerHTML } from '../utils.js';
 
 export default class Lightbox {
-    container;
-    className;
-    closeButton;
-    text;
-    content;
-    transitions;
-    mappedElements;
-    
     constructor(parameters) {
         Object.assign(this, parameters);
     }
@@ -66,9 +58,7 @@ export default class Lightbox {
         if (value) {
             this.container.style.transition = this.transitions.show;
             this.container.setAttribute('aria-hidden', 'false');
-        }
-        
-        else {
+        } else {
             this.container.style.transition = this.transitions.hide;
             this.container.setAttribute('aria-hidden', 'true');
         }

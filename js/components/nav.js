@@ -19,16 +19,8 @@ export default function nav(
     ]));
     
     container.addEventListener('click', (event) => {
-        
-        if (event.target === container && toggled() || toggleButton.contains(event.target)) {
-            toggle({
-                container,
-                content,
-                breakpoint,
-                toggleContainerClassName,
-                toggleContentClassName
-            });
-        }
+        if (event.target === container && toggled() || toggleButton.contains(event.target))
+            toggle();
     });
     
     for (const link of content.links.children)

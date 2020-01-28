@@ -5,13 +5,6 @@ import {
 } from '../utils.js';
 
 export default class Router {
-    container;
-    views;
-    defaultState;
-    navCurrent;
-    navContentSections;
-    navToggle;
-
     constructor(parameters) {
         Object.assign(this, parameters)
     }
@@ -56,7 +49,7 @@ export default class Router {
 
         if (view.hasOwnProperty('module')) {
             const module = await import(view.module);
-            module['boot']();
+            module.default();
         }
 
         this.loadViewNavigationSections(view);
