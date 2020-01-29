@@ -1,5 +1,5 @@
 import Router from './components/router.js';
-import nav from './components/nav.js';
+import NavController from './components/nav-controller.js';
 import colorSchemeController from './components/color-scheme-controller.js';
 
 (async () => {
@@ -12,15 +12,38 @@ import colorSchemeController from './components/color-scheme-controller.js';
         const response = await fetch(path);
         element.innerHTML = await response.text();
     }
-    
-    nav(
-        document.querySelector('nav'),
-        document.querySelector('#nav__toggle'),
-        document.querySelector('.nav__current'),
-        'nav--content-visible',
-        'nav__content--visible',
-        800,
-        {
+
+    const router = new Router({
+        container: document.querySelector('main'),
+        views: [{
+            name: 'me',
+            template: './views/me.html'
+        }, {
+            name: 'art',
+            template: './views/art.html',
+            sections: new Map([
+                ['#drawings', 'drawings'],
+                ['#designs', '99designs'],
+                ['#more', 'more'],
+                ['#codepens', 'codepens'],
+                ['#music', 'music']
+            ]),
+            module: '../modules/art.js'
+        }, {
+            name: 'contact',
+            template: './views/contact.html'
+        }],
+        defaultState: { view: 'me', title: 'Me' }
+    }, this);
+
+    const navController = new NavController({
+        container: document.querySelector('nav'),
+        toggleButton: document.querySelector('#nav__toggle'),
+        current: document.querySelector('.nav__current'),
+        containerToggleClassName: 'nav--content-visible',
+        contentToggleClassName: 'nav__content--visible',
+        breakpoint: 800,
+        content: {
             container: document.querySelector('.nav__content'),
             links: document.querySelector('.nav__content__links'),
             sections: {
@@ -29,30 +52,10 @@ import colorSchemeController from './components/color-scheme-controller.js';
                 linkSelector: 'nav__content__sections__link'
             }
         },
-        new Router({
-            container: document.querySelector('main'),
-            views: [{
-                name: 'me',
-                template: './views/me.html'
-            }, {
-                name: 'art',
-                template: './views/art.html',
-                sections: new Map([
-                    ['#drawings', 'drawings'],
-                    ['#designs', '99designs'],
-                    ['#more', 'more'],
-                    ['#codepens', 'codepens'],
-                    ['#music', 'music']
-                ]),
-                module: '../modules/art.js'
-            }, {
-                name: 'contact',
-                template: './views/contact.html'
-            }],
-            defaultState: { view: 'me', title: 'Me' }
-        }, this)
-    );
-    
+        router: router
+    });
+
+    navController.setAriaHiddenAttribute().initRouter().attachEventListeners();
     colorSchemeController(document.querySelector('#color-scheme-selector'));
     
     /* :: Service Worker... */

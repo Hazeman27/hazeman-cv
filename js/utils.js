@@ -7,17 +7,16 @@ export function getViewName(href) {
 }
 
 export function getCurrentViewName() {
-    return window.location.href.match(/[a-zA-Z]*$/)[0];
+    return self.location.href.match(/[a-zA-Z]*$/)[0];
 }
 
 export function isPastBreakpoint(breakpoint) {
-    return window.innerWidth > breakpoint;
+    return self.innerWidth > breakpoint;
 }
 
-export function setAttribute(attributeName, breakpoint, elements) {
-    if (isPastBreakpoint(breakpoint))
-        for (const [element, attributeValue] of elements)
-            element.setAttribute(attributeName, attributeValue);
+export function setAttribute(attributeName, elements) {
+    for (const [element, attributeValue] of elements)
+        element.setAttribute(attributeName, attributeValue);
 }
 
 export function clearElementsInnerHTML() {
