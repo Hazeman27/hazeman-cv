@@ -1,8 +1,4 @@
-import {
-    capitalize,
-    clearElementsInnerHTML,
-    getCurrentViewName
-} from '../utils.js';
+import { capitalize, clearElementsInnerHTML } from '../utils.js';
 
 export default class Router {
     constructor(parameters) {
@@ -15,11 +11,11 @@ export default class Router {
         this.navSections = navSections;
         this.navToggle = navToggle;
         
-        if (this.getView(getCurrentViewName())) {
+        if (this.getView(Router.getCurrentViewName())) {
 
             await this.loadState({
-                view: getCurrentViewName(),
-                title: capitalize(getCurrentViewName()),
+                view: Router.getCurrentViewName(),
+                title: capitalize(Router.getCurrentViewName()),
                 firstLaunch: true
             });
 
@@ -34,7 +30,7 @@ export default class Router {
 
     async loadState(state) {
 
-        if (!state.firstLaunch && state.view === getCurrentViewName()) {
+        if (!state.firstLaunch && state.view === Router.getCurrentViewName()) {
             this.container.scrollIntoView();
             return;
         }
@@ -93,5 +89,9 @@ export default class Router {
 
     getView(viewName) {
         return this.views.find(view => view.name === viewName);
+    }
+
+    static getCurrentViewName() {
+        return self.location.href.match(/[a-zA-Z]*$/)[0];
     }
 }

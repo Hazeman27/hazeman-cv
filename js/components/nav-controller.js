@@ -1,4 +1,4 @@
-import { getViewName, isPastBreakpoint, setAttribute } from '../utils.js';
+import { setAttribute } from '../utils.js';
 
 export default class NavController {
 
@@ -13,7 +13,7 @@ export default class NavController {
 
     setAriaHiddenAttribute() {
 
-        if (isPastBreakpoint(this.breakpoint)) {    
+        if (this.isPastBreakpoint(this.breakpoint)) {    
             setAttribute('aria-hidden', new Map([
                 [this.toggleButton, 'true'],
                 [this.current, 'true'],
@@ -38,7 +38,7 @@ export default class NavController {
                 event.preventDefault();
                 
                 await this.router.loadState({
-                    view: getViewName(event.target.href),
+                    view: NavController.getViewName(event.target.href),
                     title: event.target.textContent.trim()
                 });
                 
@@ -52,7 +52,7 @@ export default class NavController {
     
     toggle() {
 
-        if (isPastBreakpoint(this.breakpoint))
+        if (this.isPastBreakpoint(this.breakpoint))
             return;
         
         console.log(this);
@@ -72,5 +72,13 @@ export default class NavController {
     
     toggled() {
         return this.container.classList.contains(this.containerToggleClassName);
+    }
+
+    isPastBreakpoint() {
+        return self.innerWidth > this.breakpoint;
+    }
+
+    static getViewName(href) {
+        return href.match(/[a-zA-Z]*$/)[0];
     }
 }
